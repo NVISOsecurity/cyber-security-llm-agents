@@ -1,0 +1,6 @@
+openai==0.28.1
+python-dotenv==1.0.0
+chainlit==0.7.603
+langchain==0.0.331
+faiss-cpu==1.7.4
+azure-storage-blob==12.18.3
