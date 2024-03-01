@@ -6,6 +6,7 @@
   "editor.rulers": [100],
   "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*test.py"],
   "pylint.args": ["--disable=C0111"],
+  "black-formatter.interpreter": [".venv/bin/python"], 
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   "python.testing.autoTestDiscoverOnSaveEnabled": true,
@@ -14,6 +15,7 @@
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
+  
   },
   "python.analysis.autoImportCompletions": true,
   "explorer.compactFolders": false,

