@@ -1,7 +1,7 @@
 openai==1.5.0
 python-dotenv==1.0.0
 chainlit==0.7.603
-langchain==0.0.331
+langchain==0.1.0
 faiss-cpu==1.7.4
 azure-storage-blob==12.18.3
 pexpect
