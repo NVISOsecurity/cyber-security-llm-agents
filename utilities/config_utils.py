@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from langchain_core.utils import convert_to_secret_str
+from langchain_openai import AzureOpenAIEmbeddings
 
 load_dotenv(verbose=True, override=True)
 
@@ -21,5 +22,12 @@ LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO").upper()
 AZURE_OPENAI_CLIENT = AzureOpenAI(
     azure_endpoint=os.getenv("OPENAI_API_BASE", ""),
     api_key=os.getenv("OPENAI_API_KEY", ""),
+    api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
+)
+
+AZURE_OPENAI_EMBEDDINGS = AzureOpenAIEmbeddings(
+    azure_endpoint=os.getenv("OPENAI_API_BASE", ""),
+    azure_deployment=os.getenv("OPENAI_DEPLOYMENT_NAME", ""),
+    api_key=convert_to_secret_str(os.getenv("OPENAI_API_KEY", "")),
     api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
 )
