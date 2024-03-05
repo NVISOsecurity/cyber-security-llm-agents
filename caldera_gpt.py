@@ -25,16 +25,6 @@ except FileNotFoundError:
     print(f"The file at {file_path} was not found.")
     sys.exit()
 
-# api_docs_url = "http://ubuntu-vm:8888/api/docs/swagger.json"
-# try:
-#    response = requests.get(api_docs_url)
-#    response.raise_for_status()
-#    api_docs_content = response.text
-# except requests.exceptions.RequestException as e:
-#    print(f"An error occurred while fetching the API documentation: {e}")
-#    sys.exit()
-# prompt = prompt.replace("<API_DOC_PLACEHOLDER>", api_docs_content)
-
 prompt = prompt.replace(
     "<OBJECTIVE_PLACEHOLDER>", "List the names of every running agent."
 )

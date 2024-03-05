@@ -32,9 +32,9 @@ class LocalVectorstore(object):
         self.vector_store_file = os.path.join(vector_store_folder, "index.faiss")
 
         if not os.path.exists(self.vector_store_file):
-            self.VECTOR_STORE = self.create_vector_store()
-        else:
-            self.VECTOR_STORE = self.load_vector_store()
+            self.create_vector_store()
+
+        self.VECTOR_STORE = self.load_vector_store()
 
     def create_vector_store(self):
         combined_faiss_vector_store = None
