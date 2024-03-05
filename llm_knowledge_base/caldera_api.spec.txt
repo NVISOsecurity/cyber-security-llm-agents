@@ -1,0 +1,6766 @@
+{
+  "paths": {
+    "/api/v2/health": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CalderaInfo"
+            },
+            "description": "Includes all loaded plugins and system components."
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "health"
+        ],
+        "summary": "Health endpoints returns the status of Caldera",
+        "description": "Returns the status of Caldera and additional details including versions of system components",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CalderaInfo"
+            },
+            "description": "Includes all loaded plugins and system components."
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "health"
+        ],
+        "summary": "Health endpoints returns the status of Caldera",
+        "description": "Returns the status of Caldera and additional details including versions of system components",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/config/{name}": {
+      "head": {
+        "responses": {},
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the configuration file to be retrieved."
+          }
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Retrieve Config",
+        "description": "Retrieves configuration by name, as specified by {name} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {},
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the configuration file to be retrieved."
+          }
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Retrieve Config",
+        "description": "Retrieves configuration by name, as specified by {name} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/config/main": {
+      "patch": {
+        "responses": {},
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ConfigUpdate"
+            }
+          }
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Update Main Config",
+        "description": "Use fields from the ConfigUpdateSchema in the request body to update the main configuration file.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/config/agents": {
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AgentConfigUpdate"
+            },
+            "description": "The response consists of data from the Agent configuration file dumped in the AgentConfigUpdateSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AgentConfigUpdate"
+            }
+          }
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Update Agent Config",
+        "description": "Use fields from the AgentConfigUpdateSchema in the request body to update the Agent Configuration file.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/planners": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Planner"
+              }
+            },
+            "description": "Returns a list of matching planners in `PlannerSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "planners"
+        ],
+        "summary": "Retrieve planners",
+        "description": "Retrieve Caldera planners by criteria. Supply fields from the `PlannerSchema` to the `include` and `exclude` fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved planners.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Planner"
+              }
+            },
+            "description": "Returns a list of matching planners in `PlannerSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "planners"
+        ],
+        "summary": "Retrieve planners",
+        "description": "Retrieve Caldera planners by criteria. Supply fields from the `PlannerSchema` to the `include` and `exclude` fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved planners.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/planners/{planner_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Planner"
+            },
+            "description": "Returns a planner with the specified id in `PlannerSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "planner_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Planner object to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "planners"
+        ],
+        "summary": "Retrieve a planner by planner id",
+        "description": "Retrieve one Caldera planner based on the planner id (String `UUID`). Supply fields from the `PlannerSchema` to the `include` and `exclude` fields of the `BaseGetOneQuerySchema` in the request body to filter retrieved planners.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Planner"
+            },
+            "description": "Returns a planner with the specified id in `PlannerSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "planner_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Planner object to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "planners"
+        ],
+        "summary": "Retrieve a planner by planner id",
+        "description": "Retrieve one Caldera planner based on the planner id (String `UUID`). Supply fields from the `PlannerSchema` to the `include` and `exclude` fields of the `BaseGetOneQuerySchema` in the request body to filter retrieved planners.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/abilities": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Ability"
+              }
+            },
+            "description": "Returns a list of all abilities."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Get all abilities.",
+        "description": "Provides a list of all available abilities.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Ability"
+              }
+            },
+            "description": "Returns a list of all abilities."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Get all abilities.",
+        "description": "Provides a list of all available abilities.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            },
+            "description": "JSON dictionary representation of the created Ability."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            }
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Creates a new ability.",
+        "description": "Creates a new adversary based on the `AbilitySchema`. \"name\", \"tactic\", \"technique_name\", \"technique_id\" and \"executors\" are all required fields.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/abilities/{ability_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Ability"
+            },
+            "description": "JSON dictionary representation of the existing Ability."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Ability to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Get an ability.",
+        "description": "Provides one ability based on its ability id.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Ability"
+            },
+            "description": "JSON dictionary representation of the existing Ability."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Ability to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Get an ability.",
+        "description": "Provides one ability based on its ability id.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            },
+            "description": "JSON dictionary representation of the replaced Ability."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Ability to be retrieved"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Ability"
+            }
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Replaces an existing ability.",
+        "description": "Replaces an ability based on the `AbilitySchema` values provided in the message body. \"name\", \"tactic\", and \"executors\" are all required fields.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            },
+            "description": "JSON dictionary representation of the replaced Ability."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Ability to be retrieved"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Ability1"
+            }
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Updates an existing ability.",
+        "description": "Updates an ability based on the `AbilitySchema` values provided in the message body.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "schema": {
+              "$ref": "#/definitions/Ability"
+            },
+            "description": "HTTP 204 Status Code (No Content)"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Ability to be retrieved"
+          }
+        ],
+        "tags": [
+          "abilities"
+        ],
+        "summary": "Deletes an ability.",
+        "description": "Deletes an existing ability.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/plugins": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Plugin"
+              }
+            },
+            "description": "Returns a list in `PluginSchema` format of all available plugins in the system."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "plugins"
+        ],
+        "summary": "Retrieve all plugins",
+        "description": "Returns a list of all available plugins in the system, including directory, description,and active status. Supply fields from the `PluginSchema` to the include and exclude fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved plugins.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Plugin"
+              }
+            },
+            "description": "Returns a list in `PluginSchema` format of all available plugins in the system."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "plugins"
+        ],
+        "summary": "Retrieve all plugins",
+        "description": "Returns a list of all available plugins in the system, including directory, description,and active status. Supply fields from the `PluginSchema` to the include and exclude fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved plugins.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/plugins/{name}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Plugin"
+            },
+            "description": "Returns a plugin in `PluginSchema` format with the requested name, if it exists."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "The name of the plugin",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "plugins"
+        ],
+        "summary": "Retrieve plugin by name",
+        "description": "If plugin was found with a matching name, an object containing information about the plugin is returned.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Plugin"
+            },
+            "description": "Returns a plugin in `PluginSchema` format with the requested name, if it exists."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "The name of the plugin",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "plugins"
+        ],
+        "summary": "Retrieve plugin by name",
+        "description": "If plugin was found with a matching name, an object containing information about the plugin is returned.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/sources": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Source"
+              }
+            },
+            "description": "Returns a list of all Sources dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Retrieve all Fact Sources.",
+        "description": "Returns a list of all Fact Sources, including custom-created ones.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Source"
+              }
+            },
+            "description": "Returns a list of all Sources dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Retrieve all Fact Sources.",
+        "description": "Returns a list of all Fact Sources, including custom-created ones.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Source"
+            },
+            "description": "Returns a single Source dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Source"
+            }
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Create a Fact Source.",
+        "description": "Create a new Fact Source using the format provided in the SourceSchema."
+      }
+    },
+    "/api/v2/sources/{id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Source"
+            },
+            "description": "Returns a single Source dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The id of the Fact Source",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Retrieve a Fact Source by its id.",
+        "description": "Returns a Fact Source, given a source id.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Source"
+            },
+            "description": "Returns a single Source dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The id of the Fact Source",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Retrieve a Fact Source by its id.",
+        "description": "Returns a Fact Source, given a source id.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Source"
+            },
+            "description": "Returns a single Source dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The id of the Fact Source.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Source"
+            }
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Update an existing Fact Source.",
+        "description": "Returns an updated Fact Source. All fields in a Fact Source can be updated, except for \"id\" and \"adjustments\".",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Source"
+            },
+            "description": "Returns a single Source dumped in SourceSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The id of the Fact Source.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Source"
+            }
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Update an existing or create a new Fact Source.",
+        "description": "Use fields from the SourceSchema in the request body to replace an existing Fact Source or create a new Fact Source.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Source"
+            },
+            "description": "Returns DELETE status."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The id of the Fact Source to be deleted.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "sources"
+        ],
+        "summary": "Delete an existing Fact Source.",
+        "description": "Delete a Fact Source, given its id.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/objectives": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Objective"
+              }
+            },
+            "description": "A list of all objectives dumped in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "summary": "Retrieve objectives",
+        "description": "Retrieve all objectives by criteria. Use fields from the `ObjectiveSchema` in the request body to filter retrieved objectives.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Objective"
+              }
+            },
+            "description": "A list of all objectives dumped in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "summary": "Retrieve objectives",
+        "description": "Retrieve all objectives by criteria. Use fields from the `ObjectiveSchema` in the request body to filter retrieved objectives.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            },
+            "description": "A single objective in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            }
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "summary": "Create a new objective",
+        "description": "Create a new objective using the format provided in the `ObjectiveSchema`.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/objectives/{id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Objective"
+            },
+            "description": "Returns single objective in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the objective to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "summary": "Retrieve objective by ID",
+        "description": "Retrieve one objective by ID. Use fields from the `ObjectiveSchema` in the request body to filter retrieved objective.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Objective"
+            },
+            "description": "Returns single objective in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the objective to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "summary": "Retrieve objective by ID",
+        "description": "Retrieve one objective by ID. Use fields from the `ObjectiveSchema` in the request body to filter retrieved objective.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            },
+            "description": "The updated Objective in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Objective to be updated"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Objective1"
+            }
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Update an objective",
+        "description": "Update an objective using fields from the `ObjectiveSchema` in the request body."
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Objective"
+            },
+            "description": "A single Objective, either newly created or updated, in ObjectiveSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Objective to be created or updated"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Objective"
+            }
+          }
+        ],
+        "tags": [
+          "objectives"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Create or update an objective",
+        "description": "Attempt to update an objective using fields from the `ObjectiveSchema` in the request body. If the objective does not already exist, then create a new one using the `ObjectiveSchema` format."
+      }
+    },
+    "/api/v2/adversaries": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Adversary"
+              }
+            },
+            "description": "Returns a list in `AdversarySchema` format of all available adversaries in the system."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Retrieve all adversaries",
+        "description": "Returns a list of all available adversaries in the system, including plugin, name, description, and atomic ordering. Supply fields from the `AdversarySchema` to the include and exclude fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved adversaries.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Adversary"
+              }
+            },
+            "description": "Returns a list in `AdversarySchema` format of all available adversaries in the system."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Retrieve all adversaries",
+        "description": "Returns a list of all available adversaries in the system, including plugin, name, description, and atomic ordering. Supply fields from the `AdversarySchema` to the include and exclude fields of the `BaseGetAllQuerySchema` in the request body to filter retrieved adversaries.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Adversary"
+            },
+            "description": "A single adversary in AdversarySchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Adversary"
+            }
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Create a new adversary",
+        "description": "Create a new adversary using the format provided in the `AdversarySchema`.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/adversaries/{adversary_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Adversary"
+            },
+            "description": "Returns single adversary in AdversarySchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "adversary_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the adversary to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Retrieve adversary by ID",
+        "description": "Retrieve one adversary by ID. Use fields from the `AdversarySchema` in the request body to filter retrieved adversary.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Adversary"
+            },
+            "description": "Returns single adversary in AdversarySchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "adversary_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the adversary to be retrieved"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Retrieve adversary by ID",
+        "description": "Retrieve one adversary by ID. Use fields from the `AdversarySchema` in the request body to filter retrieved adversary.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Adversary"
+            },
+            "description": "The updated adversary in AdversarySchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "adversary_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the adversary to be updated"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Adversary1"
+            }
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Update an adversary",
+        "description": "Update an adversary using fields from the `AdversarySchema` in the request body."
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Adversary"
+            },
+            "description": "A single adversary, either newly created or updated, in AdversarySchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "adversary_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the adversary to be created or updated"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Adversary"
+            }
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Create or update an adversary",
+        "description": "Attempt to update an adversaries using fields from the `AdversarySchema` in the request body. If the adversary does not already exist, then create a new one using the `AdversarySchema` format.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Adversary"
+            },
+            "description": "HTTP 204 Status Code (No Content)"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "adversary_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the adversary to be retrieved"
+          }
+        ],
+        "tags": [
+          "adversaries"
+        ],
+        "summary": "Deletes an adversary.",
+        "description": "Deletes an existing adversary.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/agents": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Agent"
+              }
+            },
+            "description": "Returns a list of all agents."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieves all agents",
+        "description": "Retrieves all stored agents.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Agent"
+              }
+            },
+            "description": "Returns a list of all agents."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieves all agents",
+        "description": "Retrieves all stored agents.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "description": "Returns a single agent in 'AgentSchema' format"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Create a new agent",
+        "description": "Creates a new agent using the format from 'AgentSchema'.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/agents/{paw}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Agent"
+            },
+            "description": "Returns JSON response with specified Agent"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the Agent to retrieve information about"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve Agent by paw",
+        "description": "Retrieve information about a specific agent using its ID (paw). Use the paw field in the URL to specify matching criteria for the agent to obtain information about.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Agent"
+            },
+            "description": "Returns JSON response with specified Agent"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the Agent to retrieve information about"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve Agent by paw",
+        "description": "Retrieve information about a specific agent using its ID (paw). Use the paw field in the URL to specify matching criteria for the agent to obtain information about.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "description": "Returns JSON response with updated Agent fields"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the Agent to update"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Agent1"
+            }
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Update an Agent",
+        "description": "Update the attributes of a specific Agent using its ID (paw). Use the paw field in the URL to specify matching criteria and the fields from the AgentSchema in the request body to specify updated field values.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "description": "Json dictionary representation of the created or updated Agent"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "paw of the Agent to be retrieved"
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Agent"
+            }
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Create or Update an Agent",
+        "description": "Update an agent, or if a existing agent match cannot be found, create one. Use the paw field in the URL to specify matching criteria and the fields from the AgentSchema in the request body to specify new field values.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Agent1"
+            },
+            "description": "Returns HTTP 200"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "paw of the Agent to be deleted"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Delete an Agent",
+        "description": "Delete an agent. Use the paw field in the URL to specify matching criteria for the agent(s) to delete.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/deploy_commands": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeployCommands"
+            },
+            "description": "Json dictionary representation of deploy commands, sorted by Ability ID"
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve deploy commands",
+        "description": "Retrieve the deploy commands currently configured within Caldera.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeployCommands"
+            },
+            "description": "Json dictionary representation of deploy commands, sorted by Ability ID"
+          }
+        },
+        "parameters": [],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve deploy commands",
+        "description": "Retrieve the deploy commands currently configured within Caldera.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/deploy_commands/{ability_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeployCommands"
+            },
+            "description": "Json dictionary representation of deploy commands for the specified Ability ID"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the ability to retrieve deploy commands for"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve deploy commands for an Ability",
+        "description": "Retrieve the deploy commands associated with a given ability ID. Use the 'ability_id' field in the URL specify which ability to retrieve deploy commands for.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeployCommands"
+            },
+            "description": "Json dictionary representation of deploy commands for the specified Ability ID"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ability_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the ability to retrieve deploy commands for"
+          }
+        ],
+        "tags": [
+          "agents"
+        ],
+        "summary": "Retrieve deploy commands for an Ability",
+        "description": "Retrieve the deploy commands associated with a given ability ID. Use the 'ability_id' field in the URL specify which ability to retrieve deploy commands for.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/schedules": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Schedule"
+              }
+            },
+            "description": "The response is a list of all scheduled operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Retrieve Schedules",
+        "description": "Returns all stored schedules.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Schedule"
+              }
+            },
+            "description": "The response is a list of all scheduled operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Retrieve Schedules",
+        "description": "Returns all stored schedules.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            },
+            "description": "The response is a dump of the newly created Schedule object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            }
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Create Schedule",
+        "description": "Use fields from the ScheduleSchema in the request body to create a new Schedule.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/schedules/{id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Schedule"
+            },
+            "description": "The response is a single dumped Scheduled object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Schedule to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Retrieve Schedule",
+        "description": "Retrieves Schedule by UUID, as specified by {id} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Schedule"
+            },
+            "description": "The response is a single dumped Scheduled object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Schedule to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Retrieve Schedule",
+        "description": "Retrieves Schedule by UUID, as specified by {id} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            },
+            "description": "The response is a dump of the newly updated Schedule object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Schedule to be retrieved."
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Schedule1"
+            }
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Update Schedule",
+        "description": "Use fields from the ScheduleSchema in the request body to update an existing Schedule.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            },
+            "description": "The response is a dump of the newly replaced Schedule object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Schedule to be retrieved."
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Schedule2"
+            }
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Replace Schedule",
+        "description": "Use fields from the ScheduleSchema in the request body to replace an existing Schedule or create a new Schedule.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            },
+            "description": "Returns HTTP 204 No Content status code if Schedule is deleted successfully."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Schedule to be retrieved."
+          }
+        ],
+        "tags": [
+          "schedules"
+        ],
+        "summary": "Delete Schedule",
+        "description": "Deletes a Schedule object from the data service.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Operation"
+              }
+            },
+            "description": "The response is a list of all operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve operations",
+        "description": "Retrieve all Caldera operations from memory.  Use fields from the `BaseGetAllQuerySchema` in the request body to filter.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Operation"
+              }
+            },
+            "description": "The response is a list of all operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve operations",
+        "description": "Retrieve all Caldera operations from memory.  Use fields from the `BaseGetAllQuerySchema` in the request body to filter.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            },
+            "description": "The response is the newly-created operation report."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            }
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Create a new Caldera operation record",
+        "description": "Create a new Caldera operation using the format provided in the `OperationSchema`. Required schema fields are as follows: \"name\", \"adversary.adversary_id\", \"planner.id\", and \"source.id\"",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/summary": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-OperationSchemaAlt"
+              }
+            },
+            "description": "The response is a list of all operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve operations (alternate)",
+        "description": "Retrieve all Caldera operations from memory, with an alternate selection of properties. Use fields from the `BaseGetAllQuerySchema` in the request body to filter.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-OperationSchemaAlt"
+              }
+            },
+            "description": "The response is a list of all operations."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve operations (alternate)",
+        "description": "Retrieve all Caldera operations from memory, with an alternate selection of properties. Use fields from the `BaseGetAllQuerySchema` in the request body to filter.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Operation"
+            },
+            "description": "The response is the operation with the specified id, if any."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Operation object to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve an operation by operation id",
+        "description": "Retrieve one Caldera operation from memory based on the operation id (String UUID).  Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Operation"
+            },
+            "description": "The response is the operation with the specified id, if any."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Operation object to be retrieved."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve an operation by operation id",
+        "description": "Retrieve one Caldera operation from memory based on the operation id (String UUID).  Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Operation"
+            },
+            "description": "The response is the updated operation, including user modifications."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Operation object to be retrieved."
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Operation1"
+            }
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Update fields within an operation",
+        "description": "Update one Caldera operation in memory based on the operation id (String UUID). The `state`, `autonomous` and `obfuscator` fields in the operation object may be edited in the request body using the `OperationSchema`.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Operation"
+            },
+            "description": "There is an empty response from a successful delete request."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the Operation object to be retrieved."
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Delete an operation by operation id",
+        "description": "Delete one Caldera operation from memory based on the operation id (String UUID).",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/report": {
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OperationOutputRequest"
+            },
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "operation_id": "Unique ID for operation",
+            "access": "Format for report",
+            "output": "Boolean for Agent Output in report",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OperationOutputRequest"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Get Operation Report",
+        "description": "Retrieves the report for a given operation_id.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/event-logs": {
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OperationOutputRequest"
+            },
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "operation_id": "Unique ID for operation",
+            "access": "Format for report",
+            "output": "Boolean for Agent Output in report",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OperationOutputRequest"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Get Operation Event Logs",
+        "description": "Retrieves the event logs for a given operation_id.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/links": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Link"
+              }
+            },
+            "description": "All links contained in operation with the given `id` (String UUID)."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "operation_id": "Unique ID for operation",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Get Links from Operation",
+        "description": "Retrieves all links for a given operation_id.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Link"
+              }
+            },
+            "description": "All links contained in operation with the given `id` (String UUID)."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "operation_id": "Unique ID for operation",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Get Links from Operation",
+        "description": "Retrieves all links for a given operation_id.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/links/{link_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Link"
+            },
+            "description": "The link matching the provided `link_id` within the operation matching `id`. Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Operation containing desired link."
+          },
+          {
+            "in": "path",
+            "name": "link_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Link with the above operation."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve a specified link from an operation",
+        "description": "Retrieve the link with the provided `link_id` (String UUID) from the operation with the given operation `id` (String UUID). Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Link"
+            },
+            "description": "The link matching the provided `link_id` within the operation matching `id`. Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Operation containing desired link."
+          },
+          {
+            "in": "path",
+            "name": "link_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Link with the above operation."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve a specified link from an operation",
+        "description": "Retrieve the link with the provided `link_id` (String UUID) from the operation with the given operation `id` (String UUID). Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Link"
+            },
+            "description": "The updated link after a successful `PATCH` request."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Operation containing desired link."
+          },
+          {
+            "in": "path",
+            "name": "link_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Link with the above operation."
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Link1"
+            }
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Update the specified link within an operation",
+        "description": "Update the `command` (String) or `status` (Integer) field within the link with the provided  `link_id` (String UUID) from the operation with the given operation `id` (String UUID).",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/links/{link_id}/result": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/LinkResult"
+            },
+            "description": "Contains a dictionary with the requested link and its results dictionary."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the operation object to be retrieved."
+          },
+          {
+            "in": "path",
+            "name": "link_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the link object to retrieve results of."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve the result of a link",
+        "description": "Retrieve a dictionary containing a link and its results dictionary based on the operation id (String UUID) and link id (String UUID).  Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/LinkResult"
+            },
+            "description": "Contains a dictionary with the requested link and its results dictionary."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the operation object to be retrieved."
+          },
+          {
+            "in": "path",
+            "name": "link_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the link object to retrieve results of."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve the result of a link",
+        "description": "Retrieve a dictionary containing a link and its results dictionary based on the operation id (String UUID) and link id (String UUID).  Use fields from the `BaseGetOneQuerySchema` in the request body to add `include` and `exclude` filters.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/potential-links": {
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Link"
+            },
+            "description": "Response contains the newly assigned Link object."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the operation object for the link to be created on."
+          },
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Link"
+            }
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Creates a potential Link",
+        "description": "Creates a potential link to be executed by an agent. Create a potential Link using the format provided in the `LinkSchema`. The request body requires `paw`, `executor`, and `ability`.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Link"
+              }
+            },
+            "description": "Response contains a list of link objects for the requested id."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the operation object to retrieve links for."
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve potential links for an operation.",
+        "description": "Retrieve all potential links for an operation based on the operation id (String UUID).  Use fields from the `BaseGetAllQuerySchema` in the request body to add `include`, `exclude`, and `sort` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Link"
+              }
+            },
+            "description": "Response contains a list of link objects for the requested id."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "UUID of the operation object to retrieve links for."
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve potential links for an operation.",
+        "description": "Retrieve all potential links for an operation based on the operation id (String UUID).  Use fields from the `BaseGetAllQuerySchema` in the request body to add `include`, `exclude`, and `sort` filters.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/operations/{id}/potential-links/{paw}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Link"
+            },
+            "description": "All potential links for operation and the specified agent paw."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Operation containing desired links."
+          },
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Agent paw for the specified operation."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve potential links for an operation filterd by agent paw (id)",
+        "description": "Retrieve all potential links for an operation-agent pair based on the operation id (String UUID) and the agent paw (id) (String).  Use fields from the `BaseGetAllQuerySchema` in the request body to add `include`, `exclude`, and `sort` filters.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Link"
+            },
+            "description": "All potential links for operation and the specified agent paw."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "String UUID of the Operation containing desired links."
+          },
+          {
+            "in": "path",
+            "name": "paw",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Agent paw for the specified operation."
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "operations"
+        ],
+        "summary": "Retrieve potential links for an operation filterd by agent paw (id)",
+        "description": "Retrieve all potential links for an operation-agent pair based on the operation id (String UUID) and the agent paw (id) (String).  Use fields from the `BaseGetAllQuerySchema` in the request body to add `include`, `exclude`, and `sort` filters.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/obfuscators": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Obfuscator"
+              }
+            },
+            "description": "Returns a list of all obfuscators in ObfuscatorSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "obfuscators"
+        ],
+        "summary": "Retrieve obfuscators",
+        "description": "Retrieves all stored obfuscators.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Obfuscator"
+              }
+            },
+            "description": "Returns a list of all obfuscators in ObfuscatorSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "obfuscators"
+        ],
+        "summary": "Retrieve obfuscators",
+        "description": "Retrieves all stored obfuscators.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/obfuscators/{name}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Obfuscator"
+            },
+            "description": "Returns the specified obfuscator in ObfuscatorSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the Obfuscator"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "obfuscators"
+        ],
+        "summary": "Retrieve an obfuscator by name",
+        "description": "Retrieve an obfuscator by name, as specified by {name} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Partial-Obfuscator"
+            },
+            "description": "Returns the specified obfuscator in ObfuscatorSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the Obfuscator"
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "obfuscators"
+        ],
+        "summary": "Retrieve an obfuscator by name",
+        "description": "Retrieve an obfuscator by name, as specified by {name} in the request url.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/facts": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Fact"
+              }
+            },
+            "description": "Returns a list of matching facts, dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Retrieve Facts",
+        "description": "Retrieve facts by criteria. Use fields from the `FactSchema` in the request body to filter retrieved facts.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Fact"
+              }
+            },
+            "description": "Returns a list of matching facts, dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Retrieve Facts",
+        "description": "Retrieve facts by criteria. Use fields from the `FactSchema` in the request body to filter retrieved facts.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Fact"
+            },
+            "description": "Returns the created fact, dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Fact"
+            }
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Create a Fact",
+        "description": "Create a new fact using the format provided in the `FactSchema`.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Fact"
+            },
+            "description": "Returns the deleted fact(s), dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Fact"
+            }
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Delete One or More Facts",
+        "description": "Delete facts using the format provided in the `FactSchema`. This will delete all facts that match the criteria specified in the payload.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Fact"
+            },
+            "description": "Returns the updated fact(s), dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-FactUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Update One or More Facts",
+        "description": "Update existing facts using the format provided in the `FactSchema`. This will update all facts that match the criteria specified in the payload.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/relationships": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns a list of matching relationships, dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Retrieve Relationships",
+        "description": "Retrieve relationships by criteria. Use fields from the `RelationshipSchema` in the request body to filter retrieved relationships.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns a list of matching relationships, dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Retrieve Relationships",
+        "description": "Retrieve relationships by criteria. Use fields from the `RelationshipSchema` in the request body to filter retrieved relationships.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns the created relationship, dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            }
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Create a Relationship",
+        "description": "Create a new relationship using the format provided in the `RelationshipSchema`.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns the deleted relationship(s), dumped in RelationshipSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-Relationship"
+            }
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Delete One or More Relationships",
+        "description": "Delete relationships using the format provided in the RelationshipSchema. This will delete all relationships that match the criteria specified in the payload.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns the updated relationship(s), dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Partial-RelationshipUpdate"
+            }
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Update One or More Relationships",
+        "description": "Update existing relationships using the format provided in the `RelationshipSchema`. This will update all relationships that match the criteria specified in the payload.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/facts/{operation_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Fact"
+              }
+            },
+            "description": "Returns a list of facts associated with operation_id, dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "path",
+            "name": "operation_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Retrieve Facts by operation id",
+        "description": "Retrieves facts associated with an operation. Returned facts will either be user-generated facts or learned facts.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Partial-Fact"
+              }
+            },
+            "description": "Returns a list of facts associated with operation_id, dumped in `FactSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "path",
+            "name": "operation_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "facts"
+        ],
+        "summary": "Retrieve Facts by operation id",
+        "description": "Retrieves facts associated with an operation. Returned facts will either be user-generated facts or learned facts.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/relationships/{operation_id}": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns a list of matching relationships, dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "path",
+            "name": "operation_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Retrieve Relationships by operation id",
+        "description": "Retrieve relationships associated with an operation. Returned relationships will be either user-generated relationships or learned relationships.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Relationship"
+            },
+            "description": "Returns a list of matching relationships, dumped in `RelationshipSchema` format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "path",
+            "name": "operation_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "relationships"
+        ],
+        "summary": "Retrieve Relationships by operation id",
+        "description": "Retrieve relationships associated with an operation. Returned relationships will be either user-generated relationships or learned relationships.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/contacts/{name}": {
+      "head": {
+        "responses": {},
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the contact to get beacons for, e.g. HTTP, TCP, et cetera."
+          }
+        ],
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Retrieve a List of Beacons made by Agents to the specified Contact",
+        "description": "Returns a list of beacons made by agents to the specified contact. The response is formatted as a list of dictionaries. The dictionaries have the keys `paw`, `instructions`, and `date`. `paw` being the paw of the agent that made the beacon. `instructions` being a list of strings (commands) executed by the agent since its last beacon. `date` being a UTC date/time string.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {},
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the contact to get beacons for, e.g. HTTP, TCP, et cetera."
+          }
+        ],
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Retrieve a List of Beacons made by Agents to the specified Contact",
+        "description": "Returns a list of beacons made by agents to the specified contact. The response is formatted as a list of dictionaries. The dictionaries have the keys `paw`, `instructions`, and `date`. `paw` being the paw of the agent that made the beacon. `instructions` being a list of strings (commands) executed by the agent since its last beacon. `date` being a UTC date/time string.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/contacts": {
+      "head": {
+        "responses": {},
+        "parameters": [],
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Retrieve a List of all available Contact reports",
+        "description": "Returns a list of contacts that at least one agent has beaconed to. As soon as any agent beacons over a given contact, the contact will be returned here.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {},
+        "parameters": [],
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Retrieve a List of all available Contact reports",
+        "description": "Returns a list of contacts that at least one agent has beaconed to. As soon as any agent beacons over a given contact, the contact will be returned here.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/v2/payloads": {
+      "head": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Payload"
+            },
+            "description": "Returns a list of all payloads in PayloadSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "payloads"
+        ],
+        "summary": "Retrieve payloads",
+        "description": "Retrieves all stored payloads.",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Payload"
+            },
+            "description": "Returns a list of all payloads in PayloadSchema format."
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "exclude",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": false,
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "payloads"
+        ],
+        "summary": "Retrieve payloads",
+        "description": "Retrieves all stored payloads.",
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Caldera",
+    "version": "5.0.0"
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "Plugin": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "address": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "CalderaInfo": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "access": {
+          "type": "string"
+        },
+        "plugins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Plugin"
+          }
+        }
+      }
+    },
+    "ConfigUpdate": {
+      "type": "object",
+      "properties": {
+        "prop": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "prop",
+        "value"
+      ]
+    },
+    "AgentConfigUpdate": {
+      "type": "object",
+      "properties": {
+        "sleep_min": {
+          "type": "integer"
+        },
+        "sleep_max": {
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "integer"
+        },
+        "untrusted_timer": {
+          "type": "integer"
+        },
+        "implant_name": {
+          "type": "string"
+        },
+        "bootstrap_abilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deadman_abilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deployments": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Fact": {
+      "type": "object",
+      "properties": {
+        "unique": {
+          "type": "string",
+          "readOnly": true
+        },
+        "trait": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "value": {
+          "x-nullable": true
+        },
+        "created": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "score": {
+          "type": "integer"
+        },
+        "source": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "origin_type": {
+          "x-nullable": true
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limit_count": {
+          "type": "integer"
+        },
+        "collected_by": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "technique_id": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "trait"
+      ]
+    },
+    "Partial-Planner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "module": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "stopping_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "ignore_enforcement_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allow_repeatable_abilities": {
+          "type": "boolean"
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "ParserConfig": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "edge": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "target": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "custom_parser_vals": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "Parser": {
+      "type": "object",
+      "properties": {
+        "module": {
+          "type": "string"
+        },
+        "parserconfigs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParserConfig"
+          }
+        }
+      }
+    },
+    "Variation": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        }
+      }
+    },
+    "Executor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "platform": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "command": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "code": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "language": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "build_target": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "payloads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uploads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timeout": {
+          "type": "integer",
+          "default": 60
+        },
+        "parsers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Parser"
+          }
+        },
+        "cleanup": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "variations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Variation"
+          }
+        },
+        "additional_info": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Requirement": {
+      "type": "object",
+      "properties": {
+        "module": {
+          "type": "string"
+        },
+        "relationship_match": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Access": {
+      "type": "object",
+      "properties": {
+        "access": {}
+      }
+    },
+    "Partial-Ability": {
+      "type": "object",
+      "properties": {
+        "ability_id": {
+          "type": "string"
+        },
+        "tactic": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_id": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "description": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "executors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Executor"
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "default": null,
+          "x-nullable": true,
+          "items": {
+            "$ref": "#/definitions/Requirement"
+          }
+        },
+        "privilege": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "repeatable": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "buckets": {
+          "type": "array",
+          "default": null,
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "additional_info": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "access": {
+          "default": null,
+          "x-nullable": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Access"
+            }
+          ]
+        },
+        "singleton": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "delete_payload": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Ability": {
+      "type": "object",
+      "properties": {
+        "ability_id": {
+          "type": "string"
+        },
+        "tactic": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_id": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "description": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "executors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Executor"
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "default": null,
+          "x-nullable": true,
+          "items": {
+            "$ref": "#/definitions/Requirement"
+          }
+        },
+        "privilege": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "repeatable": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "buckets": {
+          "type": "array",
+          "default": null,
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "additional_info": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "access": {
+          "default": null,
+          "x-nullable": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Access"
+            }
+          ]
+        },
+        "singleton": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "delete_payload": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Partial-Ability1": {
+      "type": "object",
+      "properties": {
+        "tactic": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "technique_id": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "name": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "description": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "executors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Executor"
+          }
+        },
+        "privilege": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "repeatable": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "buckets": {
+          "type": "array",
+          "default": null,
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "singleton": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "delete_payload": {
+          "type": "boolean",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Partial-Plugin": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "address": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "data_dir": {
+          "type": "string"
+        },
+        "access": {
+          "type": "integer"
+        }
+      }
+    },
+    "Rule": {
+      "type": "object",
+      "properties": {
+        "action": {},
+        "trait": {
+          "type": "string"
+        },
+        "match": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "trait"
+      ]
+    },
+    "Adjustment": {
+      "type": "object",
+      "properties": {
+        "ability_id": {
+          "type": "string"
+        },
+        "trait": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "integer"
+        }
+      }
+    },
+    "Relationship": {
+      "type": "object",
+      "properties": {
+        "unique": {
+          "type": "string",
+          "readOnly": true
+        },
+        "source": {
+          "$ref": "#/definitions/Fact"
+        },
+        "edge": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "target": {
+          "x-nullable": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Fact"
+            }
+          ]
+        },
+        "score": {
+          "type": "integer"
+        },
+        "origin": {
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "required": [
+        "source"
+      ]
+    },
+    "Partial-Source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rule"
+          }
+        },
+        "adjustments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Adjustment"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rule"
+          }
+        },
+        "adjustments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Adjustment"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Goal": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "achieved": {
+          "type": "boolean",
+          "readOnly": true
+        }
+      }
+    },
+    "Partial-Objective": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Goal"
+          }
+        },
+        "percentage": {
+          "type": "number",
+          "readOnly": true
+        }
+      }
+    },
+    "Objective": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Goal"
+          }
+        },
+        "percentage": {
+          "type": "number",
+          "readOnly": true
+        }
+      }
+    },
+    "Partial-Objective1": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Goal"
+          }
+        }
+      }
+    },
+    "Partial-Adversary": {
+      "type": "object",
+      "properties": {
+        "adversary_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "atomic_ordering": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "objective": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "has_repeatable_abilities": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Adversary": {
+      "type": "object",
+      "properties": {
+        "adversary_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "atomic_ordering": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "objective": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "has_repeatable_abilities": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Partial-Adversary1": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "atomic_ordering": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "objective": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "has_repeatable_abilities": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Visibility": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "integer"
+        },
+        "adjustments": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "Link": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "default": ""
+        },
+        "paw": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "plaintext_command": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "default": -3
+        },
+        "score": {
+          "type": "integer",
+          "default": 0
+        },
+        "jitter": {
+          "type": "integer",
+          "default": 0
+        },
+        "decide": {
+          "type": "string",
+          "format": null,
+          "pattern": null
+        },
+        "pin": {
+          "type": "integer",
+          "default": 0
+        },
+        "pid": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "used": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "unique": {
+          "type": "string"
+        },
+        "collect": {
+          "type": "string",
+          "format": null,
+          "pattern": null
+        },
+        "finish": {
+          "type": "string"
+        },
+        "ability": {
+          "$ref": "#/definitions/Ability"
+        },
+        "executor": {
+          "$ref": "#/definitions/Executor"
+        },
+        "cleanup": {
+          "type": "integer",
+          "default": 0
+        },
+        "visibility": {
+          "$ref": "#/definitions/Visibility"
+        },
+        "host": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "output": {
+          "type": "string"
+        },
+        "deadman": {
+          "type": "boolean"
+        },
+        "agent_reported_time": {
+          "type": "string",
+          "format": null,
+          "default": null,
+          "x-nullable": true,
+          "pattern": null
+        }
+      }
+    },
+    "Partial-Agent": {
+      "type": "object",
+      "properties": {
+        "paw": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "sleep_min": {
+          "type": "integer"
+        },
+        "sleep_max": {
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "integer"
+        },
+        "group": {
+          "type": "string"
+        },
+        "architecture": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "server": {
+          "type": "string"
+        },
+        "upstream_dest": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "username": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer"
+        },
+        "ppid": {
+          "type": "integer"
+        },
+        "trusted": {
+          "type": "boolean"
+        },
+        "executors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "privilege": {
+          "type": "string"
+        },
+        "exe_name": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        },
+        "proxy_receivers": {
+          "type": "object",
+          "x-nullable": true,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "proxy_chain": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "origin_link_id": {
+          "type": "string"
+        },
+        "deadman_enabled": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "available_contacts": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "host_ip_addrs": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "display_name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "created": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "last_seen": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "links": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "pending_contact": {
+          "type": "string"
+        }
+      }
+    },
+    "Agent": {
+      "type": "object",
+      "properties": {
+        "paw": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "sleep_min": {
+          "type": "integer"
+        },
+        "sleep_max": {
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "integer"
+        },
+        "group": {
+          "type": "string"
+        },
+        "architecture": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "server": {
+          "type": "string"
+        },
+        "upstream_dest": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "username": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer"
+        },
+        "ppid": {
+          "type": "integer"
+        },
+        "trusted": {
+          "type": "boolean"
+        },
+        "executors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "privilege": {
+          "type": "string"
+        },
+        "exe_name": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        },
+        "proxy_receivers": {
+          "type": "object",
+          "x-nullable": true,
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "proxy_chain": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "origin_link_id": {
+          "type": "string"
+        },
+        "deadman_enabled": {
+          "type": "boolean",
+          "x-nullable": true
+        },
+        "available_contacts": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "host_ip_addrs": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "display_name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "created": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "last_seen": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "links": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "pending_contact": {
+          "type": "string"
+        }
+      }
+    },
+    "Partial-Agent1": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string"
+        },
+        "trusted": {
+          "type": "boolean"
+        },
+        "sleep_min": {
+          "type": "integer"
+        },
+        "sleep_max": {
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "integer"
+        },
+        "pending_contact": {
+          "type": "string"
+        }
+      }
+    },
+    "Agent1": {
+      "type": "object",
+      "properties": {}
+    },
+    "DeployCommands": {
+      "type": "object",
+      "properties": {
+        "abilities": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "app_config": {
+          "type": "object"
+        }
+      }
+    },
+    "Planner": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "module": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "stopping_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "ignore_enforcement_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allow_repeatable_abilities": {
+          "type": "boolean"
+        },
+        "plugin": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        }
+      }
+    },
+    "Operation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "host_group": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "adversary": {
+          "$ref": "#/definitions/Adversary"
+        },
+        "jitter": {
+          "type": "string"
+        },
+        "planner": {
+          "$ref": "#/definitions/Planner"
+        },
+        "start": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "state": {
+          "type": "string"
+        },
+        "obfuscator": {
+          "type": "string"
+        },
+        "autonomous": {
+          "type": "integer"
+        },
+        "chain": {
+          "readOnly": true
+        },
+        "auto_close": {
+          "type": "boolean"
+        },
+        "visibility": {
+          "type": "integer"
+        },
+        "objective": {
+          "$ref": "#/definitions/Objective"
+        },
+        "use_learning_parsers": {
+          "type": "boolean"
+        },
+        "group": {
+          "type": "string",
+          "default": ""
+        },
+        "source": {
+          "$ref": "#/definitions/Source"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Partial-Schedule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "schedule": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/Operation"
+        }
+      }
+    },
+    "Schedule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "schedule": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/Operation"
+        }
+      },
+      "required": [
+        "schedule"
+      ]
+    },
+    "Operation1": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "obfuscator": {
+          "type": "string"
+        },
+        "autonomous": {
+          "type": "integer"
+        }
+      }
+    },
+    "Partial-Schedule1": {
+      "type": "object",
+      "properties": {
+        "schedule": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/Operation1"
+        }
+      }
+    },
+    "Partial-Schedule2": {
+      "type": "object",
+      "properties": {
+        "schedule": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/Operation"
+        }
+      }
+    },
+    "Partial-Operation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "host_group": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "adversary": {
+          "$ref": "#/definitions/Adversary"
+        },
+        "jitter": {
+          "type": "string"
+        },
+        "planner": {
+          "$ref": "#/definitions/Planner"
+        },
+        "start": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "state": {
+          "type": "string"
+        },
+        "obfuscator": {
+          "type": "string"
+        },
+        "autonomous": {
+          "type": "integer"
+        },
+        "chain": {
+          "readOnly": true
+        },
+        "auto_close": {
+          "type": "boolean"
+        },
+        "visibility": {
+          "type": "integer"
+        },
+        "objective": {
+          "$ref": "#/definitions/Objective"
+        },
+        "use_learning_parsers": {
+          "type": "boolean"
+        },
+        "group": {
+          "type": "string",
+          "default": ""
+        },
+        "source": {
+          "$ref": "#/definitions/Source"
+        }
+      }
+    },
+    "Host": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "host": {
+          "type": "string"
+        },
+        "host_ip_addrs": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "platform": {
+          "type": "string"
+        },
+        "reachable_hosts": {
+          "type": "array",
+          "x-nullable": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Partial-OperationSchemaAlt": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "host_group": {
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "adversary": {
+          "$ref": "#/definitions/Adversary"
+        },
+        "jitter": {
+          "type": "string"
+        },
+        "planner": {
+          "$ref": "#/definitions/Planner"
+        },
+        "start": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "state": {
+          "type": "string"
+        },
+        "obfuscator": {
+          "type": "string"
+        },
+        "autonomous": {
+          "type": "integer"
+        },
+        "chain": {
+          "readOnly": true
+        },
+        "auto_close": {
+          "type": "boolean"
+        },
+        "visibility": {
+          "type": "integer"
+        },
+        "objective": {
+          "$ref": "#/definitions/Objective"
+        },
+        "use_learning_parsers": {
+          "type": "boolean"
+        },
+        "group": {
+          "type": "string",
+          "default": ""
+        },
+        "source": {
+          "$ref": "#/definitions/Source"
+        },
+        "agents": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "hosts": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Host"
+          }
+        }
+      }
+    },
+    "Partial-Operation1": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "autonomous": {
+          "type": "integer"
+        },
+        "obfuscator": {
+          "type": "string"
+        }
+      }
+    },
+    "OperationOutputRequest": {
+      "type": "object",
+      "properties": {
+        "enable_agent_output": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Partial-Link": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "default": ""
+        },
+        "paw": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "plaintext_command": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "default": -3
+        },
+        "score": {
+          "type": "integer",
+          "default": 0
+        },
+        "jitter": {
+          "type": "integer",
+          "default": 0
+        },
+        "decide": {
+          "type": "string",
+          "format": null,
+          "pattern": null
+        },
+        "pin": {
+          "type": "integer",
+          "default": 0
+        },
+        "pid": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relationship"
+          }
+        },
+        "used": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
+        },
+        "unique": {
+          "type": "string"
+        },
+        "collect": {
+          "type": "string",
+          "format": null,
+          "pattern": null
+        },
+        "finish": {
+          "type": "string"
+        },
+        "ability": {
+          "$ref": "#/definitions/Ability"
+        },
+        "executor": {
+          "$ref": "#/definitions/Executor"
+        },
+        "cleanup": {
+          "type": "integer",
+          "default": 0
+        },
+        "visibility": {
+          "$ref": "#/definitions/Visibility"
+        },
+        "host": {
+          "type": "string",
+          "default": null,
+          "x-nullable": true
+        },
+        "output": {
+          "type": "string"
+        },
+        "deadman": {
+          "type": "boolean"
+        },
+        "agent_reported_time": {
+          "type": "string",
+          "format": null,
+          "default": null,
+          "x-nullable": true,
+          "pattern": null
+        }
+      }
+    },
+    "LinkResult": {
+      "type": "object",
+      "properties": {
+        "link": {
+          "$ref": "#/definitions/Partial-Link"
+        },
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "Partial-Link1": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "default": -3
+        }
+      }
+    },
+    "Partial-Obfuscator": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "module": {
+          "type": "string"
+        }
+      }
+    },
+    "Partial-Fact": {
+      "type": "object",
+      "properties": {
+        "unique": {
+          "type": "string",
+          "readOnly": true
+        },
+        "trait": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "value": {
+          "x-nullable": true
+        },
+        "created": {
+          "type": "string",
+          "format": null,
+          "readOnly": true,
+          "pattern": null
+        },
+        "score": {
+          "type": "integer"
+        },
+        "source": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "origin_type": {
+          "x-nullable": true
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limit_count": {
+          "type": "integer"
+        },
+        "collected_by": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "technique_id": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Partial-Relationship": {
+      "type": "object",
+      "properties": {
+        "unique": {
+          "type": "string",
+          "readOnly": true
+        },
+        "source": {
+          "$ref": "#/definitions/Fact"
+        },
+        "edge": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "target": {
+          "x-nullable": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Fact"
+            }
+          ]
+        },
+        "score": {
+          "type": "integer"
+        },
+        "origin": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "Partial-FactUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "criteria": {
+          "$ref": "#/definitions/Partial-Fact"
+        },
+        "updates": {
+          "$ref": "#/definitions/Partial-Fact"
+        }
+      }
+    },
+    "Partial-RelationshipUpdate": {
+      "type": "object",
+      "properties": {
+        "criteria": {
+          "$ref": "#/definitions/Partial-Relationship"
+        },
+        "updates": {
+          "$ref": "#/definitions/Partial-Relationship"
+        }
+      }
+    },
+    "Payload": {
+      "type": "object",
+      "properties": {
+        "payloads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

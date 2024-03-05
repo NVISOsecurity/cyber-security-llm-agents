@@ -30,7 +30,7 @@ def setup_logging():
     )
 
     _logging.getLogger("httpx").setLevel(_logging.WARNING)
-    return _logging.getLogger("DESTROYER")
+    return _logging.getLogger("CALDERA GPT")
 
 
 def print_banner(title):
