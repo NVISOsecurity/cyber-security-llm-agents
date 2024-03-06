@@ -1,7 +1,7 @@
 openai==1.12.0
 python-dotenv==1.0.0
 chainlit==1.0.200
-langchain==0.1.8
+langchain==0.1.11
 langchain-openai==0.0.6
 opencensus-ext-azure==1.1.9
 opencensus==0.11.2
