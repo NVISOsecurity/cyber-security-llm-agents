@@ -47,4 +47,10 @@ def print_section(title):
     logger.info("-" * len(title))
 
 
+def wipe_llm_interactions_file():
+    # Open the file in write mode which will truncate the file
+    with open("debug/llm_interactions.txt", "w") as file:
+        pass  # Opening in 'w' mode automatically truncates the file, no need to write anything
+
+
 logger = setup_logging()

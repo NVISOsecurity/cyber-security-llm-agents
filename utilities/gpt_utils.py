@@ -15,6 +15,8 @@ ENCODER = tiktoken.encoding_for_model("gpt-4")
 
 
 def run_llm_query(full_prompt):
+    # Ensure the debug directory exists
+    os.makedirs("debug", exist_ok=True)
 
     logging_utils.logger.info(
         "Analyzing using GPT... [%d tokens]",
@@ -32,4 +34,6 @@ def run_llm_query(full_prompt):
             },
         ],
     )
+
+    # Get the response content
     return str(response.choices[0].message.content)
