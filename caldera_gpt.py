@@ -6,6 +6,11 @@ from time import sleep
 from utilities import gpt_utils, vector_store_utils, config_utils, logging_utils
 from datetime import datetime
 
+if len(sys.argv) < 2:
+    print("Usage: caldera_gpt.py <OBJECTIVE>")
+    sys.exit(1)
+
+
 logging_utils.wipe_llm_interactions_file()
 
 # Initialize the local vector store with the knowledge base folder path
@@ -13,8 +18,7 @@ local_vector_store = vector_store_utils.LocalVectorstore(
     knowledge_folder="llm_knowledge_base", vector_store_folder="vector_store"
 )
 
-# objective ="Add ability 90adc98ddf396bb7cb3b90a1f090a0e0 to operation called CALDERA-GPT"
-objective = "Create a new empty operation called HELLO-CALDERA-GPT"
+objective = sys.argv[1]
 
 prompt_template = config_utils.AUTO_API_CALDERA_PROMPT.replace(
     "<OBJECTIVE_PLACEHOLDER>",
@@ -88,10 +92,10 @@ while status != "finished":
 
             # Truncate output to X characters
             # Add a note of the number of truncated characters too
-            if len(command_output) > 1000:
+            if len(command_output) > 5000:
                 command_output = (
-                    command_output[:1000]
-                    + f"\n\n... and {len(command_output) - 1000} more characters"
+                    command_output[:5000]
+                    + f"\n... and {len(command_output) - 5000} more characters, truncated command output"
                 )
 
         except subprocess.CalledProcessError as e:
@@ -108,9 +112,9 @@ while status != "finished":
                 "status": status,
                 "reasoning": reasoning,
                 "need_documentation": need_documentation,
-                "command": command if command else "N/A",
-                "command_output": command_output if command_output else "N/A",
-                "action_result": action_result if action_result else "N/A",
+                "command": command,
+                "command_output": command_output,
+                "action_result": action_result,
             }
         )
     else:
@@ -123,24 +127,29 @@ while status != "finished":
                 "status": status,
                 "reasoning": reasoning,
                 "need_documentation": need_documentation,
-                "command": command if command else "N/A",
-                "command_output": command_output if command_output else "N/A",
-                "action_result": action_result if action_result else "N/A",
+                "command": command,
+                "command_output": command_output,
+                "action_result": action_result,
             }
         )
+
+    # Remove all keys for which the value is None
+    actions[-1] = {k: v for k, v in actions[-1].items() if v is not None}
 
     logging_utils.logger.info("Status: " + status)
     logging_utils.logger.info("Reasoning: " + reasoning)
     if command:
         logging_utils.logger.info("Command: " + gpt_output["command"])
+        logging_utils.logger.info(
+            "Command Output: " + str(command_output)[:200] + "..."
+        )
+
     if action_result:
-        logging_utils.logger.info("Action Result: " + gpt_output["action_result"])
+        logging_utils.logger.info("Action Result: " + str(gpt_output["action_result"]))
     if need_documentation:
         logging_utils.logger.info(
             "Documentation requested: " + gpt_output["need_documentation"]
         )
-    if command_output:
-        logging_utils.logger.info("Command Output: " + command_output)
 
     if llm_prompt:
         with open("debug/llm_interactions.txt", "a") as file:

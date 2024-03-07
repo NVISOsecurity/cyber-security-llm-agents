@@ -8,7 +8,7 @@ Your feedback will be used to update the action history at the bottom, and you w
 
 Your JSON response should then be formatted as following:
 
-(required) "action": a short description of the action you want to take next to move closer to the objective. If the last action in the history (so the latest one) has "N/A" as action result, then its' very important that the "action" you define is the name of this existing action!
+(required) "action": a short description of the action you want to take next to move closer to the objective. If the last action in the history (so the latest one) has "N/A" as action result, then it's very important that the "action" you define is the name of this existing action!
 (required) "reasoning": a short sentence explaining your current thoughts around the steps you are taking to achieve this action
 (required) "status": either "finished" or "busy", depending if the final objective has been successfully met based on the actions taken.
 (optional) "command": the command to execute as a next step towards reaching the objective. When needed, use curl to retrieve info from the Caldera server.
@@ -17,6 +17,9 @@ Your JSON response should then be formatted as following:
 
 In the case of truncated command output, if needed, try to propose a new command that results in a more focused & smaller command output that we then don't need to truncate.
 To do this, you can pipe the output of an API call (for example to retrieve all abilities) through a command like grep to get your answer.
+
+If you are able to come up with the action_result just by analyzing the command_output in the action history below, then you don't need to propose a new command.
+In that case you can just set the action_result based on your own analysis of the command_output fields.
 
 The final objective:
 ====================
@@ -31,7 +34,7 @@ You can assume the API is up, so no need for Health checks.
 
 You can get information about the API here:
 http://ubuntu-vm:8888/api/docs/swagger.json
-Careful because the API returns output on a single line, so take this into account when using commands like "grep" (use arguments like -oE with it) , awk or sed, or similar tools.
+Careful because the API returns output on a single line, so take this into account when using commands like "grep" (use arguments like -oE with it) or similar tools.
 
 A few important endpoints:
 /api/v2/objectives
@@ -40,6 +43,12 @@ A few important endpoints:
 /api/v2/operations
 
 When sending data to the API, always do it by setting the content type to application/json.
+
+Things you will most likely need to do:
+- Use your own cyber security expertise to answer questions around which MITRE techniques to use, etc.
+- Chain the output of the Caldera API with other commands like grep, awk, ...
+- Try to generate action results by interpreting the output of commands yourself, without necessarily having to run additional commands to come to the answer
+- Store intermediate results in files in the "llm_playground" folder (this folder is empty at the start of your analysis)
 
 ---------------------------
 
