@@ -11,10 +11,10 @@ Not supported for now
 ============LLM RESPONSE============
 
 {
-  "action": "Check available operations",
-  "reasoning": "To create a new operation called HELLO-CALDERA-GPT, I need to ensure it does not already exist among the available operations.",
+  "action": "Create operation HELLO-CALDERA-GPT",
+  "reasoning": "As the first step to achieve the final objective, we need to create a new operation called HELLO-CALDERA-GPT using the appropriate API endpoint.",
   "status": "busy",
-  "command": "curl -sS -H \"KEY:ADMIN123\" 'http://ubuntu-vm:8888/api/v2/operations'"
+  "command": "curl -sS -H \"KEY:ADMIN123\" -H \"Content-Type: application/json\" -X POST 'http://ubuntu-vm:8888/api/v2/operations' -d '{\"name\":\"HELLO-CALDERA-GPT\",\"group\":\"red\",\"adversary_id\":\"123\"}'"
 }
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -25,13 +25,13 @@ Action history
 ==============
 [
   {
-    "Timestamp": "2024-03-07 11:12:00",
-    "action": "Check available operations",
+    "Timestamp": "2024-03-07 11:34:58",
+    "action": "Create operation HELLO-CALDERA-GPT",
     "status": "busy",
-    "reasoning": "To create a new operation called HELLO-CALDERA-GPT, I need to ensure it does not already exist among the available operations.",
+    "reasoning": "As the first step to achieve the final objective, we need to create a new operation called HELLO-CALDERA-GPT using the appropriate API endpoint.",
     "need_documentation": null,
-    "command": "curl -sS -H \"KEY:ADMIN123\" 'http://ubuntu-vm:8888/api/v2/operations'",
-    "command_output": "[]",
+    "command": "curl -sS -H \"KEY:ADMIN123\" -H \"Content-Type: application/json\" -X POST 'http://ubuntu-vm:8888/api/v2/operations' -d '{\"name\":\"HELLO-CALDERA-GPT\",\"group\":\"red\",\"adversary_id\":\"123\"}'",
+    "command_output": "{\n  \"id\": \"191f2cbc-ec98-4a8c-8823-92fd401b9cc0\",\n  \"name\": \"HELLO-CALDERA-GPT\",\n  \"host_group\": [\n    {\n      \"paw\": \"zgxvjp\",\n      \"sleep_min\": 30,\n      \"sleep_max\": 60,\n      \"watchdog\": 0,\n      \"group\": \"red\",\n      \"architecture\": \"amd64\",\n      \"platform\": \"windows\",\n      \"server\": \"http://ubuntu-vm:8888\",\n      \"upstream_dest\": \"http://ubuntu-vm:8888\",\n      \"username\": \"TEST-VM-DAAN\\\\draman\",\n      \"location\": \"C:\\\\Users\\\\Public\\\\splunkd.exe\",\n      \"pid\": 3880,\n      \"ppid\": 3344,\n      \"trusted\": true,\n      \"executors\": [\n        \"cmd\",\n        \"psh\",\n        \"proc\"\n      ],\n      \"privilege\": \"User\",\n      \"exe_name\": \"splunkd.exe\",\n      \"host\": \"TEST-VM-DAAN\",\n      \"contact\": \"HTTP\",\n      \"proxy_receivers\": {},\n      \"proxy_chain\": [],\n      \"origin_link_id\": \"\",\n      \"deadman_enabled\": true,\n      \"available_contacts\": [\n        \"HTTP\"\n      ],\n      \"host_ip_addrs\": [\n        \"192.168.150.133\",\n        \"192.168.162.10\",\n        \"169.254.249.137\",\n        \"169.254\n\n... and 7839 more characters",
     "action_result": "N/A"
   }
 ]
@@ -43,10 +43,10 @@ Not supported for now
 ============LLM RESPONSE============
 
 {
-  "action": "Create the HELLO-CALDERA-GPT operation",
-  "reasoning": "Since there are no existing operations returned in the last action, it's safe to proceed with creating the new HELLO-CALDERA-GPT operation.",
+  "action": "Create operation HELLO-CALDERA-GPT",
+  "reasoning": "The previous action was to create the operation, but the action_result is not available. We need to confirm that the operation was created successfully.",
   "status": "busy",
-  "command": "curl -sS -H \"KEY:ADMIN123\" -X POST -d '{\"name\":\"HELLO-CALDERA-GPT\",\"group\":\"\"}' 'http://ubuntu-vm:8888/api/v2/operations'"
+  "command": "curl -sS -H \"KEY:ADMIN123\" 'http://ubuntu-vm:8888/api/v2/operations' | grep -oE '\"name\": \"HELLO-CALDERA-GPT\"'"
 }
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -57,23 +57,13 @@ Action history
 ==============
 [
   {
-    "Timestamp": "2024-03-07 11:12:00",
-    "action": "Check available operations",
+    "Timestamp": "2024-03-07 11:35:22",
+    "action": "Create operation HELLO-CALDERA-GPT",
     "status": "busy",
-    "reasoning": "To create a new operation called HELLO-CALDERA-GPT, I need to ensure it does not already exist among the available operations.",
+    "reasoning": "The previous action was to create the operation, but the action_result is not available. We need to confirm that the operation was created successfully.",
     "need_documentation": null,
-    "command": "curl -sS -H \"KEY:ADMIN123\" 'http://ubuntu-vm:8888/api/v2/operations'",
-    "command_output": "[]",
-    "action_result": "N/A"
-  },
-  {
-    "Timestamp": "2024-03-07 11:12:25",
-    "action": "Create the HELLO-CALDERA-GPT operation",
-    "status": "busy",
-    "reasoning": "Since there are no existing operations returned in the last action, it's safe to proceed with creating the new HELLO-CALDERA-GPT operation.",
-    "need_documentation": null,
-    "command": "curl -sS -H \"KEY:ADMIN123\" -X POST -d '{\"name\":\"HELLO-CALDERA-GPT\",\"group\":\"\"}' 'http://ubuntu-vm:8888/api/v2/operations'",
-    "command_output": "{\n  \"json\": {\n    \"name\": [\n      \"Missing data for required field.\"\n    ]\n  }\n}",
+    "command": "curl -sS -H \"KEY:ADMIN123\" 'http://ubuntu-vm:8888/api/v2/operations' | grep -oE '\"name\": \"HELLO-CALDERA-GPT\"'",
+    "command_output": "\"name\": \"HELLO-CALDERA-GPT\"\n",
     "action_result": "N/A"
   }
 ]
@@ -85,10 +75,10 @@ Not supported for now
 ============LLM RESPONSE============
 
 {
-  "action": "Create the HELLO-CALDERA-GPT operation",
-  "reasoning": "Previous attempt to create the operation failed due to missing required field for the name. The JSON data payload needs to be correctly formatted with the proper content-type header.",
-  "status": "busy",
-  "command": "curl -sS -H \"KEY:ADMIN123\" -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"HELLO-CALDERA-GPT\"}' 'http://ubuntu-vm:8888/api/v2/operations'"
+  "action": "Create operation HELLO-CALDERA-GPT",
+  "reasoning": "The latest action command output confirms the existence of an operation named 'HELLO-CALDERA-GPT', indicating that the operation has been successfully created.",
+  "status": "finished",
+  "action_result": "The operation 'HELLO-CALDERA-GPT' exists on the Caldera server."
 }
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

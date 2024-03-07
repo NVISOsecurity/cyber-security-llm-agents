@@ -11,12 +11,12 @@ Your JSON response should then be formatted as following:
 (required) "action": a short description of the action you want to take next to move closer to the objective. If the last action in the history (so the latest one) has "N/A" as action result, then its' very important that the "action" you define is the name of this existing action!
 (required) "reasoning": a short sentence explaining your current thoughts around the steps you are taking to achieve this action
 (required) "status": either "finished" or "busy", depending if the final objective has been successfully met based on the actions taken.
-(optional) "command": the curl command  to execute as a next step towards reaching the objective. Piping to other tools is allowed. Only if you have all the information needed (either because you don't need additional information, or because the relevant snippets are provided below).
+(optional) "command": the command to execute as a next step towards reaching the objective. When needed, use curl to retrieve info from the Caldera server.
 (optional) "action_result": the result of the action, which you will be able to use in next actions. Don't provide if you don't know the result yet for this action.
 (optional) "need_documentation": Not supported for now, so never include it.
 
 In the case of truncated command output, if needed, try to propose a new command that results in a more focused & smaller command output that we then don't need to truncate.
-To do this, you can pipe the output of an API call (for example to retrieve all abilities) through a command like grep to get your answer - don't try to guess things like filtering results from the API.
+To do this, you can pipe the output of an API call (for example to retrieve all abilities) through a command like grep to get your answer.
 
 The final objective:
 ====================
@@ -38,6 +38,8 @@ A few important endpoints:
 /api/v2/adversaries
 /api/v2/agents
 /api/v2/operations
+
+When sending data to the API, always do it by setting the content type to application/json.
 
 ---------------------------
 

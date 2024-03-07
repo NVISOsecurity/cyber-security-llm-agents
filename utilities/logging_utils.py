@@ -26,7 +26,8 @@ def setup_logging():
     _logging.basicConfig(
         level=_logging_level,
         stream=sys.stdout,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        # format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        format="%(name)s - %(message)s",
     )
 
     _logging.getLogger("httpx").setLevel(_logging.WARNING)
