@@ -13,50 +13,50 @@ local_vector_store = vector_store_utils.LocalVectorstore(
     knowledge_folder="llm_knowledge_base", vector_store_folder="vector_store"
 )
 
+# objective ="Add ability 90adc98ddf396bb7cb3b90a1f090a0e0 to operation called CALDERA-GPT"
+objective = "Create a new empty operation called HELLO-CALDERA-GPT"
+
 prompt_template = config_utils.AUTO_API_CALDERA_PROMPT.replace(
     "<OBJECTIVE_PLACEHOLDER>",
-    "change the background of any of the agents to the image at URL https://blog.nviso.eu/wp-content/uploads/2022/12/cropped-abn-zcrj_400x400-1.png.",
+    objective,
 )
 
 action_history_placeholder = "<ACTION_HISTORY_PLACEHOLDER>"
 current_action_placeholder = "<CURRENT_ACTION_PLACEHOLDER>"
 documentation_placeholder = "<DOCUMENTATION_PLACEHOLDER>"
 
-
 actions = []
 current_scenario = None
-current_action = None
+current_action = []
 
-while current_scenario != 3:
+need_documentation = False
+status = "busy"
+
+logging_utils.logger.info("")
+logging_utils.logger.info("====== Objective: %s ======", objective)
+logging_utils.logger.info("")
+
+while status != "finished":
     llm_prompt = None
 
-    # Construct the truncated action history
-    if len(actions) > 0:
-        current_action = actions[-1]
-        truncated_action_history = [
-            {
-                key: value
-                for key, value in action_dict.items()
-                if key != "command_output"
-            }
-            for action_dict in actions[:-1]
-        ]
-    else:
-        truncated_action_history = []
-        current_action = []
-
     # Construct the documentation snippets
-    if current_scenario == 1:
-        documentation_snippets = local_vector_store.VECTOR_STORE.search(
-            json.dumps(current_action, indent=2), topk=5, search_type="mmr"
+    if need_documentation:
+        documentation_documents = local_vector_store.VECTOR_STORE.search(
+            json.dumps(need_documentation, indent=2), topk=5, search_type="mmr"
         )
+
+        documentation_snippets = []
+        for doc in documentation_documents:
+            documentation_snippets.append(doc.page_content)
     else:
         documentation_snippets = []
+
+    documentation_snippets = "Not supported for now"
 
     # Now construct the entire prompt
     llm_prompt = (
         prompt_template.replace(
-            action_history_placeholder, json.dumps(truncated_action_history, indent=2)
+            action_history_placeholder, json.dumps(actions, indent=2)
         )
         .replace(current_action_placeholder, json.dumps(current_action, indent=2))
         .replace(documentation_placeholder, str(documentation_snippets))
@@ -65,50 +65,82 @@ while current_scenario != 3:
     # Now pass the prompt to GPT
     gpt_output = json.loads(gpt_utils.run_llm_query(llm_prompt))
 
-    # Update current scenario
-    if "action" in gpt_output.keys():
-        logging_utils.logger.info("")
-        logging_utils.logger.info("====== New Action (LLM) ======")
-        logging_utils.logger.info(gpt_output["action"])
-        logging_utils.logger.info(
-            "Documentation requested: " + gpt_output["need_documentation"]
-        )
-        current_scenario = 1
-    if "command" in gpt_output.keys():
-        logging_utils.logger.info("")
-        logging_utils.logger.info("====== Command (LLM) ======")
-        logging_utils.logger.info(gpt_output["command"])
-        current_scenario = 2
-    if "debrief" in gpt_output.keys():
-        logging_utils.logger.info("")
-        logging_utils.logger.info("====== Objective Reached (LLM) ======")
-        logging_utils.logger.info(gpt_output["debrief"])
-        current_scenario = 3
+    # Process all GPT output fields
+    action = gpt_output.get("action")
+    status = gpt_output.get("status")
+    reasoning = gpt_output.get("reasoning")
 
-    if current_scenario == 1:
-        actions.append(
-            {
-                "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "action": gpt_output.get("action"),
-            }
-        )
+    command = gpt_output.get("command", None)
+    need_documentation = gpt_output.get("need_documentation", None)
+    action_result = gpt_output.get("action_result", None)
 
-    elif current_scenario == 2:
-        command = gpt_output.get("command")
+    command_output = None
+    if command:
         try:
             command_output = subprocess.check_output(
                 command, shell=True, stderr=subprocess.STDOUT, text=True
             )
+
+            try:
+                command_output = json.dumps(json.loads(command_output), indent=2)
+            except json.JSONDecodeError:
+                pass
+
+            # Truncate output to X characters
+            # Add a note of the number of truncated characters too
+            if len(command_output) > 1000:
+                command_output = (
+                    command_output[:1000]
+                    + f"\n\n... and {len(command_output) - 1000} more characters"
+                )
+
         except subprocess.CalledProcessError as e:
             command_output = e.output
 
-        # Update the latest action in the history
-        actions[-1] = {
-            "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "action": actions[-1]["action"],
-            "command": command,
-            "command Output": command_output,
-        }
+    logging_utils.logger.info("")
+
+    if actions and actions[-1]["action"] == action:
+        logging_utils.logger.info("====== Existing Action (LLM): %s ======", action)
+        # Update the fields of the last action
+        actions[-1].update(
+            {
+                "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "status": status,
+                "reasoning": reasoning,
+                "need_documentation": need_documentation,
+                "command": command if command else "N/A",
+                "command_output": command_output if command_output else "N/A",
+                "action_result": action_result if action_result else "N/A",
+            }
+        )
+    else:
+        logging_utils.logger.info("====== New Action (LLM): %s ======", action)
+        # Append a new action if it's not a match or if the actions list is empty
+        actions.append(
+            {
+                "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "action": action,
+                "status": status,
+                "reasoning": reasoning,
+                "need_documentation": need_documentation,
+                "command": command if command else "N/A",
+                "command_output": command_output if command_output else "N/A",
+                "action_result": action_result if action_result else "N/A",
+            }
+        )
+
+    logging_utils.logger.info("Status: " + status)
+    logging_utils.logger.info("Reasoning: " + reasoning)
+    if command:
+        logging_utils.logger.info("Command: " + gpt_output["command"])
+    if action_result:
+        logging_utils.logger.info("Action Result: " + gpt_output["action_result"])
+    if need_documentation:
+        logging_utils.logger.info(
+            "Documentation requested: " + gpt_output["need_documentation"]
+        )
+    if command_output:
+        logging_utils.logger.info("Command Output: " + command_output)
 
     if llm_prompt:
         with open("debug/llm_interactions.txt", "a") as file:

@@ -15,7 +15,7 @@ def _txt_string_to_docs(
     txt_string: str, file_metadata: dict[str, str]
 ) -> list[Document]:
     # Split the text into chunks
-    splitter = RecursiveCharacterTextSplitter(chunk_size=4096, chunk_overlap=512)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=64)
     docs = splitter.create_documents([txt_string])
 
     # Add the file metadata to the doc specific metadata
@@ -32,6 +32,7 @@ class LocalVectorstore(object):
         self.vector_store_file = os.path.join(vector_store_folder, "index.faiss")
 
         if not os.path.exists(self.vector_store_file):
+
             self.create_vector_store()
 
         self.VECTOR_STORE = self.load_vector_store()
