@@ -48,7 +48,6 @@ Things you will most likely need to do:
 - Use your own cyber security expertise to answer questions around which MITRE techniques to use, etc.
 - Chain the output of the Caldera API with other commands like grep, awk, ...
 - Try to generate action results by interpreting the output of commands yourself, without necessarily having to run additional commands to come to the answer
-- Store intermediate results in files in the "llm_playground" folder (this folder is empty at the start of your analysis)
 
 ---------------------------
 

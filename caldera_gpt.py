@@ -92,10 +92,10 @@ while status != "finished":
 
             # Truncate output to X characters
             # Add a note of the number of truncated characters too
-            if len(command_output) > 5000:
+            if len(command_output) > 10000:
                 command_output = (
-                    command_output[:5000]
-                    + f"\n... and {len(command_output) - 5000} more characters, truncated command output"
+                    command_output[:10000]
+                    + f"\n... and {len(command_output) - 10000} more characters, truncated command output"
                 )
 
         except subprocess.CalledProcessError as e:
