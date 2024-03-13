@@ -39,8 +39,32 @@ Careful because the API returns output on a single line, so take this into accou
 A few important endpoints:
 /api/v2/objectives
 /api/v2/adversaries
+/api/v2/abilities
 /api/v2/agents
 /api/v2/operations
+
+You are allowed to create new abilities. Below is an example a valid payload on how to do this:
+
+{
+    "requirements": [],
+    "executors": [
+        {
+            "cleanup": [],
+            "timeout": 60,
+            "platform": "windows",
+            "name": "cmd",
+            "payloads": [],
+            "parsers": [],
+            "command": "echo \"hello world\""
+        }
+    ],
+    "name": "Caldera GPT - Ability Name",
+    "description": "ability description",
+    "tactic": "command-and-control",
+    "technique_id": "T1003",
+    "technique_name": "Abuse Elevation Control Mechanism: Bypass User Access Control",
+    "singleton": true
+}
 
 When sending data to the API, always do it by setting the content type to application/json.
 
