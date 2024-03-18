@@ -8,7 +8,6 @@ from utilities import config_utils
 
 def setup_logging():
     """Setup logging with INFO level."""
-
     # Get the logging level based on on the configuration we set
     if config_utils.LOGGING_LEVEL == "DEBUG":
         _logging_level = _logging.DEBUG
@@ -23,15 +22,35 @@ def setup_logging():
     else:
         _logging_level = _logging.INFO
 
-    _logging.basicConfig(
-        level=_logging_level,
-        stream=sys.stdout,
-        # format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        format="%(name)s - %(message)s",
+    # Create a logger
+    logger = _logging.getLogger("cyber-security-llm-agents")
+    logger.setLevel(_logging_level)
+    logger.propagate = (
+        False  # This prevents double logging by not propagating to root logger
     )
 
+    # Create a handler with the desired settings
+    handler = _logging.StreamHandler(sys.stdout)
+    handler.setLevel(_logging_level)
+    formatter = _logging.Formatter(
+        "%(asctime)s - %(name)s - %(message)s", "%Y-%m-%d %H:%M:%S"
+    )
+    handler.setFormatter(formatter)
+
+    # Add the handler to the logger
+    logger.addHandler(handler)
+
+    # Set the logging level for the "httpx" logger to WARNING
     _logging.getLogger("httpx").setLevel(_logging.WARNING)
-    return _logging.getLogger("CALDERA GPT")
+
+    # Make sure we don't duplicate log messages by removing any default handlers
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    # Add the new handler to the logger
+    logger.addHandler(handler)
+
+    return logger
 
 
 def print_banner(title):
