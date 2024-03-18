@@ -32,36 +32,37 @@ cmd_task = Task(
 agents = []
 tasks = []
 
-logging_utils.logger.info("Loading agents and tasks...")
 # Loop through each file in the directory
 for filename in os.listdir("agents"):
     if filename.endswith(".json"):
-        logging_utils.logger.info(f"Loading agent from {filename}")
         file_path = os.path.join("agents", filename)
 
         # Read the JSON file
         with open(file_path, "r") as file:
-            data = json.load(file)
+            agent_data = json.load(file)
 
             # Create an Agent object from the JSON data
             agent = Agent(
-                role=data["role"],
-                goal=data["goal"],
-                backstory=data["backstory"],
+                role=agent_data["role"],
+                goal=agent_data["goal"],
+                backstory=agent_data["backstory"],
                 tools=[pdf_tool],
             )
+
+            logging_utils.logger.info(f"Loaded agent: %s", agent_data["ID"])
 
             # Add the agent to the agents list
             agents.append(agent)
 
             # Create Task objects from the tasks in the JSON data
-            for task_data in data["tasks"]:
+            for task_data in agent_data["tasks"]:
                 task = Task(
                     description=task_data["description"],
                     expected_output=task_data["expected_output"],
                     verbose=True,
                 )
 
+                logging_utils.logger.info(f"Loaded task: %s", task_data["ID"])
                 # Add the task to the tasks list
                 tasks.append(task)
 
