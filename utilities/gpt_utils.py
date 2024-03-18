@@ -9,7 +9,6 @@ from utilities import config_utils, logging_utils
 load_dotenv(verbose=True, override=True)
 OPENAI_INFERENCE_MODEL_NAME = os.getenv("OPENAI_INFERENCE_MODEL_NAME", "")
 
-
 MAX_GPT_RETRIES = 3
 ENCODER = tiktoken.encoding_for_model("gpt-4")
 

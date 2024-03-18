@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_openai import AzureOpenAIEmbeddings, AzureChatOpenAI
+from langchain_openai import AzureOpenAIEmbeddings, AzureChatOpenAI, OpenAI
 from langchain_core.utils import convert_to_secret_str
 from openai import AzureOpenAI
 
@@ -22,15 +22,22 @@ with open(AUTO_API_PROMPT_FILE_PATH, "r", encoding="utf-8") as PROMPT_FILE:
 
 LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO").upper()
 
-AZURE_OPENAI_CLIENT = AzureOpenAI(
+AZURE_OPENAI_EMBEDDINGS = AzureOpenAIEmbeddings(
     azure_endpoint=os.getenv("OPENAI_AZURE_ENDPOINT", ""),
-    api_key=os.getenv("OPENAI_API_KEY", ""),
+    api_key=os.getenv("OPENAI_AZURE_API_KEY", ""),
+    api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
+    azure_deployment=os.getenv("AZURE_EMBEDDINGS_MODEL_NAME", ""),
+)
+
+AZURE_OPENAI_CHAT_CLIENT = AzureChatOpenAI(
+    azure_endpoint=os.getenv("OPENAI_AZURE_ENDPOINT", ""),
+    azure_deployment=os.getenv("OPENAI_INFERENCE_MODEL_NAME", ""),
+    api_key=os.getenv("OPENAI_AZURE_API_KEY", ""),
     api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
 )
 
-AZURE_OPENAI_EMBEDDINGS = AzureOpenAIEmbeddings(
+AZURE_OPENAI_CLIENT = AzureOpenAI(
     azure_endpoint=os.getenv("OPENAI_AZURE_ENDPOINT", ""),
-    api_key=convert_to_secret_str(os.getenv("OPENAI_API_KEY", "")),
+    api_key=os.getenv("OPENAI_AZURE_API_KEY", ""),
     api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
-    azure_deployment=os.getenv("AZURE_EMBEDDINGS_MODEL_NAME", ""),
 )

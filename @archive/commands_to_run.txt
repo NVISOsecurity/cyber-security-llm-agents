@@ -1,4 +1,0 @@
-Place a file on the current user desktop called "ransom.txt" with content "hello"
-Execute PowerShell scripts to download additional payloads or move laterally within the network.
-Disable antivirus.
-Dump credentials.
