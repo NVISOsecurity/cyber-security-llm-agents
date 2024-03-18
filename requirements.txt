@@ -2,3 +2,4 @@ openai
 langchain-openai
 crewai
 crewai[tools]
+tiktoken
