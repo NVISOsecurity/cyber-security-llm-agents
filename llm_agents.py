@@ -1,4 +1,4 @@
-from tools.subprocess_tool import SubprocessTool
+from tools.subprocess_tools import SubprocessTool
 from crewai import Agent, Task
 from utilities import crew_utils, logging_utils
 from crewai import Crew
@@ -46,7 +46,7 @@ for filename in os.listdir("agents"):
                     expected_output=task_data["expected_output"],
                     tools=task_tools,
                     agent=agent,
-                    verbose=True,
+                    verbose=False,
                 )
 
                 logging_utils.logger.info(f"Loaded task: %s", task_data["ID"])
@@ -56,10 +56,10 @@ for filename in os.listdir("agents"):
 
 # Instantiate your crew with a sequential process
 crew = Crew(
-    agents=[crew_utils.get_agent(agents, "ti_analyst_agent")],
-    tasks=[crew_utils.get_task(tasks, "ti_report_to_TTPs_task")],
+    agents=[crew_utils.get_agent(agents, "cmd_line_analyst_agent")],
+    tasks=[crew_utils.get_task(tasks, "system_health_check_task")],
     share_crew=False,
-    verbose=2,
+    verbose=0,
 )
 
 # Get your crew to work!
