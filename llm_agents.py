@@ -56,8 +56,8 @@ for filename in os.listdir("agents"):
 
 # Instantiate your crew with a sequential process
 crew = Crew(
-    agents=[crew_utils.get_agent(agents, "cmd_line_analyst_agent")],
-    tasks=[crew_utils.get_task(tasks, "system_health_check_task")],
+    agents=[crew_utils.get_agent(agents, "test_agent")],
+    tasks=[crew_utils.get_task(tasks, "file_write_test_task")],
     share_crew=False,
     verbose=0,
 )
