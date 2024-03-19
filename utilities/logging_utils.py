@@ -5,6 +5,8 @@ import sys
 
 from utilities import config_utils
 
+from crewai.telemetry import Telemetry
+
 
 def setup_logging():
     """Setup logging with INFO level."""
@@ -65,6 +67,18 @@ def print_section(title):
     logger.info("")
     logger.info(title)
     logger.info("-" * len(title))
+
+
+def noop(*args, **kwargs):
+    # with open("./logfile.txt", "a") as f:
+    #     f.write("Telemetry method called and noop'd\n")
+    pass
+
+
+# Disable telemetry calls in crewai
+for attr in dir(Telemetry):
+    if callable(getattr(Telemetry, attr)) and not attr.startswith("__"):
+        setattr(Telemetry, attr, noop)
 
 
 logger = setup_logging()

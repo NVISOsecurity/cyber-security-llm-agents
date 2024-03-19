@@ -17,6 +17,9 @@
     "editor.defaultFormatter": "ms-python.black-formatter"
   
   },
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportUnusedImport": "warning"
+  },
   "python.analysis.autoImportCompletions": true,
   "explorer.compactFolders": false,
   "search.useIgnoreFiles": false

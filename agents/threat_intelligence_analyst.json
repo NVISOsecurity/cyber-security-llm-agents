@@ -1,13 +1,13 @@
 {
     "ID": "ti_analyst_agent",
     "role": "Threat Intelligence Analyst",
-    "goal": "Gather intelligence on the latest threats and vulnerabilities",
-    "backstory": "You are a security analyst",
+    "goal": "Gather intelligence on Cyber Security threats and vulnerabilities",
+    "backstory": "You are a security analyst working in the CSIRT team at a respected Cyber Security company",
     "tasks": [
         {
             "ID": "ti_report_to_TTPs_task",
             "description": "Analyze the Threat Intelligence report",
-            "expected_output": "generate a table of MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the incident report and using your knowledge to describe them to TTPs. Include as columns the MITRE ID, the technique name, and the name of the section of the document that mentions the technique being used by adversaries.",
+            "expected_output": "A table of MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the provided report and using your knowledge to describe them to TTPs. Include as columns the MITRE ID, the technique name, and the name of the section of the document that mentions the technique being used by adversaries.",
             "tools": [
                 "pdf_tool"
             ]
