@@ -4,7 +4,7 @@ from langchain.tools import tool
 class FileTools:
 
     @tool("Write File with content")
-    def write_file(data: str):
+    def write_file(self, data):
         """Useful to write a file to a given path with a given content.
         The input to this tool should be a pipe (|) separated text
         of length two, representing the name of the file excluding the direcory,
