@@ -58,7 +58,7 @@ for filename in os.listdir("agents"):
 # Instantiate your crew with a sequential process
 crew = Crew(
     agents=[crew_utils.get_agent(agents, "ti_analyst_agent")],
-    tasks=[crew_utils.get_task(tasks, "ti_report_to_IOCs_task")],
+    tasks=[crew_utils.get_task(tasks, "ti_list_TI_reports_task")],
     share_crew=False,
     full_output=True,
     verbose=2,

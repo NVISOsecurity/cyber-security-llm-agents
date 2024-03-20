@@ -162,4 +162,4 @@ cython_debug/
 # Repository specific folders & files
 debug/
 db/
-
+llm_working_folder/

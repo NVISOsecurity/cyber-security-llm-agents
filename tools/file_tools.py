@@ -1,4 +1,5 @@
 from langchain.tools import tool
+from utilities import config_utils
 
 
 class FileTools:
@@ -10,7 +11,7 @@ class FileTools:
         and file_content as second argument.
         """
         try:
-            path = f"./llm_working_folder/{file_name}"
+            path = f"./{config_utils.LLM_WORKING_FOLDER}/{file_name}"
             with open(path, "w") as f:
                 f.write(data)
             return f"File written to {path}."

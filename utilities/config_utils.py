@@ -12,6 +12,9 @@ PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO").upper()
 MAX_TASK_RESPONSE_SIZE = int(os.getenv("MAX_TASK_RESPONSE_SIZE", 1000))
 
+LLM_WORKING_FOLDER = "llm_working_folder"
+LLM_KNOWLEDGE_FOLDER = "knowledge_base"
+
 AZURE_OPENAI_EMBEDDINGS = AzureOpenAIEmbeddings(
     azure_endpoint=os.getenv("OPENAI_AZURE_ENDPOINT", ""),
     api_key=os.getenv("OPENAI_AZURE_API_KEY", ""),
