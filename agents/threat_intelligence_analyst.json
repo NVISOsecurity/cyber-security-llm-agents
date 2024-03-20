@@ -21,6 +21,14 @@
             ]
         },
         {
+            "ID": "summarize_TI_reports_task",
+            "description": "Analyze and summarize the Threat Intelligence report",
+            "expected_output": "A human-readable summary of the report, including the title, author, and a summary of the content.",
+            "tools": [
+                "pdf_tool"
+            ]
+        },
+        {
             "ID": "ti_report_to_IOCs_task",
             "description": "Analyze the Threat Intelligence report",
             "expected_output": "A JSON file of technical Indicators of Compromise we can use to detect the adversary, by interpreting the adversarial activities described in the provided report. Include keys for the content of the indicator (for example, the IP or Suricata rule), the type of indicator (Suricata rules, hash, domain name, IP address, ...), and a key with the section of the document that mentions the IOC in the report.",

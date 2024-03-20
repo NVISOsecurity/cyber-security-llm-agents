@@ -8,9 +8,7 @@ from .api_tools import APITools
 from utilities import config_utils
 
 tools_dict = {
-    "pdf_tool": PDFSearchTool(
-        pdf="./knowledge_base/threat-intelligence/NVISO_SparkCockpit_SparkTar_n-day_backdoors.pdf"
-    ),
+    "pdf_tool": PDFSearchTool(),
     "knowledge_directory_tool": DirectoryReadTool(
         directory="./" + config_utils.LLM_KNOWLEDGE_FOLDER
     ),
