@@ -55,13 +55,13 @@ for filename in os.listdir("agents"):
                 tasks.append({"ID": task_data["ID"], "task": task})
 
 
-crew_agents = "ti_analyst_agent"
+crew_agents = ["ti_analyst_agent"]
 crew_tasks = ["ti_list_TI_reports_task", "summarize_TI_reports_task"]
 
 # Instantiate your crew with a sequential process
 crew = Crew(
-    agents=[crew_utils.get_agent(agent) for agent in crew_agents],
-    tasks=[crew_utils.get_task(task) for task in crew_tasks],
+    agents=[crew_utils.get_agent(agents, agent) for agent in crew_agents],
+    tasks=[crew_utils.get_task(tasks, task) for task in crew_tasks],
     share_crew=False,
     full_output=True,
     verbose=2,
