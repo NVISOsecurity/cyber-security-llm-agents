@@ -1,11 +1,13 @@
 from langchain_core.tools import BaseTool
+from utilities import crew_utils
+
 import subprocess
 
 
 class SubprocessTool(BaseTool):
     name: str = "Subprocess execution tool"
     description: str = (
-        "Execute a command as a subprocess and return the result. Use curl if the command is related to an API request. The argument should be a single string, e.g. 'curl https://api.example.com' or 'ls -l'."
+        "Execute a command as a subprocess and return the result. You can pipe different commands."
     )
 
     def _run(self, argument: str) -> str:
@@ -13,4 +15,4 @@ class SubprocessTool(BaseTool):
             argument, shell=True, stderr=subprocess.STDOUT, text=True
         )
 
-        return command_output
+        return crew_utils.truncate_output(command_output)

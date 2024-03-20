@@ -7,9 +7,25 @@
         {
             "ID": "ti_report_to_TTPs_task",
             "description": "Analyze the Threat Intelligence report",
-            "expected_output": "A table of MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the provided report and using your knowledge to describe them to TTPs. Include as columns the MITRE ID, the technique name, and the name of the section of the document that mentions the technique being used by adversaries.",
+            "expected_output": "A JSON file of MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the provided report and using your knowledge to describe them to TTPs. Include as keys the MITRE ID, the technique name, and the name of the section of the document that mentions the technique being used by adversaries.",
             "tools": [
                 "pdf_tool"
+            ]
+        },
+        {
+            "ID": "ti_report_to_IOCs_task",
+            "description": "Analyze the Threat Intelligence report",
+            "expected_output": "A JSON file of technical Indicators of Compromise we can use to detect the adversary, by interpreting the adversarial activities described in the provided report. Include keys for the content of the indicator (for example, the IP or Suricata rule), the type of indicator (Suricata rules, hash, domain name, IP address, ...), and a key with the section of the document that mentions the IOC in the report.",
+            "tools": [
+                "pdf_tool"
+            ]
+        },
+        {
+            "ID": "write_TTPs_to_report_task",
+            "description": "Write a report on the TTPs used by adversaries",
+            "expected_output": "A report that includes a table of MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the provided report and using your knowledge to describe them to TTPs. Include as keys the MITRE ID, the technique name, and the name of the section of the document that mentions the technique being used by adversaries.",
+            "tools": [
+                "write_file_tool"
             ]
         }
     ]

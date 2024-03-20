@@ -1,5 +1,6 @@
 openai
 langchain-openai
+langchain-experimental
 crewai
 crewai[tools]
 tiktoken

@@ -10,6 +10,7 @@ load_dotenv(verbose=True, override=True)
 PROJECT_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "INFO").upper()
+MAX_TASK_RESPONSE_SIZE = int(os.getenv("MAX_TASK_RESPONSE_SIZE", 1000))
 
 AZURE_OPENAI_EMBEDDINGS = AzureOpenAIEmbeddings(
     azure_endpoint=os.getenv("OPENAI_AZURE_ENDPOINT", ""),

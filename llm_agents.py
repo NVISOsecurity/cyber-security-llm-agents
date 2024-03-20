@@ -30,6 +30,7 @@ for filename in os.listdir("agents"):
                 role=agent_data["role"],
                 goal=agent_data["goal"],
                 backstory=agent_data["backstory"],
+                verbose=True,
             )
 
             logging_utils.logger.info(f"Loaded agent: %s", agent_data["ID"])
@@ -46,7 +47,7 @@ for filename in os.listdir("agents"):
                     expected_output=task_data["expected_output"],
                     tools=task_tools,
                     agent=agent,
-                    verbose=False,
+                    verbose=True,
                 )
 
                 logging_utils.logger.info(f"Loaded task: %s", task_data["ID"])
@@ -56,10 +57,11 @@ for filename in os.listdir("agents"):
 
 # Instantiate your crew with a sequential process
 crew = Crew(
-    agents=[crew_utils.get_agent(agents, "test_agent")],
-    tasks=[crew_utils.get_task(tasks, "file_write_test_task")],
+    agents=[crew_utils.get_agent(agents, "ti_analyst_agent")],
+    tasks=[crew_utils.get_task(tasks, "ti_report_to_IOCs_task")],
     share_crew=False,
-    verbose=0,
+    full_output=True,
+    verbose=2,
 )
 
 # Get your crew to work!

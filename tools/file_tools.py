@@ -4,18 +4,15 @@ from langchain.tools import tool
 class FileTools:
 
     @tool("Write File with content")
-    def write_file(self, data):
+    def write_file(file_name, data):
         """Useful to write a file to a given path with a given content.
-        The input to this tool should be a pipe (|) separated text
-        of length two, representing the name of the file excluding the direcory,
-        and the content you want to write to it.
-        For example, `report.txt|FILE_PLACEHOLDER`.
-        Replace FILE_PLACEHOLDER with the actual data you want to write to the file."""
+        The input to this tool should the file_name (no directory) as first argument,
+        and file_content as second argument.
+        """
         try:
-            path, content = data.split("|")
-            path = f"./llm_working_folder/{path}"
+            path = f"./llm_working_folder/{file_name}"
             with open(path, "w") as f:
-                f.write(content)
+                f.write(data)
             return f"File written to {path}."
         except Exception:
             return "Error with the input format for the tool."
