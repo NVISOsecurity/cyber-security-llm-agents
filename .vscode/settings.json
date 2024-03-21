@@ -17,6 +17,9 @@
     "editor.defaultFormatter": "ms-python.black-formatter"
   
   },
+  "[json]": {
+    "editor.wordWrap": "on"
+  },
   "python.analysis.diagnosticSeverityOverrides": {
     "reportUnusedImport": "warning"
   },

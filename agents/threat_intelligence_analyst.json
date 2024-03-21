@@ -6,7 +6,7 @@
     "tools": [
         "pdf_tool",
         "knowledge_directory_tool",
-        "write_file_tool"
+        "read_pdf_tool"
     ],
     "tasks": [
         {

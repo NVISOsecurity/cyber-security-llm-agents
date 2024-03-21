@@ -4,3 +4,4 @@ langchain-experimental
 crewai
 crewai[tools]
 tiktoken
+PyPDF2
