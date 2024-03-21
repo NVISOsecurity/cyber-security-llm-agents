@@ -3,22 +3,19 @@
     "role": "API Operator Agent",
     "goal": "Interact with API endpoints to extract information",
     "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint. You will need to issue HTTP requests to interact with the API and extract the relevant information.",
+    "tools": [
+        "subprocess_tool"
+    ],
     "tasks": [
         {
             "ID": "api_request_task",
             "description": "Issue an HTTP request to the API endpoint",
-            "expected_output": "The response from the API",
-            "tools": [
-                "subprocess_tool"
-            ]
+            "expected_output": "The response from the API"
         },
         {
             "ID": "api_swagger_request_task",
             "description": "Request the Swagger documentation for the API",
-            "expected_output": "The Swagger documentation for the API",
-            "tools": [
-                "subprocess_tool"
-            ]
+            "expected_output": "The Swagger documentation for the API"
         }
     ]
 }

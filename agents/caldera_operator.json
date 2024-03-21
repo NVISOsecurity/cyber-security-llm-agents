@@ -3,14 +3,14 @@
     "role": "Caldera Operator Agent",
     "goal": "Interact with the Caldera API to extract information and perform actions",
     "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint. You will need to issue HTTP requests to interact with the API and extract the relevant information.",
+    "tools": [
+        "subprocess_tool"
+    ],
     "tasks": [
         {
             "ID": "caldera_api_request_task",
             "description": "Issue an HTTP request to the Caldera API endpoint located at http://ubuntu-vm:8888/api/docs#/",
-            "expected_output": "The response from the API",
-            "tools": [
-                "subprocess_tool"
-            ]
+            "expected_output": "The response from the API"
         }
     ]
 }
