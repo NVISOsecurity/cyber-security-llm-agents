@@ -1,15 +1,16 @@
 from PyPDF2 import PdfReader
 from langchain.tools import tool
 from utilities import config_utils
+import re
 
 
 class FileTools:
 
-    @tool("Write File with content")
+    @tool("Write string to a file")
     def write_file(file_name, data):
         """Useful to write a file to a given path with a given content.
-        The input to this tool should the file_name (no directory) as first argument,
-        and file_content as second argument.
+        The input to this tool should the file_name (no directory) as first argument as a string,
+        and file_content as a string as second argument.
         """
         try:
             path = f"./{config_utils.LLM_WORKING_FOLDER}/{file_name}"
@@ -20,12 +21,12 @@ class FileTools:
             return "Error with the input format for the tool."
 
     @tool("Read the content of a PDF document")
-    def read_pdf_content(file_name):
+    def read_pdf_content(file_path):
         """
         Fetches and preprocesses content from a PDF given its file name in the local folder.
         Returns the text of the PDF.
         """
-        path = f"./{config_utils.LLM_WORKING_FOLDER}/{file_name}"
+        path = f"./{file_path}"
         try:
             with open(path, "rb") as f:
                 pdf = PdfReader(f)

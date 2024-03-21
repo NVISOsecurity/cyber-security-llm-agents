@@ -1,4 +1,4 @@
-from crewai_tools import PDFSearchTool, DirectoryReadTool, FileReadTool
+from crewai_tools import PDFSearchTool, DirectoryReadTool
 from langchain_community.tools import ShellTool
 
 from .subprocess_tools import SubprocessTool

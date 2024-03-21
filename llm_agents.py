@@ -5,16 +5,24 @@ from crewai import Crew
 from tools.tools import tools_dict
 import os
 import json
-
+import sys
 
 subprocess_tool = SubprocessTool()
 
-# Load all the agents and tasks
+# Check if the command line arguments are provided
+if len(sys.argv) != 3:
+    print("Usage: llm_agents.py <agent_id> <workflow_id>")
+    sys.exit(1)
+
+agent_id = sys.argv[1]
+workflow_id = sys.argv[2]
+workflow_tasks = None
 
 # Initialize empty lists to store agents and tasks
 tools = []
 agents = []
 tasks = []
+
 
 # Loop through each file in the directory
 for filename in os.listdir("agents"):
@@ -33,6 +41,7 @@ for filename in os.listdir("agents"):
                 goal=agent_data["goal"],
                 backstory=agent_data["backstory"],
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
+                memory=True,
             )
 
             if "tools" in agent_data:
@@ -63,20 +72,25 @@ for filename in os.listdir("agents"):
                 # Add the task to the tasks list
                 tasks.append({"ID": task_data["ID"], "task": task})
 
+            # Check if the agent ID matches the one provided
+            if agent_data["ID"] == agent_id:
+                crew_agent = agent
+                for workflow in agent_data.get("workflows", []):
+                    if workflow["ID"] == workflow_id:
+                        workflow_tasks = workflow["tasks"]
+                        break
 
-crew_agents = ["ti_analyst_agent"]
-crew_tasks = ["summarize_TI_reports_task"]
+if workflow_tasks is None:
+    print(f"Workflow '{workflow_id}' not found in {agent_id}")
+    sys.exit(1)
 
-#     "ti_report_to_TTPs_task",
-
-# Instantiate your crew with a sequential process
 crew = Crew(
-    agents=[crew_utils.get_agent(agents, agent) for agent in crew_agents],
-    tasks=[crew_utils.get_task(tasks, task) for task in crew_tasks],
+    agents=[crew_agent],
+    tasks=[crew_utils.get_task(tasks, task_id) for task_id in workflow_tasks],
     share_crew=False,
-    c=True,
     verbose=0,
 )
+
 
 # Get your crew to work!
 result = crew.kickoff()
