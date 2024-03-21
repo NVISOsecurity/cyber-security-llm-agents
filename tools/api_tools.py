@@ -9,9 +9,11 @@ class APITools:
 
     @tool("Send request to API")
     def api_request(curl_command):
-        """Useful to send a request to an API using curl.
+        """Useful to send a request to an API using curl. API expects a single command to run on the command line.
         Important is to run curl with -sS arguments.
-        The input to this tool should be a single curl command we can run on the command line.
+        The input to this tool should be a curl command we can run on the command line.
+        It is encouraged to include additional filters in the curl command to limit the size of the output, for example by using grep or jq.
+        Example: curl --H <headers> -sS <URL> | jq . | grep <filter>
         """
         try:
             command_output = subprocess.check_output(
