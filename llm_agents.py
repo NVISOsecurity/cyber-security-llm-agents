@@ -44,6 +44,7 @@ for filename in os.listdir("agents"):
                 backstory=agent_data["backstory"],
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
                 memory=True,
+                allow_delegation=False,
             )
 
             if "tools" in agent_data:
@@ -96,9 +97,12 @@ if workflow is None:
     print(f"Workflow '{workflow_id}' not found in {workflow_id}")
     sys.exit(1)
 
+workflow_agents = [agent["agent"] for agent in agents]
+workflow_tasks = [crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]]
+
 crew = Crew(
-    agents=[agent["agent"] for agent in agents],
-    tasks=[crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]],
+    agents=workflow_agents,
+    tasks=workflow_tasks,
     share_crew=False,
     verbose=0,
 )

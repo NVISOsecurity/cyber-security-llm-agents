@@ -1,10 +1,12 @@
 {
     "workflows": [
         {
-            "ID": "request_abilities_workflow",
+            "ID": "ti_report_to_caldera_abilities_workflow",
             "tasks": [
+                "list_threat_intelligence_reports_in_directory_task",
+                "extract_TTPs_from_threat_intelligence_report_task",
                 "caldera_api_discovery_task",
-                "caldera_search_abilities_task"
+                "caldera_search_abilities_by_MITRE_technique_task"
             ]
         },
         {
