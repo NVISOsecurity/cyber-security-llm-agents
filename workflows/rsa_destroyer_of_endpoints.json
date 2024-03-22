@@ -3,6 +3,7 @@
         {
             "ID": "request_abilities_workflow",
             "tasks": [
+                "caldera_api_discovery_task",
                 "caldera_search_abilities_task"
             ]
         },
