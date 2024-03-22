@@ -25,7 +25,7 @@
             "description": "Make an API request",
             "expected_output": "Send a test request to http://ubuntu-vm:8888/api/docs/swagger.json and get the first 10 lines of the response.",
             "tools": [
-                "api_request_tool"
+                "caldera_api_request_tool"
             ]
         },
         {
@@ -33,7 +33,7 @@
             "description": "Make an API request & narrow down the results",
             "expected_output": "Send a test request to http://ubuntu-vm:8888/api/docs/swagger.json and find the API call we can use around managing Relationships in Caldera. Summarize the available API method in a single human-understandable paragraph.",
             "tools": [
-                "api_request_tool",
+                "caldera_api_request_tool",
                 "subprocess_tool"
             ]
         },
@@ -42,7 +42,7 @@
             "description": "List all available methods in an API",
             "expected_output": "A bullet list of all methods available at http://ubuntu-vm:8888/api/docs/swagger.json",
             "tools": [
-                "api_request_tool",
+                "caldera_api_request_tool",
                 "subprocess_tool"
             ]
         }

@@ -18,6 +18,6 @@ tools_dict = {
     "search_pdf_tool": PDFSearchTool(),
     "read_pdf_tool": FileTools.read_pdf_content,
     "write_file_tool": FileTools.write_file,
-    "api_request_tool": APITools.api_request,
+    "caldera_api_request_tool": APITools.caldera_api_request,
     "shell_tool": ShellTool(),
 }
