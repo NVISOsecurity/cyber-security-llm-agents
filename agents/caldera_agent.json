@@ -1,0 +1,33 @@
+{
+    "ID": "caldera_agent",
+    "role": "Caldera Agent",
+    "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform",
+    "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint.",
+    "tasks": [
+        {
+            "ID": "caldera_api_discovery_task",
+            "description": "Extract relevant models and functions and parameters available in the Caldera API",
+            "expected_output": "A description of the functions, parameters and models that appear most appropriate for use for the requested task",
+            "tools": [
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool"
+            ]
+        },
+        {
+            "ID": "caldera_search_abilities_by_MITRE_technique_task",
+            "description": "Extract a filtered list of all abilities relevant for the MITRE techniques relevant in the context.",
+            "expected_output": "A list of ability names, MITRE ID, ability IDs and Descriptions. Do NOT include the full JSON, just those three fields.",
+            "tools": [
+                "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldera_create_operation_task",
+            "description": "Create a new operation",
+            "expected_output": "The ID of the newly created operation",
+            "tools": [
+                "caldera_api_request_tool"
+            ]
+        }
+    ]
+}
