@@ -1,0 +1,25 @@
+{
+    "workflows": [
+        {
+            "ID": "request_abilities_workflow",
+            "tasks": [
+                "caldera_search_abilities_task"
+            ]
+        },
+        {
+            "ID": "analyze_threat_intelligence_reports_workflow",
+            "tasks": [
+                "list_threat_intelligence_reports_in_directory_task",
+                "extract_TTPs_from_threat_intelligence_report_task",
+                "write_results_to_json_file_task"
+            ]
+        },
+        {
+            "ID": "summarize_threat_intelligence_report_workflow",
+            "tasks": [
+                "list_threat_intelligence_reports_in_directory_task",
+                "summarize_report_task"
+            ]
+        }
+    ]
+}

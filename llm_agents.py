@@ -15,6 +15,7 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 workflow_id = sys.argv[1]
+
 workflow_agents = None
 workflow_tasks = None
 
@@ -22,6 +23,7 @@ workflow_tasks = None
 tools = []
 agents = []
 tasks = []
+workflows = []
 
 
 # Loop through each file in the directory
@@ -48,7 +50,7 @@ for filename in os.listdir("agents"):
                 agent_tools = [tools_dict[tool_str] for tool_str in agent_data["tools"]]
                 agent.tools = agent_tools
 
-            logging_utils.logger.info(f"Loaded agent: %s", agent_data["ID"])
+            logging_utils.logger.info(f"\tLoaded agent: %s", agent_data["ID"])
 
             # Add the agent to the agents list
             agents.append({"ID": agent_data["ID"], "agent": agent})
@@ -68,7 +70,7 @@ for filename in os.listdir("agents"):
                     ]
                     task.tools = task_tools
 
-                logging_utils.logger.info(f"Loaded task: %s", task_data["ID"])
+                logging_utils.logger.info(f"\t\tLoaded task: %s", task_data["ID"])
                 # Add the task to the tasks list
                 tasks.append({"ID": task_data["ID"], "task": task})
 
@@ -82,13 +84,21 @@ for filename in os.listdir("workflows"):
         with open(file_path, "r") as file:
             logging_utils.logger.info(f"Loading %s", file_path)
 
-if workflow_tasks is None:
-    print(f"Workflow '{workflow_id}' not found in {agent_id}")
+            for workflow in json.load(file)["workflows"]:
+
+                logging_utils.logger.info(f"\t\tLoaded workflow: %s", workflow["ID"])
+                workflows.append(workflow)
+
+
+workflow = next((wf for wf in workflows if wf["ID"] == workflow_id), None)
+
+if workflow is None:
+    print(f"Workflow '{workflow_id}' not found in {workflow_id}")
     sys.exit(1)
 
 crew = Crew(
-    agents=[crew_utils.get_agent(agents, agent_id) for agent_id in workflow_agents],
-    tasks=[crew_utils.get_task(tasks, task_id) for task_id in workflow_tasks],
+    agents=[agent["agent"] for agent in agents],
+    tasks=[crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]],
     share_crew=False,
     verbose=0,
 )
