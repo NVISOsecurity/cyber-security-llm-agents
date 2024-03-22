@@ -9,18 +9,15 @@ class APITools:
 
     @tool("Send request to the Caldera API")
     def caldera_api_request(curl_command):
-        """Expects a single curl_command as argument that will be executed on the command line.
-        Interacting with the API endpoint at http://ubuntu-vm:8888/api/docs/swagger.json.
-        You will need to issue HTTP requests to interact with the API and extract the relevant information.
-        Add the authorization header -H \"KEY:BLUEADMIN123\" to the curl command when talking to the Caldera API.
+        """Expects a single command line argument that will be executed on the command line.
+        You will need to issue HTTP requests to http://ubuntu-vm:8888/api/ to interact with the Caldera API.
+        Always add the authorization header -H \"KEY:BLUEADMIN123\" to curl commands.
 
         You can use the following endpoints:
-            + /api/v2/abilities.
+            + /api/v2/abilities
 
-        Important is to run curl with -sS arguments.
-        The input to this tool should be a curl command we can run on the command line.
+        Important is to run curl with -sS arguments .
         ALWAYS use the following format, where you only use grep to filter out, and leave jq untouched to pretty print the JSON.
-        ALWAYS unclude a grep filter, because the output can be very large.
         Example: curl --H <headers> -sS <URL> | jq . | grep <filter>
         """
         try:

@@ -10,12 +10,12 @@ import sys
 subprocess_tool = SubprocessTool()
 
 # Check if the command line arguments are provided
-if len(sys.argv) != 3:
-    print("Usage: llm_agents.py <agent_id> <workflow_id>")
+if len(sys.argv) != 2:
+    print("Usage: llm_agents.py <workflow_id>")
     sys.exit(1)
 
-agent_id = sys.argv[1]
-workflow_id = sys.argv[2]
+workflow_id = sys.argv[1]
+workflow_agents = None
 workflow_tasks = None
 
 # Initialize empty lists to store agents and tasks
@@ -72,20 +72,22 @@ for filename in os.listdir("agents"):
                 # Add the task to the tasks list
                 tasks.append({"ID": task_data["ID"], "task": task})
 
-            # Check if the agent ID matches the one provided
-            if agent_data["ID"] == agent_id:
-                crew_agent = agent
-                for workflow in agent_data.get("workflows", []):
-                    if workflow["ID"] == workflow_id:
-                        workflow_tasks = workflow["tasks"]
-                        break
+
+# Now process all workflows
+for filename in os.listdir("workflows"):
+    if filename.endswith(".json"):
+        file_path = os.path.join("workflows", filename)
+
+        # Read the JSON file
+        with open(file_path, "r") as file:
+            logging_utils.logger.info(f"Loading %s", file_path)
 
 if workflow_tasks is None:
     print(f"Workflow '{workflow_id}' not found in {agent_id}")
     sys.exit(1)
 
 crew = Crew(
-    agents=[crew_agent],
+    agents=[crew_utils.get_agent(agents, agent_id) for agent_id in workflow_agents],
     tasks=[crew_utils.get_task(tasks, task_id) for task_id in workflow_tasks],
     share_crew=False,
     verbose=0,
