@@ -5,17 +5,24 @@
     "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint.",
     "tasks": [
         {
-            "ID": "caldera_api_discovery_task",
-            "description": "Extract relevant models and functions and parameters available in the Caldera API",
-            "expected_output": "A description of the functions, parameters and models that appear most appropriate for use for the requested task",
+            "ID": "caldera_api_model_discovery_task",
+            "description": "Extract relevant models available in the Caldera API",
+            "expected_output": "A summarized bullet list of the data models that appear most appropriate for use for the requested task. Include at least the model name, its different fields and their types. Do NOT include the full JSON.",
             "tools": [
-                "caldera_api_available_models_tool",
+                "caldera_api_available_models_tool"
+            ]
+        },
+        {
+            "ID": "caldera_api_function_discovery_task",
+            "description": "Extract relevantfunctions and parameters available in the Caldera API",
+            "expected_output": "A summarized bullet list of the functions and parameters most appropriate for use for the requested task. Include at least the endpoint (example /api/v2/...), its different parameters and their types. Do NOT include the full JSON.",
+            "tools": [
                 "caldera_api_available_functions_tool"
             ]
         },
         {
             "ID": "caldera_search_abilities_by_MITRE_technique_task",
-            "description": "Extract a filtered list of all abilities relevant for the MITRE techniques relevant in the context.",
+            "description": "Extract a filtered list of all abilities relevant for the MITRE techniques IDs that were from the previous steps.",
             "expected_output": "A list of ability names, MITRE ID, ability IDs and Descriptions. Do NOT include the full JSON, just those three fields.",
             "tools": [
                 "caldera_api_request_tool"
@@ -26,6 +33,26 @@
             "description": "Create a new operation",
             "expected_output": "The ID of the newly created operation",
             "tools": [
+                "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldera_launch_calc_on_agent_task",
+            "description": "Look for an existing ability that can be used to launch a calculator on a running agent by interacting with the Caldera API.",
+            "expected_output": "The ability ID that can be used to launch a calculator on a running agent",
+            "tools": [
+                "caldera_api_request_tool",
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool"
+            ]
+        },
+        {
+            "ID": "caldera_get_list_of_running_agents_task",
+            "description": "Get a list of all running agents by interacting with the Caldera API.",
+            "expected_output": "The agent information, including at least the host name and paw ID. Do NOT include the full JSON.",
+            "tools": [
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool",
                 "caldera_api_request_tool"
             ]
         }

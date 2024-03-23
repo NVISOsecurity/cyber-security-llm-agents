@@ -25,7 +25,6 @@ agents = []
 tasks = []
 workflows = []
 
-
 # Loop through each file in the directory
 for filename in os.listdir("agents"):
     if filename.endswith(".json"):
@@ -62,6 +61,7 @@ for filename in os.listdir("agents"):
                     description=task_data["description"],
                     expected_output=task_data["expected_output"],
                     agent=agent,
+                    async_execution=False,
                     verbose=config_utils.CREW_TASK_DEBUGGING,
                 )
 
@@ -74,7 +74,6 @@ for filename in os.listdir("agents"):
                 logging_utils.logger.info(f"\t\tLoaded task: %s", task_data["ID"])
                 # Add the task to the tasks list
                 tasks.append({"ID": task_data["ID"], "task": task})
-
 
 # Now process all workflows
 for filename in os.listdir("workflows"):

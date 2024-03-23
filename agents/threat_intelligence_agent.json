@@ -15,7 +15,7 @@
         {
             "ID": "extract_TTPs_from_threat_intelligence_report_task",
             "description": "Analyze the Threat Intelligence report",
-            "expected_output": "An exhaustive list of all MITRE technique IDs and descriptions, by interpreting the adversarial activities described in the provided report and using your knowledge to describe them to TTPs. Include as keys the MITRE ID, the technique name, and the relevant snippet of text from the document that mentions the technique being used by adversaries. If the snippet contains incorrect use of whitespaces and split words due to formatting, you can fix that, but don't change anything else.",
+            "expected_output": "An exhaustive list of all relevant MITRE technique IDs, MITRE tactics and descriptions. Include the MITRE ID, the technique name, and the relevant snippet of text from the document that mentions the technique being used by adversaries.",
             "tools": [
                 "read_pdf_tool"
             ]

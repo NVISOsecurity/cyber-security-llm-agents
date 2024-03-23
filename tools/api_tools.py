@@ -6,9 +6,11 @@ import json
 
 
 class APITools:
-    @tool("Request the available models for the Caldera API")
+    @tool("Request documentation on the available data models for the Caldera API.")
     def caldera_api_available_models(scope):
-        """Requires a single argument 'scope' being either Ability or Operation."""
+        """Requires a single argument 'scope' being either Agent, Ability or Operation.
+        The data returned is documentation which  should be used to then request the actual data from the API.
+        """
         command_output = subprocess.check_output(
             str(
                 "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/docs/swagger.json | jq .definitions | jq 'to_entries | map(select(.key | startswith(\""
@@ -20,14 +22,21 @@ class APITools:
             text=True,
         )
 
-        # Try to load the output as JSON
-        parsed_json = json.loads(command_output)
-        # If the above succeeds, pretty print the JSON output
-        return json.dumps(parsed_json, indent=4, sort_keys=True)
+        return (
+            command_output
+            + " \n\n THE ABOVE IS DOCUMENTATION ONLY. NOW USE THE API TO REQUEST DATA BASED ON WHAT IS DESCRIBED IN THIS DOCUMENTATION."
+        )
+        ## Try to load the output as JSON
+        # parsed_json = json.loads(command_output)
+        ## If the above succeeds, pretty print the JSON output
+        # return json.dumps(parsed_json, indent=4, sort_keys=True)
 
-    @tool("Request the available functions for the Caldera API")
+    @tool("Request documentation on the available endpoints for the Caldera API.")
     def caldera_api_available_functions(scope):
-        """Requires a single argument 'scope' being either abilities or operations."""
+        """Requires a single argument 'scope' being either agents, abilities or operations.
+        This tool will return the available functions for the specified scope.
+        The data returned is documentation which  should be used to then request the actual data from the API.
+        """
         command_output = subprocess.check_output(
             str(
                 "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/docs/swagger.json | jq .paths | jq 'to_entries | map(select(.key | startswith(\"/api/v2/"
@@ -39,28 +48,28 @@ class APITools:
             text=True,
         )
 
-        # Try to load the output as JSON
-        parsed_json = json.loads(command_output)
-        # If the above succeeds, pretty print the JSON output
-        return json.dumps(parsed_json, indent=4, sort_keys=True)
+        return (
+            command_output
+            + " \n\n THE ABOVE IS DOCUMENTATION ONLY. NOW USE THE API TO REQUEST DATA BASED ON WHAT IS DESCRIBED IN THIS DOCUMENTATION."
+        )
+
+        ## Try to load the output as JSON
+        # parsed_json = json.loads(command_output)
+        ## If the above succeeds, pretty print the JSON output
+        # return json.dumps(parsed_json, indent=4, sort_keys=True)
 
     @tool("Send request to the Caldera API")
     def caldera_api_request(command):
-        """Expects a single command line argument "command" that will be executed on the command line.
-        You will need to issue HTTP requests to http://ubuntu-vm:8888/api/ to interact with the Caldera API.
-        Always add the authorization header -H \"KEY:ADMIN123\" to curl commands.
-
-        You can use the following endpoints:
-            + /api/v2/abilities
-
-        Important is to run curl with -sS arguments.
-        ALWAYS add additional filters to avoid a large API response, and leave the 'jq .' part untouched to pretty print the JSON before applying other filters.
-        Example: curl --H <headers> -sS <URL> | jq . | <additional filters using jq, grep, ...>
+        """Expects a single parameter called "command" that represents a curl command that will be executed on the command line.
+        You should always use "jq ." as filter to correctly format JSON.
+        You are allowed to modify the jq filter to include or exclude certain fields in the results.
+        Example: curl -H \"KEY:ADMIN123\" -sS http://ubuntu-vm:8888/api/abilities | jq . | grep "name"
         """
         try:
             command_output = subprocess.check_output(
                 str(command), shell=True, stderr=subprocess.STDOUT, text=True
             )
+            print(command_output)
 
             # Try to load the output as JSON
             parsed_json = json.loads(command_output)

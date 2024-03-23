@@ -1,6 +1,12 @@
 {
     "workflows": [
         {
+            "ID": "ti_test_workflow",
+            "tasks": [
+                "caldera_get_list_of_running_agents_task"
+            ]
+        },
+        {
             "ID": "ti_report_to_caldera_abilities_workflow",
             "tasks": [
                 "list_threat_intelligence_reports_in_directory_task",
