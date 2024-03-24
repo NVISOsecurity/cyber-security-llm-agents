@@ -29,54 +29,27 @@
             ]
         },
         {
-            "ID": "caldera_create_operation_task",
-            "description": "Create a new operation",
-            "expected_output": "The ID of the newly created operation",
-            "tools": [
-                "caldera_api_request_tool"
-            ]
-        },
-        {
-            "ID": "caldera_launch_calc_on_agent_task",
-            "description": "Look for an existing ability that can be used to launch a calculator on a running agent by interacting with the Caldera API.",
-            "expected_output": "The ability ID that can be used to launch a calculator on a running agent",
-            "tools": [
-                "caldera_api_request_tool",
-                "caldera_api_available_models_tool",
-                "caldera_api_available_functions_tool"
-            ]
-        },
-        {
             "ID": "caldera_get_list_of_running_agents_task",
             "description": "Get a list of all running agents by interacting with the Caldera API.",
-            "expected_output": "The agent information, including at least the host name and paw ID. Do NOT include the full JSON.",
+            "expected_output": "The list of paw IDs of the running agents.",
             "tools": [
-                "caldera_api_available_models_tool",
-                "caldera_api_available_functions_tool",
-                "caldera_api_request_tool"
+                "caldera_api_get_agents_tool"
             ]
-        },
-        {
-            "ID": "caldera_run_ability_task",
-            "description": "Run the ability with ID fe3c59d1-f1a8-40c5-a62f-c20de72cb813 on a running agent",
-            "expected_output": "The output of the ability run after executing it.",
-            "tools": [
-                "caldera_api_available_models_tool",
-                "caldera_api_available_functions_tool",
-                "caldera_api_request_tool"
-            ]
-        },
-        {
-            "ID": "caldera_manually_set_information_task",
-            "description": "use the following information in next steps: agent paw is uviusb",
-            "expected_output": "an overview of all the information that was set manually"
         },
         {
             "ID": "caldara_change_ability_command_task",
-            "description": "Change the powershel command to get the list of autorun services of the system. Don't invent new commands, only use built-in commands available in Windows.",
+            "description": "Run powershell to lock the screen. Don't invent new commands, only use built-in commands available in Windows.",
             "expected_output": "The detailed output of the command you ran, and a conclusion if the command was successfully ran or not.",
             "tools": [
                 "caldera_update_ability_api_request"
+            ]
+        },
+        {
+            "ID": "log_results_task",
+            "description": "Log the results of the executed steps to the local log file. Do this ONLY based on the results of the previous tasks. Do NOT invent data.",
+            "expected_output": "The results of the previous tasks logged to the local log file",
+            "tools": [
+                "write_progress_tool"
             ]
         }
     ]

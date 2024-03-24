@@ -1,5 +1,6 @@
+from langchain_openai import ChatOpenAI
 from tools.subprocess_tools import SubprocessTool
-from crewai import Agent, Task
+from crewai import Agent, Task, Process
 from utilities import crew_utils, logging_utils, config_utils
 from crewai import Crew
 from tools.tools import tools_dict
@@ -24,6 +25,11 @@ tools = []
 agents = []
 tasks = []
 workflows = []
+
+# Clear the progress file
+with open(f"./{config_utils.LLM_WORKING_FOLDER}/progress.txt", "w") as f:
+    f.write("")
+    f.close()
 
 # Loop through each file in the directory
 for filename in os.listdir("agents"):
@@ -103,7 +109,9 @@ crew = Crew(
     agents=workflow_agents,
     tasks=workflow_tasks,
     share_crew=False,
+    # process=Process.hierarchical,
     verbose=0,
+    # manager_llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0125"),
 )
 
 

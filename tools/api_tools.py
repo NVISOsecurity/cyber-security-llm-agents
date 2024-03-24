@@ -8,6 +8,22 @@ import base64
 
 
 class APITools:
+    @tool("Get the list of available agents by querying the Caldera API")
+    def caldera_api_get_agents():
+        """Does not take any arguments.
+        Returns the list of available agents by querying the Caldera API.
+        """
+        command_output = subprocess.check_output(
+            str(
+                "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/agents | jq '.[0].paw'"
+            ),
+            shell=True,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+        return "paw IDs of the running agents: " + command_output
+
     @tool("Request documentation on the available data models for the Caldera API.")
     def caldera_api_available_models(scope):
         """Requires a single argument 'scope' being either Agent, Adversary, Ability or Operation.
@@ -95,7 +111,7 @@ class APITools:
         Expects two parameters: "paw" being the Caldera paw ID of the agent, "command" being the Windows command to execute.
         """
         command_template = """
-            curl -s 'http://ubuntu-vm:8888/api/v2/operations/4daa339f-b50e-494d-bc8d-57829929764c/potential-links' \
+            curl -s 'http://ubuntu-vm:8888/api/v2/operations/40c3bed9-efe1-4b77-b64c-5b1bdd2d9e6a/potential-links' \
             -H 'KEY: ADMIN123' \
             -H 'Content-Type: application/json' \
             --data-raw '{}'
@@ -128,7 +144,6 @@ class APITools:
         final_command = command_template.format(json_data)
 
         try:
-
             command_output = subprocess.check_output(
                 str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
             )
@@ -142,7 +157,7 @@ class APITools:
 
             # Now we can request the results of the operation
             final_command = f"""
-                curl -s 'http://ubuntu-vm:8888/api/v2/operations/4daa339f-b50e-494d-bc8d-57829929764c/links/{link_id}/result' \
+                curl -s 'http://ubuntu-vm:8888/api/v2/operations/40c3bed9-efe1-4b77-b64c-5b1bdd2d9e6a/links/{link_id}/result' \
                 -H 'KEY: ADMIN123'
                 """
 
