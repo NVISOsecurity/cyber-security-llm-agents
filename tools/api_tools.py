@@ -1,8 +1,10 @@
 from langchain.tools import tool
 from utilities import logging_utils, crew_utils
+from time import sleep
 
 import subprocess
 import json
+import base64
 
 
 class APITools:
@@ -88,12 +90,12 @@ class APITools:
         return crew_utils.truncate_output(return_value)
 
     @tool("Change the command of the ability using the Caldera API")
-    def caldera_update_ability_api_request(command):
+    def caldera_update_ability_api_request(paw, command):
         """
-        Expects one parameter: the Windows command to execute.
+        Expects two parameters: "paw" being the Caldera paw ID of the agent, "command" being the Windows command to execute.
         """
         command_template = """
-            curl 'http://ubuntu-vm:8888/api/v2/operations/4daa339f-b50e-494d-bc8d-57829929764c/potential-links' \
+            curl -s 'http://ubuntu-vm:8888/api/v2/operations/4daa339f-b50e-494d-bc8d-57829929764c/potential-links' \
             -H 'KEY: ADMIN123' \
             -H 'Content-Type: application/json' \
             --data-raw '{}'
@@ -101,9 +103,9 @@ class APITools:
 
         # The arguments to be included in the command
         command_arguments = {
-            "paw": "nrdjwi",
+            "paw": paw,
             "executor": {
-                "name": "cmd",
+                "name": "psh",
                 "platform": "windows",
                 "command": command,
                 "code": None,
@@ -116,40 +118,6 @@ class APITools:
                 "cleanup": [],
                 "variations": [],
                 "additional_info": {},
-            },
-            "ability": {
-                "ability_id": "7dd2e5f6-c519-472c-a355-d1710bb751b7",
-                "tactic": "execution",
-                "technique_name": "Windows Command Shell",
-                "technique_id": "T1059.003",
-                "name": "Caldera GPT - Ability",
-                "description": "",
-                "executors": [
-                    {
-                        "name": "cmd",
-                        "platform": "windows",
-                        "command": command,
-                        "code": None,
-                        "language": None,
-                        "build_target": None,
-                        "payloads": [],
-                        "uploads": [],
-                        "timeout": 60,
-                        "parsers": [],
-                        "cleanup": [],
-                        "variations": [],
-                        "additional_info": {},
-                    }
-                ],
-                "requirements": [],
-                "privilege": "",
-                "repeatable": True,
-                "buckets": ["execution"],
-                "additional_info": {},
-                "access": {},
-                "singleton": False,
-                "plugin": "",
-                "delete_payload": False,
             },
         }
 
@@ -164,12 +132,30 @@ class APITools:
             command_output = subprocess.check_output(
                 str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
             )
-            print(command_output)
 
             # Try to load the output as JSON
             parsed_json = json.loads(command_output)
+
+            # Now we need to request the results of the operation
+            # Do this by extracting the link ID from the response
+            link_id = parsed_json["id"]
+
+            # Now we can request the results of the operation
+            final_command = f"""
+                curl -s 'http://ubuntu-vm:8888/api/v2/operations/4daa339f-b50e-494d-bc8d-57829929764c/links/{link_id}/result' \
+                -H 'KEY: ADMIN123'
+                """
+
+            # Parse output
+            sleep(2)
+            command_output = subprocess.check_output(
+                str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
+            )
+            # print(json.loads(command_output))
             # If the above succeeds, pretty print the JSON output
-            return_value = json.dumps(parsed_json, indent=4, sort_keys=True)
+            return_value = "Command result: " + base64.b64decode(
+                json.loads(command_output)["result"]
+            ).decode("utf-8")
 
         except json.JSONDecodeError:
             # If the output is not valid JSON, return the original output

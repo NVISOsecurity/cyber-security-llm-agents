@@ -67,29 +67,14 @@
             ]
         },
         {
-            "ID": "caldera_get_operation_information_task",
-            "description": "Get information about the operation called 'Caldera GPT",
-            "expected_output": "The information about the operation, including its ID.",
-            "tools": [
-                "caldera_api_available_models_tool",
-                "caldera_api_available_functions_tool",
-                "caldera_api_request_tool"
-            ]
-        },
-        {
-            "ID": "caldera_add_adversary_to_operation_task",
-            "description": "Create a new operation called 'Caldera GPT' and add the adversary with name 'Caldera GPT Adversary' to it",
-            "expected_output": "The output after successfully performing the operation.",
-            "tools": [
-                "caldera_api_available_models_tool",
-                "caldera_api_available_functions_tool",
-                "caldera_api_request_tool"
-            ]
+            "ID": "caldera_manually_set_information_task",
+            "description": "use the following information in next steps: agent paw is uviusb",
+            "expected_output": "an overview of all the information that was set manually"
         },
         {
             "ID": "caldara_change_ability_command_task",
-            "description": "Change the command of the ability to use chrome to browse to evamouton.be. Don't invent commands, only use ones that exist built-in in Windows.",
-            "expected_output": "The output after successfully changing the command.",
+            "description": "Change the powershel command to get the list of autorun services of the system. Don't invent new commands, only use built-in commands available in Windows.",
+            "expected_output": "The detailed output of the command you ran, and a conclusion if the command was successfully ran or not.",
             "tools": [
                 "caldera_update_ability_api_request"
             ]

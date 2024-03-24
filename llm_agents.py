@@ -42,7 +42,7 @@ for filename in os.listdir("agents"):
                 goal=agent_data["goal"],
                 backstory=agent_data["backstory"],
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
-                memory=True,
+                memory=False,
                 allow_delegation=False,
             )
 

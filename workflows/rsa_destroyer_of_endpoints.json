@@ -3,6 +3,7 @@
         {
             "ID": "ti_test_workflow",
             "tasks": [
+                "caldera_manually_set_information_task",
                 "caldara_change_ability_command_task"
             ]
         },
