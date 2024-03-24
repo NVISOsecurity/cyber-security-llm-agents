@@ -4,6 +4,7 @@ from langchain_community.tools import ShellTool
 from .subprocess_tools import SubprocessTool
 from .file_tools import FileTools
 from .api_tools import APITools
+from .coordinator_tools import CoordinatorTools
 
 from utilities import config_utils
 
@@ -23,4 +24,6 @@ tools_dict = {
     "caldera_update_ability_api_request": APITools.caldera_update_ability_api_request,
     "caldera_api_request_tool": APITools.caldera_api_request,
     "shell_tool": ShellTool(),
+    "read_progress_tool": CoordinatorTools.retrieve_progress_file,
+    "write_progress_tool": CoordinatorTools.add_task_results_to_progress_file,
 }
