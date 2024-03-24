@@ -20,6 +20,7 @@ tools_dict = {
     "write_file_tool": FileTools.write_file,
     "caldera_api_available_models_tool": APITools.caldera_api_available_models,
     "caldera_api_available_functions_tool": APITools.caldera_api_available_functions,
+    "caldera_update_ability_api_request": APITools.caldera_update_ability_api_request,
     "caldera_api_request_tool": APITools.caldera_api_request,
     "shell_tool": ShellTool(),
 }

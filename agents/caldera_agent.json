@@ -1,7 +1,7 @@
 {
     "ID": "caldera_agent",
     "role": "Caldera Agent",
-    "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform",
+    "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
     "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint.",
     "tasks": [
         {
@@ -54,6 +54,44 @@
                 "caldera_api_available_models_tool",
                 "caldera_api_available_functions_tool",
                 "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldera_run_ability_task",
+            "description": "Run the ability with ID fe3c59d1-f1a8-40c5-a62f-c20de72cb813 on a running agent",
+            "expected_output": "The output of the ability run after executing it.",
+            "tools": [
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool",
+                "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldera_get_operation_information_task",
+            "description": "Get information about the operation called 'Caldera GPT",
+            "expected_output": "The information about the operation, including its ID.",
+            "tools": [
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool",
+                "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldera_add_adversary_to_operation_task",
+            "description": "Create a new operation called 'Caldera GPT' and add the adversary with name 'Caldera GPT Adversary' to it",
+            "expected_output": "The output after successfully performing the operation.",
+            "tools": [
+                "caldera_api_available_models_tool",
+                "caldera_api_available_functions_tool",
+                "caldera_api_request_tool"
+            ]
+        },
+        {
+            "ID": "caldara_change_ability_command_task",
+            "description": "Change the command of the ability to use chrome to browse to evamouton.be. Don't invent commands, only use ones that exist built-in in Windows.",
+            "expected_output": "The output after successfully changing the command.",
+            "tools": [
+                "caldera_update_ability_api_request"
             ]
         }
     ]

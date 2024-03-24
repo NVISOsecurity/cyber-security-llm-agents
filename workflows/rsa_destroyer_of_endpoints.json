@@ -3,7 +3,7 @@
         {
             "ID": "ti_test_workflow",
             "tasks": [
-                "caldera_get_list_of_running_agents_task"
+                "caldara_change_ability_command_task"
             ]
         },
         {
