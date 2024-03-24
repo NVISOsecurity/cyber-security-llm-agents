@@ -38,7 +38,7 @@
         },
         {
             "ID": "caldara_change_ability_command_task",
-            "description": "Run powershell to lock the screen. Don't invent new commands, only use built-in commands available in Windows.",
+            "description": "Run powershell to download a random image from the internet to the desktop of the current user, and set the desktop background of the current user to the downloaded iamge. Don't invent new commands, only use built-in commands available in Windows.",
             "expected_output": "The detailed output of the command you ran, and a conclusion if the command was successfully ran or not.",
             "tools": [
                 "caldera_update_ability_api_request"
