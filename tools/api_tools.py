@@ -1,10 +1,11 @@
 from langchain.tools import tool
-from utilities import logging_utils, crew_utils
+from utilities import crew_utils
 from time import sleep
 
 import subprocess
 import json
 import base64
+import shlex
 
 
 class APITools:
@@ -24,7 +25,23 @@ class APITools:
 
         return "paw IDs of the running agents: " + command_output
 
-    @tool("Request documentation on the available data models for the Caldera API.")
+    @tool("Get information on the operation by querying the Caldera API")
+    def caldera_api_get_operation_info():
+        """Requires no arguments.
+        Returns information on the active operation by querying the Caldera API.
+        """
+        command_output = subprocess.check_output(
+            str(
+                "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/operations | jq '.[0].id'"
+            ),
+            shell=True,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+        return "Operation ID: " + command_output
+
+    @tool("Request documentation on the available data models for the Caldera API")
     def caldera_api_available_models(scope):
         """Requires a single argument 'scope' being either Agent, Adversary, Ability or Operation.
         The data returned is documentation which  should be used to then request the actual data from the API.
@@ -49,7 +66,7 @@ class APITools:
         ## If the above succeeds, pretty print the JSON output
         # return json.dumps(parsed_json, indent=4, sort_keys=True)
 
-    @tool("Request documentation on the available endpoints for the Caldera API.")
+    @tool("Request documentation on the available endpoints for the Caldera API")
     def caldera_api_available_functions(scope):
         """Requires a single argument 'scope' being either agents, adversaries, abilities or operations.
         This tool will return the available functions for the specified scope.
@@ -71,113 +88,90 @@ class APITools:
             + " \n\n THE ABOVE IS DOCUMENTATION ONLY. NOW USE THE API TO REQUEST DATA BASED ON WHAT IS DESCRIBED IN THIS DOCUMENTATION."
         )
 
-        ## Try to load the output as JSON
-        # parsed_json = json.loads(command_output)
-        ## If the above succeeds, pretty print the JSON output
-        # return json.dumps(parsed_json, indent=4, sort_keys=True)
-
-    @tool("Send request to the Caldera API")
-    def caldera_api_request(command):
-        """Expects a single parameter called "command" that represents a curl command that will be executed on the command line.
-        You should always use "jq ." as filter to correctly format JSON.
-        You are allowed to modify the jq filter to include or exclude certain fields in the results.
-        You should reach the Caldera API at http://ubuntu-vm:8888/api/ and use the KEY:ADMIN123 header.
-        Example: curl -H \"KEY:ADMIN123\" -sS http://ubuntu-vm:8888/api/abilities | jq . | grep "name"
+    @tool("Run a command on the specified agent and operation using the Caldera API")
+    def caldera_execute_command_on_agent(agent_paw, operation_id, command):
+        """Expects three parameters: "agent_paw" being the Caldera paw ID of the agent, "operation_id" being the ID of the operation, "command" being the Windows command to execute.
+        Always use the different tools to first fetch the "agent_paw" and "operation_id" values.
         """
-        try:
-            command_output = subprocess.check_output(
-                str(command), shell=True, stderr=subprocess.STDOUT, text=True
-            )
-            print(command_output)
-
-            # Try to load the output as JSON
-            parsed_json = json.loads(command_output)
-            # If the above succeeds, pretty print the JSON output
-            return_value = json.dumps(parsed_json, indent=4, sort_keys=True)
-
-        except json.JSONDecodeError:
-            # If the output is not valid JSON, return the original output
-            return_value = command_output
-        except subprocess.CalledProcessError as e:
-            # Handle potential errors from the subprocess call
-            logging_utils.logger.error(f"An error occurred: {e.output}")
-            return_value = e.output
-
-        return crew_utils.truncate_output(return_value)
-
-    @tool("Change the command of the ability using the Caldera API")
-    def caldera_update_ability_api_request(paw, command):
-        """
-        Expects two parameters: "paw" being the Caldera paw ID of the agent, "command" being the Windows command to execute.
-        """
-        command_template = """
-            curl -s 'http://ubuntu-vm:8888/api/v2/operations/40c3bed9-efe1-4b77-b64c-5b1bdd2d9e6a/potential-links' \
-            -H 'KEY: ADMIN123' \
-            -H 'Content-Type: application/json' \
-            --data-raw '{}'
-            """
-
-        # The arguments to be included in the command
         command_arguments = {
-            "paw": paw,
+            "paw": agent_paw,
             "executor": {
                 "name": "psh",
                 "platform": "windows",
-                "command": command,
-                "code": None,
-                "language": None,
-                "build_target": None,
-                "payloads": [],
-                "uploads": [],
-                "timeout": 60,
-                "parsers": [],
-                "cleanup": [],
-                "variations": [],
-                "additional_info": {},
+                "command": command.replace("’", "").replace("'t", "t"),
             },
         }
 
-        # Convert the arguments to a JSON string
-        json_data = json.dumps(command_arguments)
+        escaped_json_data = shlex.quote(json.dumps(command_arguments))
 
-        # Insert the JSON string into the command
-        final_command = command_template.format(json_data)
+        command_template = f"""
+        curl -s 'http://ubuntu-vm:8888/api/v2/operations/{operation_id}/potential-links' \
+        -H 'KEY: ADMIN123' \
+        -H 'Content-Type: application/json' \
+        --data-raw {escaped_json_data}
+        """
 
         try:
             command_output = subprocess.check_output(
-                str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
+                str(command_template), shell=True, stderr=subprocess.STDOUT, text=True
             )
 
             # Try to load the output as JSON
-            parsed_json = json.loads(command_output)
+            try:
+                parsed_json = json.loads(command_output)
+            except Exception as e:
+                return f"An error occurred while parsing the result of the command as JSON. Output: {command_output}"
 
-            # Now we need to request the results of the operation
-            # Do this by extracting the link ID from the response
+            # Check if the "id" parameter is in the parsed JSON
+            if "id" not in parsed_json:
+                return (
+                    "Command did not execute successfully, you should try again after fixing it: "
+                    + command_output
+                )
+
+            # Extract the link ID from the response
             link_id = parsed_json["id"]
 
-            # Now we can request the results of the operation
-            final_command = f"""
-                curl -s 'http://ubuntu-vm:8888/api/v2/operations/40c3bed9-efe1-4b77-b64c-5b1bdd2d9e6a/links/{link_id}/result' \
-                -H 'KEY: ADMIN123'
-                """
+            # Initialize the status
+            status = -3  # the default value
+            # Loop until the status changes
+            while True:
+                final_command = f"""
+                    curl -s 'http://ubuntu-vm:8888/api/v2/operations/{operation_id}/links/{link_id}/result' \
+                    -H 'KEY: ADMIN123'
+                    """
+                # Sleep for 1 second before checking the status again
+                # Parse output
+                command_output = subprocess.check_output(
+                    str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
+                )
+                result_json = json.loads(command_output)
 
-            # Parse output
-            sleep(2)
-            command_output = subprocess.check_output(
-                str(final_command), shell=True, stderr=subprocess.STDOUT, text=True
-            )
-            # print(json.loads(command_output))
-            # If the above succeeds, pretty print the JSON output
-            return_value = "Command result: " + base64.b64decode(
-                json.loads(command_output)["result"]
-            ).decode("utf-8")
+                if (
+                    "status" in result_json["link"]
+                    and result_json["link"]["status"] != status
+                ):
+                    # If the status has changed, break out of the loop
+                    status = result_json["link"]["status"]
+                    break
+                else:
+                    # If the status has not changed, sleep for 1 second before checking again
+                    sleep(1)
 
-        except json.JSONDecodeError:
+            # Check if the output is valid JSON
+            try:  # Try to decode the output
+                return_value = "Command output: " + base64.b64decode(
+                    json.loads(command_output)["result"]
+                ).decode("utf-8")
+            except json.JSONDecodeError as e:
+                # If the output is not valid JSON, return the original output
+                return_value = command_output
+
+        except json.JSONDecodeError as e:
             # If the output is not valid JSON, return the original output
-            return_value = command_output
+            return_value = e
         except subprocess.CalledProcessError as e:
             # Handle potential errors from the subprocess call
-            logging_utils.logger.error(f"An error occurred: {e.output}")
-            return_value = e.output
+            return_value = str(e)
 
         return crew_utils.truncate_output(return_value)

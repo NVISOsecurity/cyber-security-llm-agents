@@ -3,54 +3,31 @@
     "role": "Caldera Agent",
     "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
     "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint.",
+    "tools": [
+        "caldera_api_get_agents_tool",
+        "caldera_api_get_operation_info_tool",
+        "caldera_execute_command_on_agent_tool"
+    ],
     "tasks": [
-        {
-            "ID": "caldera_api_model_discovery_task",
-            "description": "Extract relevant models available in the Caldera API",
-            "expected_output": "A summarized bullet list of the data models that appear most appropriate for use for the requested task. Include at least the model name, its different fields and their types. Do NOT include the full JSON.",
-            "tools": [
-                "caldera_api_available_models_tool"
-            ]
-        },
-        {
-            "ID": "caldera_api_function_discovery_task",
-            "description": "Extract relevantfunctions and parameters available in the Caldera API",
-            "expected_output": "A summarized bullet list of the functions and parameters most appropriate for use for the requested task. Include at least the endpoint (example /api/v2/...), its different parameters and their types. Do NOT include the full JSON.",
-            "tools": [
-                "caldera_api_available_functions_tool"
-            ]
-        },
         {
             "ID": "caldera_search_abilities_by_MITRE_technique_task",
             "description": "Extract a filtered list of all abilities relevant for the MITRE techniques IDs that were from the previous steps.",
-            "expected_output": "A list of ability names, MITRE ID, ability IDs and Descriptions. Do NOT include the full JSON, just those three fields.",
-            "tools": [
-                "caldera_api_request_tool"
-            ]
+            "expected_output": "A list of ability names, MITRE ID, ability IDs and Descriptions. Do NOT include the full JSON, just those three fields."
         },
         {
-            "ID": "caldera_get_list_of_running_agents_task",
-            "description": "Get a list of all running agents by interacting with the Caldera API.",
-            "expected_output": "The list of paw IDs of the running agents.",
-            "tools": [
-                "caldera_api_get_agents_tool"
-            ]
+            "ID": "caldera_check_running_edr_task",
+            "description": "Run powershell to to get a unique list of all the running processes and services, including their names and paths. Based on this, verify which (if any) EDR agent is running. Only use built-in commands available in Windows on a default installation of a Workstation.",
+            "expected_output": "A conclusion on which (if any) EDR product is running on the endpoint"
         },
         {
-            "ID": "caldara_change_ability_command_task",
-            "description": "Run powershell to download a random image from the internet to the desktop of the current user, and set the desktop background of the current user to the downloaded iamge. Don't invent new commands, only use built-in commands available in Windows.",
-            "expected_output": "The detailed output of the command you ran, and a conclusion if the command was successfully ran or not.",
-            "tools": [
-                "caldera_update_ability_api_request"
-            ]
+            "ID": "caldera_check_permissions_task",
+            "description": "Run powershell to verify if we are running as admin or not.",
+            "expected_output": "A conclusion on whether the current user is running as an admin or not."
         },
         {
-            "ID": "log_results_task",
-            "description": "Log the results of the executed steps to the local log file. Do this ONLY based on the results of the previous tasks. Do NOT invent data.",
-            "expected_output": "The results of the previous tasks logged to the local log file",
-            "tools": [
-                "write_progress_tool"
-            ]
+            "ID": "caldera_show_sign_of_life_task",
+            "description": "Run a powershell command that causes an effect visible to someone watching the desktop, by showing a dialog message with a stupid dad joke. The powershell command should work in a session without a GUI, since it will be ran in the background. If you want to show a dialog for example, remember to use Add-Type -AssemblyName PresentationFramework.",
+            "expected_output": "The output of the command that was run."
         }
     ]
 }

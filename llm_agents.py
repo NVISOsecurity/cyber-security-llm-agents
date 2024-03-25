@@ -48,7 +48,7 @@ for filename in os.listdir("agents"):
                 goal=agent_data["goal"],
                 backstory=agent_data["backstory"],
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
-                memory=False,
+                memory=True,
                 allow_delegation=False,
             )
 
@@ -99,7 +99,7 @@ for filename in os.listdir("workflows"):
 workflow = next((wf for wf in workflows if wf["ID"] == workflow_id), None)
 
 if workflow is None:
-    print(f"Workflow '{workflow_id}' not found in {workflow_id}")
+    print(f"Workflow '{workflow_id}' not found")
     sys.exit(1)
 
 workflow_agents = [agent["agent"] for agent in agents]
