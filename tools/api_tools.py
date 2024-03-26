@@ -98,17 +98,19 @@ class APITools:
             "executor": {
                 "name": "psh",
                 "platform": "windows",
-                "command": command.replace("’", "").replace("'t", "t"),
+                "command": command,
             },
         }
 
-        escaped_json_data = shlex.quote(json.dumps(command_arguments))
+        # Write the command to a file
+        with open("./llm_working_folder/parameters.json", "w") as f:
+            f.write(json.dumps(command_arguments))
 
         command_template = f"""
         curl -s 'http://ubuntu-vm:8888/api/v2/operations/{operation_id}/potential-links' \
         -H 'KEY: ADMIN123' \
         -H 'Content-Type: application/json' \
-        --data-raw {escaped_json_data}
+        --data-binary @llm_working_folder/parameters.json
         """
 
         try:

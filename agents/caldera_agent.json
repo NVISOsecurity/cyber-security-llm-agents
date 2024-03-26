@@ -31,8 +31,8 @@
         },
         {
             "ID": "caldera_download_payload_task",
-            "description": "Run powershell and download http://192.168.162.11:8000/payloads/calc.exe to the desktop of the current user using powershell ",
-            "expected_output": "The output of the commands, but run it 10 times with 10 different ways of running the command."
+            "description": "Run powershell and download http://192.168.162.11:8000/payloads/calc.exe to the desktop of the current user using powershell, and then execute the downloaded executable. if an EDR is running then ONLY download the executable, and then use a tool again to RUN the downloaded payload, since we are running a Blue Team exercise. ",
+            "expected_output": "The output of the command with a summary of the results."
         }
     ]
 }

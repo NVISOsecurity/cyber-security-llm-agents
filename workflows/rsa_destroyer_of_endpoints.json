@@ -3,7 +3,10 @@
         {
             "ID": "test_workflow",
             "tasks": [
-                "caldera_check_running_edr_task"
+                "caldera_check_running_edr_task",
+                "caldera_download_payload_task",
+                "caldera_download_payload_task",
+                "caldera_download_payload_task"
             ]
         },
         {
