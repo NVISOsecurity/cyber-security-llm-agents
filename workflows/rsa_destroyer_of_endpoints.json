@@ -1,9 +1,9 @@
 {
     "workflows": [
         {
-            "ID": "sign_of_life",
+            "ID": "test_workflow",
             "tasks": [
-                "caldera_show_sign_of_life_task"
+                "caldera_check_running_edr_task"
             ]
         },
         {

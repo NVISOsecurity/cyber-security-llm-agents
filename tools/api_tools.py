@@ -91,7 +91,7 @@ class APITools:
     @tool("Run a command on the specified agent and operation using the Caldera API")
     def caldera_execute_command_on_agent(agent_paw, operation_id, command):
         """Expects three parameters: "agent_paw" being the Caldera paw ID of the agent, "operation_id" being the ID of the operation, "command" being the Windows command to execute.
-        Always use the different tools to first fetch the "agent_paw" and "operation_id" values.
+        Always use the different tools to first fetch the "agent_paw" and "operation_id" values - never guess them.
         """
         command_arguments = {
             "paw": agent_paw,

@@ -16,8 +16,8 @@
         },
         {
             "ID": "caldera_check_running_edr_task",
-            "description": "Run powershell to to get a unique list of all the running processes and services, including their names and paths. Based on this, verify which (if any) EDR agent is running. Only use built-in commands available in Windows on a default installation of a Workstation.",
-            "expected_output": "A conclusion on which (if any) EDR product is running on the endpoint"
+            "description": "Run powershell to to get a unique list of all the running processes using Get-Process | Sort-Object Name | Select-Object -Unique Name. Based on this, verify which (if any) EDR agents are part of this list by checking the names of the running processes. Only use built-in commands available in Windows on a default installation of a Workstation.",
+            "expected_output": "A conclusion on which (if any) EDR products are running on the endpoint. Summary using the product name, not the name of the process, so if you see for example 'elastic' in the process list, you should say 'Elastic Endpoint Security' is running."
         },
         {
             "ID": "caldera_check_permissions_task",
@@ -28,6 +28,11 @@
             "ID": "caldera_show_sign_of_life_task",
             "description": "Run a powershell command that causes an effect visible to someone watching the desktop, by showing a dialog message with a stupid dad joke. The powershell command should work in a session without a GUI, since it will be ran in the background. If you want to show a dialog for example, remember to use Add-Type -AssemblyName PresentationFramework.",
             "expected_output": "The output of the command that was run."
+        },
+        {
+            "ID": "caldera_download_payload_task",
+            "description": "Run powershell and download http://192.168.162.11:8000/payloads/calc.exe to the desktop of the current user using powershell ",
+            "expected_output": "The output of the commands, but run it 10 times with 10 different ways of running the command."
         }
     ]
 }
