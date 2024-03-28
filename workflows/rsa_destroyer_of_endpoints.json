@@ -2,11 +2,13 @@
     "workflows": [
         {
             "ID": "test_workflow",
+            "goal": "Successfully detect which EDR is running, and dump LSASS credentials",
             "tasks": [
                 "caldera_check_running_edr_task",
-                "caldera_download_payload_task",
-                "caldera_download_payload_task",
-                "caldera_download_payload_task"
+                "caldera_verify_success_task",
+                "caldera_dump_lsass",
+                "caldera_verify_success_task",
+                "analyze_workflow_results_task"
             ]
         },
         {

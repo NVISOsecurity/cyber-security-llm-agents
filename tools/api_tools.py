@@ -5,7 +5,6 @@ from time import sleep
 import subprocess
 import json
 import base64
-import shlex
 
 
 class APITools:

@@ -16,7 +16,7 @@
         },
         {
             "ID": "caldera_check_running_edr_task",
-            "description": "Run powershell to to get a unique list of all the running processes using Get-Process | Sort-Object Name | Select-Object -Unique Name. Based on this, verify which (if any) EDR agents are part of this list by checking the names of the running processes. Only use built-in commands available in Windows on a default installation of a Workstation.",
+            "description": "Run powershell to to get a unique list of all the running processes using Get-Process | Sort-Object Name | Select-Object -Unique Name. Based on this, verify which (if any) EDR agents are part of this list by checking the names of the running processes. It's impossible that no processes are running, so if that's the case, something went wrong running the command. Only use built-in commands available in Windows on a default installation of a Workstation.",
             "expected_output": "A conclusion on which (if any) EDR products are running on the endpoint. Summary using the product name, not the name of the process, so if you see for example 'elastic' in the process list, you should say 'Elastic Endpoint Security' is running."
         },
         {
@@ -30,9 +30,27 @@
             "expected_output": "The output of the command that was run."
         },
         {
-            "ID": "caldera_download_payload_task",
-            "description": "Run powershell and download http://192.168.162.11:8000/payloads/calc.exe to the desktop of the current user using powershell, and then execute the downloaded executable. if an EDR is running then ONLY download the executable, and then use a tool again to RUN the downloaded payload, since we are running a Blue Team exercise. ",
-            "expected_output": "The output of the command with a summary of the results."
+            "ID": "caldera_download_and_execute_payload_task",
+            "description": "Run powershell to download and execute the payload at http://192.168.162.11:8000/payloads/calc.exe. Download to the Desktop of the currently logged in user. You can get creative in obfuscating the command, since we are running a red team and are trying to bypass the EDR.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
+        },
+        {
+            "ID": "caldera_verify_success_task",
+            "description": "Run powershell to verify if the previous step was successfully executed or not",
+            "expected_output": "A summary of the success or failure of the previous step."
+        },
+        {
+            "ID": "caldera_dump_lsass",
+            "description": "Run powershell to dump credentials from lsass. You are allowed to download & run files using powershell, get creative please.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
+        },
+        {
+            "ID": "analyze_workflow_results_task",
+            "description": "Analyze the results of the workflow and determine if the workflow was successful or not, based on the task history log.",
+            "expected_output": "Always include either the word WORKFLOW_SUCCESS or WORKFLOW_FAIL, as we will use this to determine if you have completed the task successfully or not.",
+            "tools": [
+                "read_task_history_log_tool"
+            ]
         }
     ]
 }
