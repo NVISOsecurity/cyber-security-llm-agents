@@ -2,10 +2,8 @@
     "ID": "caldera_agent",
     "role": "Caldera Agent",
     "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
-    "backstory": "You are an API Operator Agent. You have been tasked with extracting information from an API endpoint.",
+    "backstory": "You are an agent responsible for interacting with a remote computer through the Caldera API. You need to run commands on the system in order to reach certain Red Teaming objectives. It is VERY IMPORTANT to always append the word TASK_SUCCEEDED or TASK_FAILED at the end of your output, so that we can use this information to re-run the task again, or not!",
     "tools": [
-        "caldera_api_get_agents_tool",
-        "caldera_api_get_operation_info_tool",
         "caldera_execute_command_on_agent_tool"
     ],
     "tasks": [
@@ -31,7 +29,7 @@
         },
         {
             "ID": "caldera_download_and_execute_payload_task",
-            "description": "Run powershell to download and execute the payload at http://192.168.162.11:8000/payloads/calc.exe. Download to the Desktop of the currently logged in user. You can get creative in obfuscating the command, since we are running a red team and are trying to bypass the EDR.",
+            "description": "Run powershell to download and execute the payload at http://192.168.162.11:8000/payloads/calc.exe. Download to the Desktop of the currently logged in user. You can get creative in obfuscating the command, since we are running a red team and are trying to bypass the EDR. Keep trying alternative commands until you are absolutely sure that the downloaded payload is running correctly.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
         },
         {
@@ -43,14 +41,6 @@
             "ID": "caldera_dump_lsass",
             "description": "Run powershell to dump credentials from lsass. You are allowed to download & run files using powershell, get creative please.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
-        },
-        {
-            "ID": "analyze_workflow_results_task",
-            "description": "Analyze the results of the workflow and determine if the workflow was successful or not, based on the task history log.",
-            "expected_output": "Always include either the word WORKFLOW_SUCCESS or WORKFLOW_FAIL, as we will use this to determine if you have completed the task successfully or not.",
-            "tools": [
-                "read_task_history_log_tool"
-            ]
         }
     ]
 }

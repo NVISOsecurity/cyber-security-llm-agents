@@ -2,8 +2,6 @@
 
 import logging as _logging
 import sys
-import datetime
-import json
 
 from utilities import config_utils
 

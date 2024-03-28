@@ -23,3 +23,26 @@ def truncate_output(output):
         )
     else:
         return output
+
+
+def log_agent_action(agent_actions):
+    for agent_action in agent_actions:
+        # Log the agent action to the agent action log
+        with open(
+            config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "a"
+        ) as log_file:
+            log_file.write(str(agent_action) + "\n-----------------------\n")
+
+
+def agent_action_log():
+    with open(
+        config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "r"
+    ) as log_file:
+        return log_file.read()
+
+
+def wipe_agent_action_log():
+    with open(
+        config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "w"
+    ) as log_file:
+        log_file.write("")

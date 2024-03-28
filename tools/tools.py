@@ -17,10 +17,7 @@ tools_dict = {
     "search_pdf_tool": PDFSearchTool(),
     "read_pdf_tool": FileTools.read_pdf_content,
     "write_file_tool": FileTools.write_file,
-    "read_task_history_log_tool": FileTools.read_task_history_log,
-    "caldera_api_get_agents_tool": APITools.caldera_api_get_agents,
     "caldera_api_available_models_tool": APITools.caldera_api_available_models,
     "caldera_api_available_functions_tool": APITools.caldera_api_available_functions,
     "caldera_execute_command_on_agent_tool": APITools.caldera_execute_command_on_agent,
-    "caldera_api_get_operation_info_tool": APITools.caldera_api_get_operation_info,
 }

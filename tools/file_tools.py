@@ -19,17 +19,6 @@ class FileTools:
         except Exception:
             return "Error with the input format for the tool."
 
-    @tool("Read task history log")
-    def read_task_history_log():
-        """Reads the task history log file and returns its content."""
-        try:
-            with open(
-                f"./{config_utils.LLM_WORKING_FOLDER}/task_history.log", "r"
-            ) as f:
-                return f.read()
-        except Exception:
-            return "Error reading the task history log."
-
     @tool("Read the content of a PDF document")
     def read_pdf_content(file_path):
         """

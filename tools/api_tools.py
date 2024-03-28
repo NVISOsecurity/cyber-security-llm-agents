@@ -7,39 +7,38 @@ import json
 import base64
 
 
+def caldera_api_get_agents():
+    """Does not take any arguments.
+    Returns the list of available agents by querying the Caldera API.
+    """
+    command_output = subprocess.check_output(
+        str(
+            "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/agents | jq '.[0].paw'"
+        ),
+        shell=True,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    return command_output.replace('"', "")
+
+
+def caldera_api_get_operation_info():
+    """Requires no arguments.
+    Returns information on the active operation by querying the Caldera API.
+    """
+    command_output = subprocess.check_output(
+        str(
+            "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/operations | jq '.[0].id'"
+        ),
+        shell=True,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+
+    return command_output.replace('"', "")
+
+
 class APITools:
-    @tool("Get the list of available agents by querying the Caldera API")
-    def caldera_api_get_agents():
-        """Does not take any arguments.
-        Returns the list of available agents by querying the Caldera API.
-        """
-        command_output = subprocess.check_output(
-            str(
-                "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/agents | jq '.[0].paw'"
-            ),
-            shell=True,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-
-        return "paw IDs of the running agents: " + command_output
-
-    @tool("Get information on the operation by querying the Caldera API")
-    def caldera_api_get_operation_info():
-        """Requires no arguments.
-        Returns information on the active operation by querying the Caldera API.
-        """
-        command_output = subprocess.check_output(
-            str(
-                "curl -H 'KEY:ADMIN123' -sS http://ubuntu-vm:8888/api/operations | jq '.[0].id'"
-            ),
-            shell=True,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-
-        return "Operation ID: " + command_output
-
     @tool("Request documentation on the available data models for the Caldera API")
     def caldera_api_available_models(scope):
         """Requires a single argument 'scope' being either Agent, Adversary, Ability or Operation.
@@ -87,11 +86,13 @@ class APITools:
             + " \n\n THE ABOVE IS DOCUMENTATION ONLY. NOW USE THE API TO REQUEST DATA BASED ON WHAT IS DESCRIBED IN THIS DOCUMENTATION."
         )
 
-    @tool("Run a command on the specified agent and operation using the Caldera API")
-    def caldera_execute_command_on_agent(agent_paw, operation_id, command):
-        """Expects three parameters: "agent_paw" being the Caldera paw ID of the agent, "operation_id" being the ID of the operation, "command" being the Windows command to execute.
-        Always use the different tools to first fetch the "agent_paw" and "operation_id" values - never guess them.
-        """
+    @tool("Run a Powershell command on a Caldera agent and return the output.")
+    def caldera_execute_command_on_agent(command):
+        """Expects a single parameter: "command" being the Powershell command to execute."""
+
+        agent_paw = caldera_api_get_agents().strip()
+        operation_id = caldera_api_get_operation_info().strip()
+
         command_arguments = {
             "paw": agent_paw,
             "executor": {

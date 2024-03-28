@@ -5,10 +5,7 @@
             "goal": "Successfully detect which EDR is running, and dump LSASS credentials",
             "tasks": [
                 "caldera_check_running_edr_task",
-                "caldera_verify_success_task",
-                "caldera_dump_lsass",
-                "caldera_verify_success_task",
-                "analyze_workflow_results_task"
+                "caldera_download_and_execute_payload_task"
             ]
         },
         {
