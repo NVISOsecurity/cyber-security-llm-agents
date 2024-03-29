@@ -78,11 +78,12 @@ for filename in os.listdir("agents"):
 
             # Create an Agent object from the JSON data
             agent = Agent(
+                max_iter=10,
                 role=agent_data["role"],
                 goal=agent_data["goal"],
                 backstory=agent_data["backstory"],
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
-                memory=True,
+                memory=False,
                 allow_delegation=False,
                 step_callback=crew_utils.log_agent_action,
             )

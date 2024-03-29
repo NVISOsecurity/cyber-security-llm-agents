@@ -44,7 +44,9 @@ def log_agent_action(agent_actions):
         with open(
             config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "a"
         ) as log_file:
-            if "Final Answer:" in str(agent_action):
+            if "Final Answer:" in str(agent_action) and "AgentAction(tool=" not in str(
+                agent_action
+            ):
                 log_file.write("\n-----------------------\n")
                 # Add timestamp
                 current_timestamp = datetime.now()

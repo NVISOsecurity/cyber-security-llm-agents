@@ -88,7 +88,9 @@ class APITools:
 
     @tool("Run a Powershell command on a Caldera agent and return the output.")
     def caldera_execute_command_on_agent(command):
-        """Expects a single parameter: "command" being the Powershell command to execute."""
+        """Expects a single parameter: "command" being the Powershell command to execute.
+        If you need to run an executable, make sure to use the full path, example C:\\temp\\myexecutable.exe, instead of just myexecutable.exe.
+        """
 
         agent_paw = caldera_api_get_agents().strip()
         operation_id = caldera_api_get_operation_info().strip()
