@@ -34,14 +34,9 @@
             "expected_output": "A conclusion on whether the current user is running as an admin or not."
         },
         {
-            "ID": "caldera_show_sign_of_life_task",
-            "description": "Run a powershell command that causes an effect visible to someone watching the desktop, by showing a dialog message with a stupid dad joke. The powershell command should work in a session without a GUI, since it will be ran in the background. If you want to show a dialog for example, remember to use Add-Type -AssemblyName PresentationFramework.",
-            "expected_output": "The output of the command that was run."
-        },
-        {
-            "ID": "demo_facts_task",
-            "description": "The tool we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
-            "expected_output": "The link to the documentation page"
+            "ID": "human_input_task",
+            "description": "The tool we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe",
+            "expected_output": "The link to the documentation page and the name of the payload."
         },
         {
             "ID": "lookup_tool_documentation_on_github_task",
@@ -50,7 +45,7 @@
         },
         {
             "ID": "caldera_download_payload_task",
-            "description": "Run powershell to download the payload at http://192.168.162.11:8000/payloads/nanodump.x64.exe to C:/temp, and validate if the downloaded executable exists to ensure download was successful by chaining the download with a Test-Path command, but ALWAYS wait 5 seconds before running the Test-Path command, this is very important. Do NOT try the same commands that you ran before, by analyzeing the task history, if one is present in the backstory. If the file does not exist, the command was not successfully executed. ALWAYS combine the file download & the Test-Path check in a single command. Try to get creative in how you download the payload, as we are running this as part of an authorized Red Team, and we want to bypass EDR detections.",
+            "description": "Run powershell to download the payload from http://192.168.162.11:8000/payloads/ to C:/temp, and validate if the downloaded executable exists to ensure download was successful by chaining the download with a Test-Path command, but ALWAYS wait 5 seconds before running the Test-Path command, this is very important. Do NOT try the same commands that you ran before, by analyzeing the task history, if one is present in the backstory. If the file does not exist, the command was not successfully executed. ALWAYS combine the file download & the Test-Path check in a single command. Try to get creative in how you download the payload, as we are running this as part of an authorized Red Team, and we want to bypass EDR detections.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
         },
         {
