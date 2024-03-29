@@ -2,8 +2,9 @@
     "workflows": [
         {
             "ID": "test_workflow",
+            "mode": "once",
             "tasks": [
-                "print_task"
+                "caldera_detect_edr_task"
             ]
         },
         {

@@ -2,23 +2,23 @@
     "ID": "caldera_agent",
     "role": "Caldera Agent",
     "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
-    "backstory": "You are an agent responsible for interacting with a remote computer through the Caldera API. You need to run commands on the system in order to reach certain Red Teaming objectives. It is VERY IMPORTANT to always append the word TASK_SUCCEEDED or TASK_FAILED at the end of your output, so that we can use this information to re-run the task again, or not!",
+    "backstory": "You are an agent responsible for interacting with a remote computer through the Caldera API. You need to run commands on the system in order to reach certain Red Teaming objectives.",
     "tools": [
         "caldera_execute_command_on_agent_tool"
     ],
     "tasks": [
         {
-            "ID": "print_task",
-            "description": "User powershell to print the string 'Counter: X' where the counter is incremented with 1 compared to the action log, starting at 0",
+            "ID": "simulate_user_action_task",
+            "description": "User powershell to perform an action on the system that resembles the actions of an accountant. Run commands like using a browser, creating files, etc. Please get creative and do not use test names like 'test.txt' or 'test.xlsx' but names that look realistic. If you create a file, make sure to only place them on the Desktop.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
-        }
+        },
         {
             "ID": "caldera_search_abilities_by_MITRE_technique_task",
             "description": "Extract a filtered list of all abilities relevant for the MITRE techniques IDs that were from the previous steps.",
             "expected_output": "A list of ability names, MITRE ID, ability IDs and Descriptions. Do NOT include the full JSON, just those three fields."
         },
         {
-            "ID": "caldera_check_running_edr_task",
+            "ID": "caldera_detect_edr_task",
             "description": "Run powershell to to get a unique list of all the running processes using Get-Process | Sort-Object Name | Select-Object -Unique Name. Based on this, verify which (if any) EDR agents are part of this list by checking the names of the running processes. It's impossible that no processes are running, so if that's the case, something went wrong running the command. Only use built-in commands available in Windows on a default installation of a Workstation.",
             "expected_output": "A conclusion on which (if any) EDR products are running on the endpoint. Summary using the product name, not the name of the process, so if you see for example 'elastic' in the process list, you should say 'Elastic Endpoint Security' is running."
         },
@@ -56,6 +56,11 @@
             "ID": "caldera_dump_lsass",
             "description": "Run powershell to dump credentials from lsass. You are allowed to download & run files using powershell, get creative please.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
+        },
+        {
+            "ID": "caldera_summarize_task",
+            "description": "Summarize the actions that were performed in the previous steps by reading the action log.",
+            "expected_output": "A summary of the actions that were performed in the previous steps."
         }
     ]
 }

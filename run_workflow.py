@@ -103,47 +103,63 @@ if workflow is None:
 workflow_agents = [agent["agent"] for agent in agents]
 workflow_tasks = [crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]]
 
-agent_history_preamble = " Never try the same thing twice, and include information on what you will do different in your reasoning. Previous actions you took: \n\n "
+agent_history_preamble = ". It is VERY IMPORTANT to ALWAYS append the word TASK_SUCCEEDED or TASK_FAILED at the end of your task output, \
+    so that we can use this information to re-run the task again, or not! Previous actions you took: \n\n "
 agent_action_log = None
 
+run_workflow = True
+
 for task in workflow_tasks:
-    task_succeeded = False
+    task.description = (
+        task.description
+        + ". It is VERY IMPORTANT to ALWAYS append the word TASK_SUCCEEDED \
+        or TASK_FAILED at the end of your task output"
+    )
+while run_workflow:
+    for task in workflow_tasks:
+        task_succeeded = False
+        while not task_succeeded:
+            if agent_action_log:
+                for agent in workflow_agents:
+                    # Remove all the text from the preamble and onward from the backstory
+                    preamble_start = agent.backstory.find(agent_history_preamble)
+                    if preamble_start != -1:
+                        agent.backstory = agent.backstory[:preamble_start]
 
-    while not task_succeeded:
-        if agent_action_log:
-            for agent in workflow_agents:
-                # Remove all the text from the preamble and onward from the backstory
-                preamble_start = agent.backstory.find(agent_history_preamble)
-                if preamble_start != -1:
-                    agent.backstory = agent.backstory[:preamble_start]
+                    # Now update the backstory again with the action history
+                    agent.backstory = (
+                        agent.backstory
+                        + agent_history_preamble
+                        + crew_utils.truncate_output_beginning(agent_action_log)
+                    )
 
-                # Now update the backstory again with the action history
-                agent.backstory = (
-                    agent.backstory
-                    + agent_history_preamble
-                    + crew_utils.truncate_output_beginning(agent_action_log)
+            crew = Crew(
+                agents=workflow_agents,
+                tasks=[task],
+                share_crew=False,
+                verbose=0,
+            )
+
+            result = crew.kickoff()
+            logging_utils.logger.info(crew.usage_metrics)
+
+            agent_action_log = crew_utils.agent_action_log()
+
+            # Find the last occurrence of TASK_FAILED and TASK_SUCCEEDED
+            last_failed = agent_action_log.rfind("TASK_FAILED")
+            last_succeeded = agent_action_log.rfind("TASK_SUCCEEDED")
+
+            if last_succeeded > last_failed:
+                task_succeeded = True
+                logging_utils.logger.info(
+                    "Last task succeeded, moving to the next one!"
                 )
+            else:
+                logging_utils.logger.info("Task failed, retrying...")
 
-                print(agent.backstory)
-
-        crew = Crew(
-            agents=workflow_agents,
-            tasks=[task],
-            share_crew=False,
-            verbose=0,
-        )
-
-        result = crew.kickoff()
-        logging_utils.logger.info(crew.usage_metrics)
-
-        agent_action_log = crew_utils.agent_action_log()
-
-        # Find the last occurrence of TASK_FAILED and TASK_SUCCEEDED
-        last_failed = agent_action_log.rfind("TASK_FAILED")
-        last_succeeded = agent_action_log.rfind("TASK_SUCCEEDED")
-
-        if last_succeeded > last_failed:
-            task_succeeded = True
-            logging_utils.logger.info("Last task succeeded, moving to the next one!")
+    # Check if we need to keep running
+    if "mode" in workflow:
+        if workflow["mode"] == "forever":
+            logging_utils.logger.info("Looping workflow")
         else:
-            logging_utils.logger.info("Task failed, retrying...")
+            run_workflow = False
