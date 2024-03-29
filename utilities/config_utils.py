@@ -36,3 +36,5 @@ AZURE_OPENAI_CLIENT = AzureOpenAI(
     api_key=os.getenv("OPENAI_AZURE_API_KEY", ""),
     api_version=os.getenv("OPENAI_API_VERSION", "2023-07-01-preview"),
 )
+
+GITHUB_TOKEN = str(os.getenv("GITHUB_TOKEN", ""))

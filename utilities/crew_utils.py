@@ -1,5 +1,6 @@
 from crewai import Agent, Task
 from . import config_utils
+from datetime import datetime
 
 
 def get_task(task_list, task_id) -> Task:  # type: ignore
@@ -43,7 +44,22 @@ def log_agent_action(agent_actions):
         with open(
             config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "a"
         ) as log_file:
-            log_file.write(str(agent_action) + "\n-----------------------\n")
+            if "Final Answer:" in str(agent_action):
+                log_file.write("\n-----------------------\n")
+                # Add timestamp
+                current_timestamp = datetime.now()
+                # Format the timestamp to include only the date and time (hours and minutes)
+                formatted_timestamp = current_timestamp.strftime("%Y-%m-%d %H:%M")
+                log_file.write(formatted_timestamp)
+
+                log_file.write(str(agent_action))
+
+
+def replace_agent_action_log(log_file_str):
+    with open(
+        config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "w"
+    ) as log_file:
+        log_file.write(log_file_str)
 
 
 def agent_action_log():

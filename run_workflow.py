@@ -9,6 +9,7 @@ import sys
 import http.server
 import socketserver
 import threading
+import shutil
 
 subprocess_tool = SubprocessTool()
 
@@ -27,6 +28,15 @@ tools = []
 agents = []
 tasks = []
 workflows = []
+
+# Path to the .db folder you want to delete
+db_folder_path = "./db"
+
+# Check if the folder exists
+if os.path.exists(db_folder_path) and os.path.isdir(db_folder_path):
+    # Remove the entire directory
+    shutil.rmtree(db_folder_path)
+    print(f"The '{db_folder_path}' has been deleted successfully.")
 
 # Wipe the agent action log
 crew_utils.wipe_agent_action_log()
@@ -130,8 +140,9 @@ workflow_agents = [agent["agent"] for agent in agents]
 workflow_tasks = [crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]]
 
 agent_history_preamble = ". It is VERY IMPORTANT to ALWAYS append the word TASK_SUCCEEDED or TASK_FAILED at the end of your task output, \
-    so that we can use this information to re-run the task again, or not! Previous actions you took: \n\n "
-agent_action_log = None
+    so that we can use this information to re-run the task again, or not! What follows is a history of all the tasks you already ran. \
+        The task history: \n\n "
+agent_action_log = "<No tasks logged yet>"
 
 run_workflow = True
 
@@ -159,6 +170,7 @@ while run_workflow:
                         + crew_utils.truncate_output_beginning(agent_action_log)
                     )
 
+            agent_action_log_start = crew_utils.agent_action_log()
             crew = Crew(
                 agents=workflow_agents,
                 tasks=[task],
@@ -182,6 +194,7 @@ while run_workflow:
                 )
             else:
                 logging_utils.logger.info("Task failed, retrying...")
+                crew_utils.replace_agent_action_log(agent_action_log_start)
 
     # Check if we need to keep running
     if "mode" in workflow:
@@ -189,3 +202,5 @@ while run_workflow:
             logging_utils.logger.info("Looping workflow")
         else:
             run_workflow = False
+
+logging_utils.logger.info("Workflow completed")

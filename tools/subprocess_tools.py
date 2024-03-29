@@ -15,4 +15,4 @@ class SubprocessTool(BaseTool):
             argument, shell=True, stderr=subprocess.STDOUT, text=True
         )
 
-        return crew_utils.truncate_output(command_output)
+        return crew_utils.truncate_output_end(command_output)
