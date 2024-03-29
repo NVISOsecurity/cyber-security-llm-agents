@@ -6,7 +6,7 @@
             "tasks": [
                 "define_facts_and_objective_task",
                 "lookup_tool_documentation_on_github_task",
-                "caldera_download_payload_task",
+                "caldera_clone_repo_task",
                 "caldera_execute_payload_task"
             ]
         },

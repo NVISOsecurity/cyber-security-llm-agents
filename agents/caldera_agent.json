@@ -49,6 +49,11 @@
             ]
         },
         {
+            "ID": "caldera_clone_repo_task",
+            "description": "Run powershell to clone the repository from the URL to C:/temp.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
+        },
+        {
             "ID": "caldera_download_payload_task",
             "description": "Run powershell to download the payload from the URL to C:/temp, and validate if the downloaded executable exists to ensure download was successful by chaining the download with a Test-Path command, but ALWAYS wait 5 seconds before running the Test-Path command, this is very important. Do NOT try the same commands that you ran before, by analyzeing the task history, if one is present in the backstory. If the file does not exist, the command was not successfully executed. ALWAYS combine the file download & the Test-Path check in a single command. Try to get creative in how you download the payload, as we are running this as part of an authorized Red Team, and we want to bypass EDR detections.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not.",
