@@ -159,7 +159,6 @@ class APITools:
                 else:
                     # If the status has not changed, sleep for 1 second before checking again
                     sleep(1)
-
             # Check if the output is valid JSON
             try:  # Try to decode the output
                 return_value = "Command output: " + base64.b64decode(
@@ -167,7 +166,7 @@ class APITools:
                 ).decode("utf-8")
             except json.JSONDecodeError as e:
                 # If the output is not valid JSON, return the original output
-                return_value = command_output
+                return_value = "Command output: " + command_output
 
         except json.JSONDecodeError as e:
             # If the output is not valid JSON, return the original output
@@ -176,4 +175,4 @@ class APITools:
             # Handle potential errors from the subprocess call
             return_value = str(e)
 
-        return crew_utils.truncate_output(return_value)
+        return crew_utils.truncate_output_end(return_value)

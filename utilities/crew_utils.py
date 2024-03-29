@@ -14,12 +14,24 @@ def get_agent(agent_list, agent_id) -> Agent:  # type: ignore
             return agent["agent"]
 
 
-def truncate_output(output):
+def truncate_output_end(output):
     if len(output) > config_utils.MAX_TASK_RESPONSE_SIZE:
         return output[
             : config_utils.MAX_TASK_RESPONSE_SIZE
         ] + "... [%s characters truncated]" % (
             len(output) - config_utils.MAX_TASK_RESPONSE_SIZE
+        )
+    else:
+        return output
+
+
+def truncate_output_beginning(output):
+    max_size = config_utils.MAX_TASK_RESPONSE_SIZE
+    if len(output) > max_size:
+        truncated_part = output[-max_size:]  # Keep the last max_size characters
+        return "... [%s characters truncated] %s" % (
+            len(output) - max_size,
+            truncated_part,
         )
     else:
         return output
