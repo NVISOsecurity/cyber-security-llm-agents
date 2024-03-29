@@ -6,7 +6,9 @@ from tools.tools import tools_dict
 import os
 import json
 import sys
-
+import http.server
+import socketserver
+import threading
 
 subprocess_tool = SubprocessTool()
 
@@ -28,6 +30,30 @@ workflows = []
 
 # Wipe the agent action log
 crew_utils.wipe_agent_action_log()
+
+# Launch the web server
+PORT = 8000
+DIRECTORY = "./knowledge_base/"
+
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+
+def run_server():
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"Serving HTTP on 0.0.0.0 port {PORT} (http://0.0.0.0:{PORT}/)...")
+        httpd.serve_forever()
+
+
+# Start the server in a new thread
+thread = threading.Thread(target=run_server)
+thread.daemon = (
+    True  # This ensures the thread will be killed when the main program exits
+)
+thread.start()
+
 
 # Loop through each file in the directory
 for filename in os.listdir("agents"):
