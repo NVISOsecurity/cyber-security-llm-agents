@@ -1,8 +1,8 @@
 {
     "ID": "caldera_agent",
     "role": "Caldera Agent",
-    "goal": "Interact with the Caldera API to extract information & perform actions on the Caldera platform. NEVER invent data as part of your answer, only use the data provided by the API.",
-    "backstory": "You are an agent responsible for interacting with a remote computer through the Caldera API. You need to run commands on the system in order to reach certain Red Teaming objectives.",
+    "goal": "Your goal is to assist the Red Team in reaching their objectives by running commands on the target system. ",
+    "backstory": "You need to run commands on the system in order to reach certain Red Teaming objectives. You need to get creative in coming up with solutions & commands.",
     "tools": [],
     "tasks": [
         {
@@ -31,27 +31,54 @@
             "expected_output": "A conclusion on whether the current user is running as an admin or not."
         },
         {
-            "ID": "define_facts_and_objective_task",
-            "description": "Print literal the expected output",
-            "expected_output": "Print this answer: The documentation is available at https://raw.githubusercontent.com/klezVirus/SysWhispers3/master/README.md. The download location is https://github.com/klezVirus/SysWhispers3.git. You can use git clone on the target machine. The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to download and run syswhispers3 on the target system."
-        },
-        {
             "ID": "define_facts_and_objective_task_2",
             "description": "Print literal the expected output",
-            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe.  The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to write the output of nanodump to a dump file in the C:\temp directory, while forking the process. "
+            "expected_output": "Print this answer: The documentation is available at https://raw.githubusercontent.com/klezVirus/SysWhispers3/master/README.md. The download location is https://github.com/klezVirus/SysWhispers3.git. You can use git clone on the target machine to clone into C:\\temp\\<repository_name>. The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to download and run syswhispers3 on the target system."
+        },
+        {
+            "ID": "download_lolbin_examples_task",
+            "description": "Crawl https://redcanary.com/threat-detection-report/techniques/powershell/ and extract all powershell examples from it",
+            "expected_output": "An overview of all the powershell examples that were found on the page. Do not include the full page, only the examples as a list of powershell commands.",
+            "tools": [
+                "website_scrape_tool"
+            ]
+        },
+        {
+            "ID": "execute_random_lolbin_task",
+            "description": "Generate and execute a Windows command to simulate a red team, to execute on the command line. Don't use Powershell, but run regular Windows commmands. You are allowed to spawn processes. Focus on a command that involves the use of LOLBins - executables that are local to the OS and often come installed by default. Make sure the command does not destroy anything on the system, but is still a valid command. If you need to create a file, make sure to only place them in C:/temp.",
+            "expected_output": "The output of the command you ran",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
+            "ID": "local_priv_esc_task",
+            "description": "Propose methods to escalate local privileges on the Windows machine for our red team. First check if you are already running as admin, then propose a way forard. Explain in detail what some of the most commonly used techniques are on a Windows workstation to elavate privileges, which we could use for our red team.",
+            "expected_output": "The result of your analysis. Clearly indicate if the command was successfully executed or not. Explain the users privileges (admin or not)",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
+            "ID": "define_nanodump_facts_and_objective_task",
+            "description": "Print literal the expected output",
+            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe.  The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to write the output of nanodump to a dump file in the C:\temp directory, while forking the process."
         },
         {
             "ID": "lookup_tool_documentation_on_github_task",
             "description": "Use the web search tool to look up the documentation for tool mentioned in the previous task.",
             "expected_output": "The output with a clear overview of all the command line options available for the tool. Do not include the full documentation, only the command line options that are available, with a short explanation of each option.",
             "tools": [
-                "website_search_tool"
+                "website_scrape_tool"
             ]
         },
         {
             "ID": "caldera_clone_repo_task",
-            "description": "Run powershell to clone the repository from the URL to C:/temp.",
-            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
+            "description": "Run powershell to clone the repository from the URL to C:/temp. First check if the target folder already exists. If the target folder already existed, then consider the task successfull.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not. Include the folder structure of the cloned repository in the output. ",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
         },
         {
             "ID": "caldera_download_payload_task",
@@ -64,6 +91,14 @@
         {
             "ID": "caldera_execute_payload_task",
             "description": "Use PowerShell to execute the payload. Look up the right command line arugments to use to successfully reach the objective. You are ONLY successfull if you can verify that the output of the command was successfull.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
+            "ID": "caldera_run_python_task",
+            "description": "Use PowerShell to run the python to run mimikatz",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
             "tools": [
                 "caldera_execute_command_on_agent_tool"

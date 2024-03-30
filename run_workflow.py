@@ -85,7 +85,7 @@ for filename in os.listdir("agents"):
                 verbose=config_utils.CREW_AGENT_DEBUGGING,
                 memory=False,
                 allow_delegation=False,
-                step_callback=crew_utils.log_agent_action,
+                step_callback=crew_utils.log_agent_actions,
             )
 
             if "tools" in agent_data:

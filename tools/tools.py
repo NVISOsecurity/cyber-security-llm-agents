@@ -21,7 +21,7 @@ tools_dict = {
     "search_pdf_tool": PDFSearchTool(),
     "read_pdf_tool": FileTools.read_pdf_content,
     "write_file_tool": FileTools.write_file,
-    "website_search_tool": ScrapeWebsiteTool(),
+    "website_scrape_tool": ScrapeWebsiteTool(),
     "mimikatz_github_search_tool": GithubSearchTool(
         github_repo="https://github.com/gentilkiwi/mimikatz",
         content_types=["code"],

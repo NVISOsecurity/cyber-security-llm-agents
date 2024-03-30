@@ -38,23 +38,24 @@ def truncate_output_beginning(output):
         return output
 
 
-def log_agent_action(agent_actions):
+def log_agent_actions(agent_actions):
     for agent_action in agent_actions:
         # Log the agent action to the agent action log
         with open(
             config_utils.LLM_WORKING_FOLDER + "/agent_action_log.txt", "a"
         ) as log_file:
-            if "Final Answer:" in str(agent_action) and "AgentAction(tool=" not in str(
-                agent_action
+            # Add timestamp
+            if ("TASK_SUCCEEDED" in str(agent_action)) or (
+                "TASK_FAILED" in str(agent_action)
             ):
-                log_file.write("\n-----------------------\n")
-                # Add timestamp
                 current_timestamp = datetime.now()
                 # Format the timestamp to include only the date and time (hours and minutes)
-                formatted_timestamp = current_timestamp.strftime("%Y-%m-%d %H:%M")
+                formatted_timestamp = current_timestamp.strftime("%Y-%m-%d %H:%M:%S")
+                log_file.write("\n")
                 log_file.write(formatted_timestamp)
-
+                log_file.write("\n===================\n")
                 log_file.write(str(agent_action))
+                log_file.write("\n")
 
 
 def replace_agent_action_log(log_file_str):
