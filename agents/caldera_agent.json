@@ -90,7 +90,7 @@
         },
         {
             "ID": "caldera_execute_payload_task",
-            "description": "Use PowerShell to execute the payload. Use the right command line arugments to successfully reach the objective, based on the documentation. You are ONLY successfull if you can verify that the output of the command was successfull.",
+            "description": "Use PowerShell to execute the payload. Use the right command line arugments to successfully reach the objective, based on the documentation you received in previous steps. You are ONLY successfull if you can verify that the output of the command was successfull.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
             "tools": [
                 "caldera_execute_command_on_agent_tool"
