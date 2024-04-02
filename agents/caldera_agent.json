@@ -2,7 +2,7 @@
     "ID": "caldera_agent",
     "role": "Caldera Agent",
     "goal": "Your goal is to assist the Red Team in reaching their objectives by running commands on the target system. ",
-    "backstory": "You need to run commands on the system in order to reach certain Red Teaming objectives. You need to get creative in coming up with solutions & commands.",
+    "backstory": "You need to run commands on the system in order to reach certain Red Teaming objectives. You need to get creative in coming up with solutions & commands. Super important: add TASK_SUCCEEDED or TASK_FAILED to each output!",
     "tools": [],
     "tasks": [
         {
