@@ -140,8 +140,8 @@ if workflow is None:
 workflow_agents = [agent["agent"] for agent in agents]
 workflow_tasks = [crew_utils.get_task(tasks, task_id) for task_id in workflow["tasks"]]
 
-agent_history_preamble = ". It is VERY IMPORTANT to ALWAYS append the word TASK_SUCCEEDED or TASK_FAILED at the end of your task output, \
-    so that we can use this information to re-run the task again, or not! What follows is a history of all the tasks you already ran. \
+agent_history_preamble = ". It is VERY IMPORTANT to ALWAYS append the exact literal word TASK_SUCCEEDED or TASK_FAILED (use the exact spelling, uppercase & with the _ sign) \
+    at the end of your task output, so that we can use this information to re-run the task again, or not! What follows is a history of all the tasks you already ran. \
         The task history: \n\n "
 agent_action_log = "<No tasks logged yet>"
 

@@ -5,8 +5,8 @@
             "mode": "once",
             "tasks": [
                 "define_nanodump_facts_and_objective_task",
-                "lookup_tool_documentation_on_github_task",
                 "caldera_download_payload_task",
+                "lookup_tool_documentation_on_github_task",
                 "caldera_execute_payload_task"
             ]
         },
