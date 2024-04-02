@@ -62,12 +62,12 @@
         {
             "ID": "define_nanodump_facts_and_objective_task",
             "description": "Print literal the expected output",
-            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe.  The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to write the output of nanodump to a dump file in the C:\temp directory, while forking the process."
+            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe.  The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to use nanodump to dump credentials to a file in the C:\temp directory, while forking the process."
         },
         {
             "ID": "lookup_tool_documentation_on_github_task",
             "description": "Use the web search tool to look up the documentation for tool mentioned in the previous task.",
-            "expected_output": "The output with a clear overview of all the command line options available for the tool. Do not include the full documentation, only the command line options that are available, with a short explanation of each option.",
+            "expected_output": "A summary of what the tool does (include the tool name in this summary), followed by a complete & exhaustive overview of all the command line options available for the tool, in a list format. Do not include the full documentation, only the command line options that are available, with a short explanation of each option.",
             "tools": [
                 "website_scrape_tool"
             ]
@@ -90,7 +90,7 @@
         },
         {
             "ID": "caldera_execute_payload_task",
-            "description": "Use PowerShell to execute the payload. Look up the right command line arugments to use to successfully reach the objective. You are ONLY successfull if you can verify that the output of the command was successfull.",
+            "description": "Use PowerShell to execute the payload. Use the right command line arugments to successfully reach the objective, based on the documentation. You are ONLY successfull if you can verify that the output of the command was successfull.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
             "tools": [
                 "caldera_execute_command_on_agent_tool"
