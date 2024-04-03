@@ -31,6 +31,14 @@
             "expected_output": "A conclusion on whether the current user is running as an admin or not."
         },
         {
+            "ID": "define_demo_facts_and_objective_task",
+            "description": "you need to retrieve all running services using powershell.",
+            "expected_output": "the output of the command listing all running services.",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
             "ID": "define_facts_and_objective_task_2",
             "description": "Print literal the expected output",
             "expected_output": "Print this answer: The documentation is available at https://raw.githubusercontent.com/klezVirus/SysWhispers3/master/README.md. The download location is https://github.com/klezVirus/SysWhispers3.git. You can use git clone on the target machine to clone into C:\\temp\\<repository_name>. The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to download and run syswhispers3 on the target system."
@@ -66,7 +74,7 @@
         },
         {
             "ID": "lookup_tool_documentation_on_github_task",
-            "description": "Use the web search tool to look up the documentation for tool mentioned in the previous task.",
+            "description": "Use the web search tool to look up the documentation for the tool mentioned in the previous task. Your task is to get an exhaustive overview of all available command line options for the tool, either based on explicit documentation of each option, or based on provided examples of the tool being used.",
             "expected_output": "A summary of what the tool does (include the tool name in this summary), followed by a complete & exhaustive overview of all the command line options available for the tool, in a list format. Do not include the full documentation, only the command line options that are available, with a short explanation of each option.",
             "tools": [
                 "website_scrape_tool"

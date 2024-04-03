@@ -11,6 +11,13 @@
             ]
         },
         {
+            "ID": "demo_workflow",
+            "mode": "once",
+            "tasks": [
+                "define_demo_facts_and_objective_task"
+            ]
+        },
+        {
             "ID": "lolbin_forever_worfklow",
             "mode": "forever",
             "tasks": [
