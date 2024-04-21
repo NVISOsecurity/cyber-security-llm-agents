@@ -40,15 +40,50 @@ if os.path.exists(db_folder_path) and os.path.isdir(db_folder_path):
 
 # Wipe the agent action log
 crew_utils.wipe_agent_action_log()
+import os
+import cgi
+from http import server
+import socketserver
+import threading
 
-# Launch the web server
+
 PORT = 8000
 DIRECTORY = "./knowledge_base/"
 
 
-class Handler(http.server.SimpleHTTPRequestHandler):
+class Handler(server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+    def do_POST(self):
+        if self.path == "/upload":
+            form = cgi.FieldStorage(
+                fp=self.rfile, headers=self.headers, environ={"REQUEST_METHOD": "POST"}
+            )
+            # Check if the file was uploaded
+            if "file" in form:
+                file_item = form["file"]
+                # Check if the file has contents
+                if file_item.file:
+                    # Read the file contents
+                    file_data = file_item.file.read()
+                    file_name = os.path.join(DIRECTORY, file_item.filename)
+                    # Save the file
+                    with open(file_name, "wb") as f:
+                        f.write(file_data)
+                    # Respond with a success message
+                    self.send_response(200)
+                    self.end_headers()
+                    self.wfile.write(b"File uploaded successfully.")
+                else:
+                    # Respond with an error message
+                    self.send_error(400, "File is empty.")
+            else:
+                # Respond with an error message
+                self.send_error(400, "File not found in the request.")
+        else:
+            # For any other POST request, respond with a 404
+            self.send_error(404, "Can only POST to /upload")
 
 
 def run_server():

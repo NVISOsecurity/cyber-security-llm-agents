@@ -5,3 +5,4 @@ crewai
 crewai[tools]
 tiktoken
 PyPDF2
+pyautogen
