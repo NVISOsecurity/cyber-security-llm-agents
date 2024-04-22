@@ -4,25 +4,13 @@ from agents.web_agent import web_agent_user_proxy, web_agent
 from agents.powershell_agent import powershell_agent
 from agents.groupchat_agent import human_analyst_agent
 
-from utils.web_server import web_server_thread
 from utils.shared_config import clean_working_directory, llm_config
 from utils.logs import print_usage_statistics
 import autogen
-from time import sleep
 
 clean_working_directory("/caldera")
 
-# web_server_thread.start()
-
-# Start FTP server
-
-
-# context_handling.add_to_agent(api_agent)
-# context_handling.add_to_agent(web_agent)
-# context_handling.add_to_agent(web_assistant)
-
 logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
-sleep(1000)
 
 groupchat = autogen.GroupChat(
     agents=[
