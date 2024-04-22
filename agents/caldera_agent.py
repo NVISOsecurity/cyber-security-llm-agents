@@ -17,8 +17,9 @@ caldera_agent = AssistantAgent(
     "caldera_agent",
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",
-    max_consecutive_auto_reply=10,
-    is_termination_msg=lambda msg: "TERMINATE" in msg["content"].upper(),
+    max_consecutive_auto_reply=5,
+    is_termination_msg=lambda msg: "terminate" in msg["content"].lower(),
+    description="A helpful agent that can interact with the Caldera server and agents.",
 )
 
 caldera_agent_user_proxy = UserProxyAgent(
@@ -28,7 +29,7 @@ caldera_agent_user_proxy = UserProxyAgent(
         "use_docker": False,
     },
     human_input_mode="NEVER",
-    max_consecutive_auto_reply=10,
+    max_consecutive_auto_reply=5,
 )
 
 ### Swagger info
@@ -75,10 +76,11 @@ caldera_agent_user_proxy.register_for_execution(name="caldera_api_get_operation_
     caldera_api_get_operation_info
 )
 
-# Exfiltrate file
+# Exfiltrate file over FTP
+
 caldera_agent.register_for_llm(
     name="caldera_upload_file_from_agent",
-    description="Upload a file from the agent",
+    description="Upload a file from the agent to the Caldera server using FTP.",
 )(caldera_upload_file_from_agent)
 
 caldera_agent_user_proxy.register_for_execution(name="caldera_upload_file_from_agent")(
@@ -96,7 +98,7 @@ caldera_agent_user_proxy.register_for_execution(
     name="caldera_execute_command_on_agent"
 )(caldera_execute_command_on_agent)
 
-# Download documentation
+# Download a web page
 
 caldera_agent.register_for_llm(
     name="download_web_page",
