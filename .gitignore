@@ -164,4 +164,4 @@ debug/
 db/
 llm_working_folder/
 OAI_CONFIG.json
-
+logs.db

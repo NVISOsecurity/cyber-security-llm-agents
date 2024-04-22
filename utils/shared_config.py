@@ -9,7 +9,6 @@ script_folder = os.path.dirname(os.path.abspath(__file__))
 
 # Get path to file "OAI_CONFIG.json"
 config_file = os.path.join(script_folder, "../OAI_CONFIG.json")
-
 config_list = config_list_from_json(env_or_file=config_file)
 
 context_handling = transform_messages.TransformMessages(
@@ -22,16 +21,25 @@ context_handling = transform_messages.TransformMessages(
     ]
 )
 
+llm_config = {"config_list": config_list, "cache_seed": None}
 
-def clean_working_directory():
+
+def clean_working_directory(agent_subfolder: str):
     # Check if the folder exists
-    if not os.path.exists(utils.constants.LLM_WORKING_FOLDER):
-        print(f"The folder {utils.constants.LLM_WORKING_FOLDER} does not exist.")
+    folder = utils.constants.LLM_WORKING_FOLDER + agent_subfolder
+
+    # Avoid accidental deletion of the root folder
+    if folder == "":
+        print("Cannot delete the root folder.")
+        return
+
+    if not os.path.exists(folder):
+        print(f"The folder {folder} does not exist.")
         return
 
     # Loop through all the items in the folder
-    for filename in os.listdir(utils.constants.LLM_WORKING_FOLDER):
-        file_path = os.path.join(utils.constants.LLM_WORKING_FOLDER, filename)
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
         try:
             # If it's a file, remove it
             if os.path.isfile(file_path) or os.path.islink(file_path):
