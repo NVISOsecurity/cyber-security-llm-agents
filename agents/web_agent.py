@@ -3,12 +3,12 @@ from utils.shared_config import config_list
 import utils.constants
 
 # create a UserProxyAgent instance named "user_proxy"
-web_assistant = AssistantAgent(
-    name="web_assistant",
+web_agent = AssistantAgent(
+    name="web_agent",
     llm_config={"config_list": config_list},
 )
 
-web_agent = UserProxyAgent(
+web_agent_user_proxy = UserProxyAgent(
     name="web_agent",
     human_input_mode="NEVER",
     max_consecutive_auto_reply=3,

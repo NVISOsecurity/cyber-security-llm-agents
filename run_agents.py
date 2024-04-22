@@ -1,9 +1,11 @@
+import autogen.runtime_logging
 from agents.user_proxy_agent import user_proxy_agent
 from agents.api_agent import api_agent
-from agents.web_agent import web_agent, web_assistant
+from agents.web_agent import web_agent, web_agent_user_proxy
 from agents.powershell_agent import powershell_agent
 from utils.web_server import web_server_thread
 from utils.shared_config import clean_working_directory
+import autogen
 
 clean_working_directory()
 web_server_thread.start()
@@ -12,11 +14,14 @@ web_server_thread.start()
 # context_handling.add_to_agent(web_agent)
 # context_handling.add_to_agent(web_assistant)
 
+autogen.runtime_logging.start()
+
 chat_result = web_agent.initiate_chat(
-    web_assistant,
+    web_agent_user_proxy,
     message="Summarize the command line parameters for https://github.com/fortra/nanodump by downloading & analyzing the readme",
     clear_history=True,
 )
+autogen.runtime_logging.stop()
 
 exit()
 
