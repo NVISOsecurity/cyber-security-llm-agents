@@ -5,7 +5,6 @@ import json
 import utils.constants
 from time import sleep
 import base64
-import os
 from autogen.agentchat.contrib.capabilities.context_handling import (
     truncate_str_to_tokens,
 )

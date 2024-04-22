@@ -1,5 +1,34 @@
 from typing_extensions import Annotated
+from pypdf import PdfReader
+
+import utils.constants
+
 import subprocess
+
+PDF_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/pdf"
+
+
+def download_pdf_report(
+    url: Annotated[
+        str,
+        "The URL of the PDF report to download",
+    ]
+) -> Annotated[str, "The content of the PDF report"]:
+
+    # Download PDF report to a local folder
+    subprocess.check_output(
+        f"curl -sS {url} -o {PDF_WORKING_FOLDER}/tmp.pdf",
+        shell=True,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+
+    reader = PdfReader(f"{PDF_WORKING_FOLDER}/tmp.pdf")
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+
+    return text
 
 
 def download_web_page(

@@ -8,3 +8,4 @@ PyPDF2
 pyautogen
 pandas
 pyftpdlib 
+pypdf

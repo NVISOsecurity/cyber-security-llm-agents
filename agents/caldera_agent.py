@@ -2,7 +2,7 @@ from autogen import AssistantAgent
 from utils.shared_config import config_list
 from autogen import UserProxyAgent
 import utils.constants
-from tools.web_tools import download_web_page
+from tools.web_tools import download_web_page, download_pdf_report
 
 from tools.caldera_tools import (
     caldera_api_request,
@@ -102,7 +102,7 @@ caldera_agent_user_proxy.register_for_execution(
 
 caldera_agent.register_for_llm(
     name="download_web_page",
-    description="Download the content of a web page and return it as a string.",
+    description="Download the content of a web page and return it as a string. Only for text content such as markdown pages.",
 )(download_web_page)
 
 caldera_agent_user_proxy.register_for_execution(name="download_web_page")(
