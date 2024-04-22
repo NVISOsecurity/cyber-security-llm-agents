@@ -1,5 +1,9 @@
 import subprocess
 from typing_extensions import Annotated
+import tiktoken
+from autogen.agentchat.contrib.capabilities.context_handling import (
+    truncate_str_to_tokens,
+)
 
 
 def caldera_api_method_details(
@@ -55,7 +59,11 @@ def caldera_api_request(
         return_info = "The command was successful with the following output:"
         return_info += output
 
-    return return_info
+    # Truncate the output to 1000 characters
+    # Also print a message to indicate that the output was truncated including the number of characters
+    # TODO: Investigate why MessageTokenLimiter is not working as expected for this!
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    return truncate_str_to_tokens(return_info, 4000)
 
 
 def caldera_swagger_info() -> Annotated[

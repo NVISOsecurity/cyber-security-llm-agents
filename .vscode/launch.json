@@ -5,8 +5,8 @@
             "name": "Python: My Script",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/run_workflow.py",
-            "args": ["test_workflow"],
+            "program": "${workspaceFolder}/autogen_test/caldera_test.py",
+            "args": [],
             "console": "integratedTerminal"
         }
     ]
