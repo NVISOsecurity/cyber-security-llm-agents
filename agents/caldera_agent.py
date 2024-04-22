@@ -1,6 +1,7 @@
+from os import system
 from autogen import AssistantAgent
 from utils.shared_config import config_list
-from autogen import UserProxyAgent
+from autogen import ConversableAgent
 import utils.constants
 from tools.web_tools import download_web_page
 
@@ -13,24 +14,20 @@ from tools.caldera_tools import (
     caldera_upload_file_from_agent,
 )
 
-caldera_agent = AssistantAgent(
+caldera_agent = ConversableAgent(
     "caldera_agent",
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",
-    max_consecutive_auto_reply=5,
+    max_consecutive_auto_reply=2,
     is_termination_msg=lambda msg: "terminate" in msg["content"].lower(),
-    description="A helpful agent that can interact with the Caldera server and agents.",
+    description="A helpful agent that can help decide which Caldera actions to take next.",
 )
 
-caldera_agent_user_proxy = UserProxyAgent(
+caldera_agent_user_proxy = ConversableAgent(
     "caldera_agent_user_proxy",
     code_execution_config=False,
-    # code_execution_config={
-    #    "work_dir": utils.constants.LLM_WORKING_FOLDER + "/caldera",
-    #    "use_docker": False,
-    # },
     human_input_mode="NEVER",
-    max_consecutive_auto_reply=5,
+    max_consecutive_auto_reply=2,
 )
 
 ### Swagger info

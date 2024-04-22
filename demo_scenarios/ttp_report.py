@@ -11,11 +11,11 @@ def run_scenario():
 
     groupchat = autogen.GroupChat(
         agents=[
-            human_analyst_agent,
             ti_agent_user_proxy,
             ti_agent,
         ],
         messages=[],
+        speaker_selection_method="round_robin",
     )
     groupchat_manager = autogen.GroupChatManager(
         groupchat=groupchat, llm_config=llm_config
@@ -33,7 +33,7 @@ def run_scenario():
         else:
             clear_history = False
 
-        chat_result = human_analyst_agent.initiate_chat(
+        chat_result = ti_agent.initiate_chat(
             groupchat_manager,
             message=message,
             clear_history=clear_history,
