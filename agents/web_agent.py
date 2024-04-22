@@ -1,5 +1,6 @@
 from autogen import UserProxyAgent, AssistantAgent
 from utils.shared_config import config_list
+import utils.constants
 
 # create a UserProxyAgent instance named "user_proxy"
 web_assistant = AssistantAgent(
@@ -12,7 +13,7 @@ web_agent = UserProxyAgent(
     human_input_mode="NEVER",
     max_consecutive_auto_reply=3,
     code_execution_config={
-        "work_dir": "llm_working_dir/web",
+        "work_dir": utils.constants.LLM_WORKING_FOLDER + "/web",
         "use_docker": False,
     },
     llm_config={"config_list": config_list},

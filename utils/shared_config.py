@@ -1,7 +1,6 @@
 from autogen import config_list_from_json
 from autogen.agentchat.contrib.capabilities import transforms, transform_messages
-from . import constants
-import constants
+import utils.constants
 import shutil
 import os
 
@@ -17,8 +16,8 @@ context_handling = transform_messages.TransformMessages(
     transforms=[
         # transforms.MessageHistoryLimiter(max_messages=10),
         transforms.MessageTokenLimiter(
-            max_tokens=constants.MAX_TOKENS,
-            max_tokens_per_message=constants.MAX_TOKENS_PER_MESSAGE,
+            max_tokens=utils.constants.MAX_TOKENS,
+            max_tokens_per_message=utils.constants.MAX_TOKENS_PER_MESSAGE,
         ),
     ]
 )
@@ -26,13 +25,13 @@ context_handling = transform_messages.TransformMessages(
 
 def clean_working_directory():
     # Check if the folder exists
-    if not os.path.exists(constants.LLM_WORKING_FOLDER):
-        print(f"The folder {constants.LLM_WORKING_FOLDER} does not exist.")
+    if not os.path.exists(utils.constants.LLM_WORKING_FOLDER):
+        print(f"The folder {utils.constants.LLM_WORKING_FOLDER} does not exist.")
         return
 
     # Loop through all the items in the folder
-    for filename in os.listdir(constants.LLM_WORKING_FOLDER):
-        file_path = os.path.join(constants.LLM_WORKING_FOLDER, filename)
+    for filename in os.listdir(utils.constants.LLM_WORKING_FOLDER):
+        file_path = os.path.join(utils.constants.LLM_WORKING_FOLDER, filename)
         try:
             # If it's a file, remove it
             if os.path.isfile(file_path) or os.path.islink(file_path):

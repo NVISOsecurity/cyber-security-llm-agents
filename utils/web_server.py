@@ -4,13 +4,14 @@ import threading
 from . import constants
 import os
 import cgi
+import utils.constants
 
-DIRECTORY = "./knowledge_base/"
+WORKING_DIRECTORY = utils.constants.LLM_WORKING_FOLDER + "/http_server"
 
 
 class Handler(server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
+        super().__init__(*args, directory=WORKING_DIRECTORY, **kwargs)
 
     def do_POST(self):
         if self.path == "/upload":
@@ -24,7 +25,7 @@ class Handler(server.SimpleHTTPRequestHandler):
                 if file_item.file:
                     # Read the file contents
                     file_data = file_item.file.read()
-                    file_name = os.path.join(DIRECTORY, file_item.filename)
+                    file_name = os.path.join(WORKING_DIRECTORY, file_item.filename)
                     # Save the file
                     with open(file_name, "wb") as f:
                         f.write(file_data)
@@ -44,6 +45,10 @@ class Handler(server.SimpleHTTPRequestHandler):
 
 
 def run_server():
+    # Create the directory if it doesn't exist
+    if not os.path.exists(WORKING_DIRECTORY):
+        os.makedirs(WORKING_DIRECTORY)
+
     with socketserver.TCPServer(("", constants.WEB_SERVER_PORT), Handler) as httpd:
         print(
             f"Serving HTTP on 0.0.0.0 port {constants.WEB_SERVER_PORT} (http://0.0.0.0:{constants.WEB_SERVER_PORT}/)..."

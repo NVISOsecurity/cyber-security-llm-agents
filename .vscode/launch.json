@@ -5,7 +5,7 @@
             "name": "Python: My Script",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/autogen_test/caldera_test.py",
+            "program": "${workspaceFolder}/run_agents.py",
             "args": [],
             "console": "integratedTerminal"
         }

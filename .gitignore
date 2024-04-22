@@ -163,6 +163,5 @@ cython_debug/
 debug/
 db/
 llm_working_folder/
-knowledge_base/payloads/
 OAI_CONFIG.json
 
