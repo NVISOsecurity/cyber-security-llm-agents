@@ -14,7 +14,7 @@ web_server_thread.start()
 
 chat_result = web_agent.initiate_chat(
     web_assistant,
-    message="Summarize the documentation for https://github.com/fortra/nanodump by downloading the readme",
+    message="Summarize the command line parameters for https://github.com/fortra/nanodump by downloading & analyzing the readme",
     clear_history=True,
 )
 
