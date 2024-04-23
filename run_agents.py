@@ -3,7 +3,7 @@ from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
 from utils.logs import print_usage_statistics
 import autogen
 import sys
-import demo_scenarios.lsass, demo_scenarios.ttp_report
+import demo_scenarios.lsass, demo_scenarios.ttp_report, demo_scenarios.edr_bypass
 
 # context_handling.add_to_agent(human_analyst_agent)
 # context_handling.add_to_agent(caldera_agent)
@@ -17,6 +17,8 @@ if flow_to_run == "lsass":
     demo_scenarios.lsass.run_scenario()
 elif flow_to_run == "ttp_report":
     demo_scenarios.ttp_report.run_scenario()
+elif flow_to_run == "edr_bypass":
+    demo_scenarios.edr_bypass.run_scenario()
 
 autogen.runtime_logging.stop()
 print_usage_statistics(logging_session_id)

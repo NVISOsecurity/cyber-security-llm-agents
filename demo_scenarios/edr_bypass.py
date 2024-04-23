@@ -1,5 +1,5 @@
 import autogen.runtime_logging
-from agents.ti_agent import ti_agent_user_proxy, ti_agent
+from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
 from agents.human_agent import human_analyst_agent
 
 from utils.shared_config import clean_working_directory, llm_config
@@ -9,22 +9,11 @@ import autogen
 def run_scenario():
     clean_working_directory("/pdf")
 
-    # from autogen.agentchat.contrib.capabilities import transforms, transform_messages
-    # context_handling = transform_messages.TransformMessages(
-    #    transforms=[
-    #        transforms.MessageHistoryLimiter(max_messages=20),
-    #         transforms.MessageTokenLimiter(
-    #            max_tokens=utils.constants.MAX_TOKENS,
-    #            max_tokens_per_message=utils.constants.MAX_TOKENS_PER_MESSAGE,
-    #        ),
-    #    ]
-    # )
-
     groupchat = autogen.GroupChat(
         agents=[
             human_analyst_agent,
-            ti_agent_user_proxy,
-            ti_agent,
+            caldera_agent_user_proxy,
+            caldera_agent,
         ],
         messages=[],
     )
@@ -33,8 +22,11 @@ def run_scenario():
     )
 
     scenario_messages = [
-        "Download the PDF report from https://strapi.eurepoc.eu/uploads/Eu_Repo_C_APT_profile_APT_28_4856c0a0ac.pdf and provide a bullet-style list of the techniques used by the adversaries",
-        "Extract a list of tools used by the adversaries from the report",
+        "Verify on the active Caldera agent if you are running privileged or not using Powershell. Get the Active Agent PAW from the Caldera API",
+        "Summarize a list of techniques often used by adversaries to elevate privileges on Windows. Don't use ANY tools to do this. Be as specific as possible.",
+        # "Check on the active Caldera agent which Windows services are running, and summarize them all in a table. Get the Active Agent PAW from the Caldera API",
+        # "Download the list of all security products mentioned in https://github.com/tsale/EDR-Telemetry/blob/main/README.md",
+        # "From the list of running services, identify the services that are EDR-related",
     ]
 
     for message in scenario_messages:

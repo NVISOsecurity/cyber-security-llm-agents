@@ -1,5 +1,4 @@
 from autogen import config_list_from_json
-from autogen.agentchat.contrib.capabilities import transforms, transform_messages
 import utils.constants
 import shutil
 import os
@@ -10,17 +9,6 @@ script_folder = os.path.dirname(os.path.abspath(__file__))
 # Get path to file "OAI_CONFIG.json"
 config_file = os.path.join(script_folder, "../OAI_CONFIG.json")
 config_list = config_list_from_json(env_or_file=config_file)
-
-context_handling = transform_messages.TransformMessages(
-    transforms=[
-        transforms.MessageHistoryLimiter(max_messages=20),
-        # transforms.MessageTokenLimiter(
-        #    max_tokens=utils.constants.MAX_TOKENS,
-        #    max_tokens_per_message=utils.constants.MAX_TOKENS_PER_MESSAGE,
-        # ),
-    ]
-)
-
 llm_config = {"config_list": config_list, "cache_seed": None}
 
 

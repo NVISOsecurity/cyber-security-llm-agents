@@ -18,7 +18,7 @@ caldera_agent = ConversableAgent(
     max_consecutive_auto_reply=5,
     is_termination_msg=lambda msg: "terminate" in msg["content"].lower()
     or "feel free to" in msg["content"].lower(),
-    description="A helpful agent that can help decide which Caldera actions to take next.",
+    description="A helpful agent that can communicate with the Caldera API and run commands on Caldera agents.",
     system_message="Include TERMINATE in the message when you want to stop the conversation.",
 )
 

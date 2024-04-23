@@ -38,7 +38,7 @@ def run_scenario():
         else:
             clear_history = False
 
-        chat_result = human_analyst_agent.initiate_chat(
+        chat_result = caldera_agent.initiate_chat(
             groupchat_manager,
             message=message,
             clear_history=clear_history,

@@ -25,7 +25,7 @@ ti_agent_user_proxy = ConversableAgent(
 
 ti_agent.register_for_llm(
     name="download_pdf_report",
-    description="Download the content of a PDF report and return its content as a string.",
+    description="Download the content of a PDF report and return its content as a string. Only for paths that end with PDF.",
 )(download_pdf_report)
 
 ti_agent_user_proxy.register_for_execution(name="download_pdf_report")(
@@ -36,7 +36,7 @@ ti_agent_user_proxy.register_for_execution(name="download_pdf_report")(
 
 ti_agent.register_for_llm(
     name="download_web_page",
-    description="Download the content of a web page and return it as a string. Only for text content such as markdown pages.",
+    description="Download the content of a web page and return it as a string. Only for text content such as markdown and HTML pages.",
 )(download_web_page)
 
 ti_agent_user_proxy.register_for_execution(name="download_web_page")(download_web_page)
