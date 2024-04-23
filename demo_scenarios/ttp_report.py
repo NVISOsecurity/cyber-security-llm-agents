@@ -7,23 +7,23 @@ import autogen
 
 
 def run_scenario():
-    clean_working_directory("/caldera")
+    clean_working_directory("/pdf")
 
     groupchat = autogen.GroupChat(
         agents=[
+            human_analyst_agent,
             ti_agent_user_proxy,
             ti_agent,
         ],
         messages=[],
-        speaker_selection_method="round_robin",
     )
     groupchat_manager = autogen.GroupChatManager(
         groupchat=groupchat, llm_config=llm_config
     )
 
     scenario_messages = [
-        "Download the report from https://strapi.eurepoc.eu/uploads/Eu_Repo_C_APT_profile_APT_28_4856c0a0ac.pdf",
-        "Analyze the report and provide a detailed overview of the TTP in table format. Include the MITRE technique ID, technique name and a small description how this is used by the adversary in different columns.",
+        "Download the report from https://www.microsoft.com/en-us/security/blog/2024/04/22/analyzing-forest-blizzards-custom-post-compromise-tool-for-exploiting-cve-2022-38028-to-obtain-credentials/",
+        "Analyze the threat intelligence report and provide a bullet-style list of the techniques used by the adversaries",
     ]
 
     for message in scenario_messages:
@@ -33,7 +33,7 @@ def run_scenario():
         else:
             clear_history = False
 
-        chat_result = ti_agent.initiate_chat(
+        chat_result = human_analyst_agent.initiate_chat(
             groupchat_manager,
             message=message,
             clear_history=clear_history,
