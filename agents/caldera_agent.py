@@ -9,6 +9,7 @@ from tools.caldera_tools import (
     caldera_api_get_operation_info,
     caldera_execute_command_on_agent,
     caldera_upload_file_from_agent,
+    caldera_service_list,
 )
 
 caldera_agent = ConversableAgent(
@@ -27,6 +28,16 @@ caldera_agent_user_proxy = ConversableAgent(
     code_execution_config=False,
     human_input_mode="NEVER",
     max_consecutive_auto_reply=5,
+)
+
+### Service List
+caldera_agent.register_for_llm(
+    name="caldera_service_list",
+    description="Retrieve the list of all running services on the Caldera agent.",
+)(caldera_service_list)
+
+caldera_agent_user_proxy.register_for_execution(name="caldera_service_list")(
+    caldera_service_list
 )
 
 ### Swagger info

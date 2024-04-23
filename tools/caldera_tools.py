@@ -100,6 +100,23 @@ def caldera_swagger_info() -> Annotated[
     )
 
 
+def caldera_service_list(
+    agent_paw: Annotated[
+        str,
+        "The Caldera agent paw from which the file should be uploaded",
+    ],
+    operation_id: Annotated[str, "The ID of the Caldera operation"],
+) -> Annotated[
+    str,
+    "The list of all running services on the Caldera agent",
+]:
+    return caldera_execute_command_on_agent(
+        agent_paw,
+        operation_id,
+        "Get-WmiObject Win32_Service | ?  {($_.State -eq 'Running')} | select Name, PathName",
+    )
+
+
 def caldera_upload_file_from_agent(
     agent_paw: Annotated[
         str,
