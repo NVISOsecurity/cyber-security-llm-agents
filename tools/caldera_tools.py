@@ -147,6 +147,7 @@ def caldera_execute_command_on_agent(
             "name": name,
             "platform": "windows",
             "command": command,
+            "timeout": "120",
         },
     }
 
