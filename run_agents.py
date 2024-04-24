@@ -1,69 +1,64 @@
 import autogen.runtime_logging
-from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
 from utils.logs import print_usage_statistics
 import autogen
 import sys
-import demo_scenarios.lsass, demo_scenarios.ttp_report, demo_scenarios.edr_bypass
-
-# context_handling.add_to_agent(human_analyst_agent)
-# context_handling.add_to_agent(caldera_agent)
-
-# Read flow to run from the first parameter
-flow_to_run = sys.argv[1]
-
-logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
-
-if flow_to_run == "lsass":
-    demo_scenarios.lsass.run_scenario()
-elif flow_to_run == "ttp_report":
-    demo_scenarios.ttp_report.run_scenario()
-elif flow_to_run == "edr_bypass":
-    demo_scenarios.edr_bypass.run_scenario()
-
-autogen.runtime_logging.stop()
-print_usage_statistics(logging_session_id)
-
-exit()
+import actions.caldera_actions, actions.ttp_report, actions.edr_bypass
+from utils.shared_config import clean_working_directory
+import actions.caldera_actions
+from utils.shared_config import llm_config
 
 
-chat_result = web_agent_user_proxy.initiate_chat(
-    web_agent,
-    message="Summarize the parameters available in the README.md file for tool https://raw.githubusercontent.com/fortra/nanodump/main/README.md. Include the parameter flag and a short description.",
-    clear_history=False,
-)
+def main():
+    clean_working_directory("/caldera")
+    clean_working_directory("/pdf")
 
-chat_result = caldera_agent_user_proxy.initiate_chat(
-    caldera_agent,
-    message="Use powershell to now dump lsass using nanodump and the summarized parameters, and output the results in C:\\temp",
-    clear_history=False,
-)
+    # Read flow to run from the first parameter
+    scenario_to_run = sys.argv[1]
 
-chat_result = caldera_agent_user_proxy.initiate_chat(
-    caldera_agent,
-    message="Run 'calc.exe' on the active agent for operation CalderaGPT. do NOT use abilities but links.",
-    clear_history=True,
-)
+    scenario_agents = []
+    scenario_messages = []
 
-chat_result = web_agent_user_proxy.initiate_chat(
-    web_agent,
-    message="Summarize the parameters available in the README.md file for tool https://raw.githubusercontent.com/fortra/nanodump/main/README.md. Include the parameter flag and a short description.",
-    clear_history=True,
-)
+    # Red Teaming scenarios
+    if scenario_to_run in actions.caldera_actions.scenarios.keys():
+        scenario_action_names = actions.caldera_actions.scenarios[scenario_to_run]
 
-chat_result = user_proxy_agent.initiate_chat(
-    powershell_agent,
-    message="Give me an example powershell command line to download and run nanodump in a one-liner, and save the output to a file.",
-    clear_history=False,
-)
+        for scenario_action_name in scenario_action_names:
+            scenario_action = actions.caldera_actions.actions[scenario_action_name]
+            scenario_agents.extend(scenario_action["agents"])
+            scenario_messages.extend(scenario_action["messages"])
 
-chat_result = user_proxy_agent.initiate_chat(
-    api_agent,
-    message="Find out which agent is running by talking to the Caldera API. Give name and paw",
-    clear_history=True,
-)
+    if scenario_messages and scenario_agents:
+        logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
+        run_scenario(list(set(scenario_agents)), scenario_messages)
+        autogen.runtime_logging.stop()
+        print_usage_statistics(logging_session_id)
+    else:
+        print("Scenario not found, exiting")
 
-chat_result = user_proxy_agent.initiate_chat(
-    api_agent,
-    message="Return the hostname string in reverse",
-    clear_history=False,
-)
+
+def run_scenario(scenario_agents, scenario_messages):
+    groupchat = autogen.GroupChat(
+        agents=scenario_agents,
+        messages=[],
+        allow_repeat_speaker=False,
+    )
+    groupchat_manager = autogen.GroupChatManager(
+        groupchat=groupchat, llm_config=llm_config
+    )
+
+    for scenario_message in scenario_messages:
+        # if first message, then clear history
+        if scenario_message == scenario_messages[0]:
+            clear_history = True
+        else:
+            clear_history = False
+
+        chat_result = scenario_agents[0].initiate_chat(
+            groupchat_manager,
+            message=scenario_message,
+            clear_history=clear_history,
+        )
+
+
+if __name__ == "__main__":
+    main()

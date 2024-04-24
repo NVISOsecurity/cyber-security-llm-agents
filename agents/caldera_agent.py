@@ -12,25 +12,29 @@ from tools.caldera_tools import (
     caldera_service_list,
 )
 
+# context_handling.add_to_agent(human_analyst_agent)
+# context_handling.add_to_agent(caldera_agent)
+
 caldera_agent = ConversableAgent(
     "caldera_agent",
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",
     max_consecutive_auto_reply=5,
-    is_termination_msg=lambda msg: "terminate" in msg["content"].lower()
-    or "feel free to" in msg["content"].lower(),
+    is_termination_msg=lambda msg: "terminate" in msg["content"].lower(),
     description="A helpful agent that can communicate with the Caldera API and run commands on Caldera agents.",
-    system_message="Include TERMINATE in the message when you want to stop the conversation.",
+    system_message="Include the literal word TERMINATE in the message when you want to stop the conversation.",
 )
 
 caldera_agent_user_proxy = ConversableAgent(
     "caldera_agent_user_proxy",
     code_execution_config=False,
     human_input_mode="NEVER",
+    llm_config=False,
     max_consecutive_auto_reply=5,
 )
 
 ### Service List
+
 caldera_agent.register_for_llm(
     name="caldera_service_list",
     description="Retrieve the list of all running services on the Caldera agent.",
