@@ -17,13 +17,13 @@ actions = {
             "Use powershell to run the downloaded nanodump executable to dump LSASS without forking and pay attention to restoring the signature. Write the dump to C:\\temp.",
             "Use PowerShell to upload the dumped LSASS file.",
         ],
-        "agents": [human_analyst_agent, caldera_agent, caldera_agent_user_proxy],
+        "agents": [caldera_agent, caldera_agent_user_proxy],
     },
     "COLLECT_SERVICES": {
         "messages": [
             "List all the services that are running on the system and provide the raw command output."
         ],
-        "agents": [human_analyst_agent, caldera_agent, caldera_agent_user_proxy],
+        "agents": [caldera_agent, caldera_agent_user_proxy],
     },
 }
 
