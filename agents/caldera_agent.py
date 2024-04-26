@@ -1,5 +1,5 @@
 from utils.shared_config import config_list
-from autogen import ConversableAgent
+from autogen import ConversableAgent, AssistantAgent
 from tools.web_tools import download_web_page
 
 from tools.caldera_tools import (
@@ -16,13 +16,12 @@ from tools.caldera_tools import (
 # context_handling.add_to_agent(caldera_agent)
 
 caldera_agent = ConversableAgent(
-    "caldera_agent",
+    name="caldera_agent",
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",
-    max_consecutive_auto_reply=5,
+    max_consecutive_auto_reply=3,
     is_termination_msg=lambda msg: "terminate" in msg["content"].lower(),
     description="A helpful agent that can communicate with the Caldera API and run commands on Caldera agents.",
-    system_message="Include the literal word TERMINATE in the message when you want to stop the conversation.",
 )
 
 caldera_agent_user_proxy = ConversableAgent(
@@ -30,7 +29,9 @@ caldera_agent_user_proxy = ConversableAgent(
     code_execution_config=False,
     human_input_mode="NEVER",
     llm_config=False,
-    max_consecutive_auto_reply=5,
+    default_auto_reply="Nothing to report.",
+    max_consecutive_auto_reply=3,
+    description="An assistant only to be used by the Caldera agent to perform actions.",
 )
 
 ### Service List

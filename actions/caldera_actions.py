@@ -1,5 +1,5 @@
 from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
-from agents.human_agent import human_analyst_agent
+from agents.human_agent import human_analyst_agent, human_agent_user_proxy
 
 actions = {
     "COLLECT_CALDERA_INFO": {
@@ -19,15 +19,22 @@ actions = {
         ],
         "agents": [caldera_agent, caldera_agent_user_proxy],
     },
-    "COLLECT_SERVICES": {
+    "DETECT_EDR": {
         "messages": [
-            "List all the services that are running on the system and provide the raw command output."
+            "Download https://raw.githubusercontent.com/tsale/EDR-Telemetry/main/README.md.",
+            "Generate a table of all security products mentioned in the downloaded document.",
+            "List all services running on the active Caldera agent and compare them with the table of security products",
         ],
-        "agents": [caldera_agent, caldera_agent_user_proxy],
+        "agents": [
+            human_analyst_agent,
+            human_agent_user_proxy,
+            caldera_agent_user_proxy,
+            caldera_agent,
+        ],
     },
 }
 
 scenarios = {
     "LSASS": ["COLLECT_CALDERA_INFO", "DOWNLOAD_AND_RUN_NANODUMP"],
-    "DETECT_EDR": ["COLLECT_CALDERA_INFO", "COLLECT_SERVICES"],
+    "DETECT_EDR": ["DETECT_EDR"],
 }

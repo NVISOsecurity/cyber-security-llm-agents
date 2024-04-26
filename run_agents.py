@@ -1,4 +1,5 @@
 import autogen.runtime_logging
+from agents.caldera_agent import caldera_agent, caldera_agent_user_proxy
 from utils.logs import print_usage_statistics
 import autogen
 import sys
@@ -19,7 +20,6 @@ def main():
     scenario_agents = [human_analyst_agent]
     scenario_messages = []
 
-    # Red Teaming scenarios
     if scenario_to_run in actions.caldera_actions.scenarios.keys():
         scenario_action_names = actions.caldera_actions.scenarios[scenario_to_run]
 
@@ -48,16 +48,10 @@ def run_scenario(scenario_agents, scenario_messages):
     )
 
     for scenario_message in scenario_messages:
-        # if first message, then clear history
-        if scenario_message == scenario_messages[0]:
-            clear_history = True
-        else:
-            clear_history = False
-
-        chat_result = human_analyst_agent.initiate_chat(
-            groupchat_manager,
+        chat_result = caldera_agent.initiate_chat(
+            caldera_agent_user_proxy,
             message=scenario_message,
-            clear_history=clear_history,
+            clear_history=False,
         )
 
 
