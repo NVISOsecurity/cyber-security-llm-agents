@@ -1,5 +1,6 @@
 from agents.analyst_agents import security_analyst_agent
 
+
 actions = {
     "COLLECT_CALDERA_INFO": [
         {
@@ -18,11 +19,11 @@ actions = {
     "DETECT_EDR": [
         {
             "message": "Download https://raw.githubusercontent.com/tsale/EDR-Telemetry/main/README.md",
-            "agent": "security_analyst_agent",
+            "agent": security_analyst_agent,
         },
         {
             "message": "Extract a list of all security products based on the textual context provided, don't use tools",
-            "agent": "security_analyst_agent",
+            "agent": text,
         },
         {
             "message": "List all Windows services on the active Caldera agent",
