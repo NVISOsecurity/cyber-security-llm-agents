@@ -1,11 +1,10 @@
 openai
 langchain-openai
 langchain-experimental
-crewai
-crewai[tools]
 tiktoken
 PyPDF2
 pyautogen
 pandas
 pyftpdlib 
 pypdf
+notebook

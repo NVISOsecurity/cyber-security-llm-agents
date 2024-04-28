@@ -12,7 +12,7 @@ from utils.shared_config import clean_working_directory
 import actions.caldera_actions
 
 
-def main():
+def init():
     clean_working_directory("/caldera")
     clean_working_directory("/pdf")
 
@@ -75,4 +75,4 @@ def run_scenario(scenario_tasks):
 
 
 if __name__ == "__main__":
-    main()
+    init()
