@@ -61,6 +61,13 @@ actions = {
             "agent": "text_analyst_agent",
         },
     ],
+    "HELLO_CALDERA": [
+        {
+            "message": "Use powershell to display a message box on the desktop of the active Caldera agent containing a cyber security joke. Include a reference to the RSA Security Conference.",
+            "summary_method": "last_msg",
+            "agent": "caldera_agent",
+        }
+    ],
     "DOWNLOAD_AND_RUN_NANODUMP": [
         {
             "message": "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
@@ -96,5 +103,6 @@ scenarios = {
         "DOWNLOAD_AND_RUN_NANODUMP",
     ],
     "DETECT_EDR": ["COLLECT_CALDERA_INFO", "DETECT_EDR"],
+    "HELLO_CALDERA": ["COLLECT_CALDERA_INFO", "HELLO_CALDERA"],
     "DETECT_AGENT_PRIVILEGES": ["COLLECT_CALDERA_INFO", "DETECT_AGENT_PRIVILEGES"],
 }
