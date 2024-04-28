@@ -1,6 +1,6 @@
 import autogen.runtime_logging
 from agents.ti_agent import ti_agent_user_proxy, ti_agent
-from agents.human_agent import human_analyst_agent
+from agents.analyst_agents import security_analyst_agent
 
 from utils.shared_config import clean_working_directory, llm_config
 import autogen
@@ -22,7 +22,7 @@ def run_scenario():
 
     groupchat = autogen.GroupChat(
         agents=[
-            human_analyst_agent,
+            security_analyst_agent,
             ti_agent_user_proxy,
             ti_agent,
         ],
@@ -44,7 +44,7 @@ def run_scenario():
         else:
             clear_history = False
 
-        chat_result = human_analyst_agent.initiate_chat(
+        chat_result = security_analyst_agent.initiate_chat(
             groupchat_manager,
             message=message,
             clear_history=clear_history,

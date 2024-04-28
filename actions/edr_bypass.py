@@ -1,6 +1,5 @@
 import autogen.runtime_logging
-from agents.caldera_agent import caldera_agent_user_proxy, caldera_agent
-from agents.human_agent import human_analyst_agent
+from agents.analyst_agents import human_analyst_agent
 
 from utils.shared_config import clean_working_directory, llm_config
 import autogen
