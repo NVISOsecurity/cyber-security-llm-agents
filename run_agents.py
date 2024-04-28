@@ -12,7 +12,8 @@ from utils.shared_config import clean_working_directory
 import actions.caldera_actions
 
 
-def init():
+def init_agents():
+    # Clean working directories
     clean_working_directory("/caldera")
     clean_working_directory("/pdf")
 
@@ -20,16 +21,28 @@ def init():
     text_agents.register_tools()
     caldera_agents.register_tools()
 
-    # Read flow to run from the first parameter
-    scenario_to_run = sys.argv[1]
+
+def retrieve_agent(agent_name):
+    if agent_name == "caldera_agent":
+        return caldera_agents.caldera_agent
+    elif agent_name == "internet_agent":
+        return text_agents.internet_agent
+    elif agent_name == "text_analyst_agent":
+        return text_agents.text_analyst_agent
+    else:
+        return None
+
+
+def run_scenario(scenario_name):
+    init_agents()
 
     scenario_agents = []
     scenario_messages = []
 
     scenario_tasks = []
 
-    if scenario_to_run in actions.caldera_actions.scenarios.keys():
-        scenario_action_names = actions.caldera_actions.scenarios[scenario_to_run]
+    if scenario_name in actions.caldera_actions.scenarios.keys():
+        scenario_action_names = actions.caldera_actions.scenarios[scenario_name]
 
         for scenario_action_name in scenario_action_names:
             for scenario_action in actions.caldera_actions.actions[
@@ -39,16 +52,15 @@ def init():
                 scenario_messages.append(scenario_action["message"])
 
                 scenario_task = {
-                    "recipient": scenario_action["agent"],
+                    "recipient": retrieve_agent(scenario_action["agent"]),
                     "message": scenario_action["message"],
-                    "clear_history": True,
                     "silent": False,
                 }
 
-                # if len(scenario_tasks) == 0:
-                #    scenario_task["clear_history"] = True
-                # else:
-                #    scenario_task["clear_history"] = False
+                if "clear_history" in scenario_action:
+                    scenario_task["clear_history"] = scenario_action["clear_history"]
+                else:
+                    scenario_task["clear_history"] = True
 
                 if "summary_prompt" in scenario_action:
                     scenario_task["summary_prompt"] = scenario_action["summary_prompt"]
@@ -63,16 +75,22 @@ def init():
 
     if scenario_messages:
         logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
-        run_scenario(scenario_tasks)
+        chat_results = task_coordinator_agent.initiate_chats(scenario_tasks)
         autogen.runtime_logging.stop()
         print_usage_statistics(logging_session_id)
     else:
         print("Scenario not found, exiting")
 
 
-def run_scenario(scenario_tasks):
-    chat_results = task_coordinator_agent.initiate_chats(scenario_tasks)
-
-
 if __name__ == "__main__":
-    init()
+
+    # Check if a scenario is provided
+    if len(sys.argv) < 2:
+        print(
+            "Please provide a scenario to run. Example: python %s DETECT_EDR"
+            % sys.argv[0]
+        )
+        sys.exit()
+
+    scenario_to_run = sys.argv[1]
+    run_scenario(scenario_to_run)
