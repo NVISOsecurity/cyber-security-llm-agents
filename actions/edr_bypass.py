@@ -1,5 +1,5 @@
 import autogen.runtime_logging
-from agents.analyst_agents import human_analyst_agent
+from agents.text_agents import human_analyst_agent
 
 from utils.shared_config import clean_working_directory, llm_config
 import autogen

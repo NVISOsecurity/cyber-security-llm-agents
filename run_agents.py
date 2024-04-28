@@ -1,18 +1,15 @@
+from readline import clear_history
 import autogen.runtime_logging
-from agents import caldera_agents
-from agents import analyst_agents
+from agents import text_agents, caldera_agents
 from utils.logs import print_usage_statistics
 import autogen
 import sys
 import actions.caldera_actions
-from agents.analyst_agents import (
-    security_analyst_agent,
+from agents.text_agents import (
     task_coordinator_agent,
-    text_analyst_agent,
 )
 from utils.shared_config import clean_working_directory
 import actions.caldera_actions
-from utils.shared_config import llm_config
 
 
 def main():
@@ -20,14 +17,16 @@ def main():
     clean_working_directory("/pdf")
 
     # Register tools
+    text_agents.register_tools()
     caldera_agents.register_tools()
-    analyst_agents.register_tools()
 
     # Read flow to run from the first parameter
     scenario_to_run = sys.argv[1]
 
     scenario_agents = []
     scenario_messages = []
+
+    scenario_tasks = []
 
     if scenario_to_run in actions.caldera_actions.scenarios.keys():
         scenario_action_names = actions.caldera_actions.scenarios[scenario_to_run]
@@ -39,28 +38,40 @@ def main():
                 scenario_agents.append(scenario_action["agent"])
                 scenario_messages.append(scenario_action["message"])
 
+                scenario_task = {
+                    "recipient": scenario_action["agent"],
+                    "message": scenario_action["message"],
+                    "clear_history": True,
+                    "silent": False,
+                }
+
+                # if len(scenario_tasks) == 0:
+                #    scenario_task["clear_history"] = True
+                # else:
+                #    scenario_task["clear_history"] = False
+
+                if "summary_prompt" in scenario_action:
+                    scenario_task["summary_prompt"] = scenario_action["summary_prompt"]
+
+                if "summary_method" in scenario_action:
+                    scenario_task["summary_method"] = scenario_action["summary_method"]
+
+                if "carryover" in scenario_action:
+                    scenario_task["carryover"] = scenario_action["carryover"]
+
+                scenario_tasks.append(scenario_task)
+
     if scenario_messages:
         logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
-        run_scenario(scenario_agents, scenario_messages)
+        run_scenario(scenario_tasks)
         autogen.runtime_logging.stop()
         print_usage_statistics(logging_session_id)
     else:
         print("Scenario not found, exiting")
 
 
-def run_scenario(scenario_agents, scenario_messages):
-    for task_agent, task_message in zip(scenario_agents, scenario_messages):
-        chat_results = task_coordinator_agent.initiate_chats(
-            [
-                {
-                    "recipient": task_agent,
-                    "message": task_message,
-                    "clear_history": False,
-                    "silent": False,
-                    "summary_method": "last_msg",  # reflection_with_llm
-                }
-            ]
-        )
+def run_scenario(scenario_tasks):
+    chat_results = task_coordinator_agent.initiate_chats(scenario_tasks)
 
 
 if __name__ == "__main__":
