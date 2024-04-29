@@ -10,9 +10,14 @@ from agents.text_agents import (
 )
 from utils.shared_config import clean_working_directory
 import actions.caldera_actions
+import warnings
 
 
 def init_agents():
+    # Disable logging User warnings - better for demos
+    # Suppress UserWarnings
+    warnings.filterwarnings("ignore", category=UserWarning)
+
     # Clean working directories
     clean_working_directory("/caldera")
     clean_working_directory("/pdf")

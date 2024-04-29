@@ -7,7 +7,7 @@ actions = {
             "agent": "caldera_agent",
         },
         {
-            "message": "List all the users privileges in a structured table and add a conclusion on if the agent is running with local administrative privileges.",
+            "message": "List all the users privileges in a structured table and add a conclusion on if the agent is running with standard user, administrator or system privileges.",
             "summary_method": "last_msg",
             "agent": "text_analyst_agent",
         },
@@ -28,15 +28,9 @@ actions = {
     ],
     "TEST": [
         {
-            "message": "Download https://raw.githubusercontent.com/tsale/EDR-Telemetry/main/README.md",
+            "message": "use Powershell to fetch the list of Exclusions for Elastic Agent on the active Caldera agent.",
+            "summary_method": "last_msg",
             "summary_method": "reflection_with_llm",
-            "carryover": "Replace this placeholder with the list of ALL security products mentioned in the README.",
-            "agent": "internet_agent",
-        },
-        {
-            "message": "List all Windows services on the active Caldera agent",
-            "summary_method": "reflection_with_llm",
-            "carryover": "Replace this placeholder with the list of ALL Windows services running on the Caldera agent.",
             "agent": "caldera_agent",
         },
     ],
@@ -63,7 +57,7 @@ actions = {
     ],
     "HELLO_CALDERA": [
         {
-            "message": "Use powershell to display a message box on the desktop of the active Caldera agent containing a cyber security joke. Include a reference to the RSA Security Conference.",
+            "message": "Use powershell to display a message box on the desktop of the active Caldera agent containing a cyber security joke.",
             "summary_method": "last_msg",
             "agent": "caldera_agent",
         }
