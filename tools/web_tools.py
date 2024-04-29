@@ -48,3 +48,26 @@ def download_web_page(
 
     soup = BeautifulSoup(raw_output, "html.parser")
     return soup.get_text(strip=True)
+
+
+def detect_telemetry_gaps(
+    url: Annotated[
+        str,
+        "The URL of the EDR telemetry JSON file to download",
+    ],
+    edr_name: Annotated[
+        str,
+        "The name of the EDR",
+    ],
+) -> Annotated[
+    str, "The overview of all EDR telemetry categories not detected by the EDR"
+]:
+    raw_output = subprocess.check_output(
+        f'curl -sS {url} | jq \'.[] | select(.{edr_name} == "No") | .["Sub-Category"]\'',
+        shell=True,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+
+    soup = BeautifulSoup(raw_output, "html.parser")
+    return soup.get_text(strip=True)

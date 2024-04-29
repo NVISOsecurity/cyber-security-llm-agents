@@ -1,6 +1,6 @@
 from autogen import ConversableAgent
 from utils.shared_config import config_list
-from tools.web_tools import download_web_page
+from tools.web_tools import download_web_page, detect_telemetry_gaps
 from agents.coordinator_agents import task_coordinator_agent
 
 text_analyst_agent = ConversableAgent(
@@ -40,4 +40,15 @@ def register_tools():
 
     task_coordinator_agent.register_for_execution(name="download_web_page")(
         download_web_page
+    )
+
+    # Detect telemetry NOT detected by an EDR
+
+    internet_agent.register_for_llm(
+        name="detect_telemetry_gaps",
+        description="Detect telemetry NOT detected by an EDR.",
+    )(detect_telemetry_gaps)
+
+    task_coordinator_agent.register_for_execution(name="detect_telemetry_gaps")(
+        detect_telemetry_gaps
     )

