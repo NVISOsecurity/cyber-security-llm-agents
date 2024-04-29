@@ -91,6 +91,26 @@ actions = {
             "agent": "text_analyst_agent",
         },
     ],
+    "TTP_REPORT_TO_TECHNIQUES": [
+        {
+            "message": "Download the HTML report at https://www.microsoft.com/en-us/security/blog/2024/04/22/analyzing-forest-blizzards-custom-post-compromise-tool-for-exploiting-cve-2022-38028-to-obtain-credentials/",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with all the MITRE techniques extracted from the downloaded report.",
+            "agent": "internet_agent",
+        },
+        {
+            "message": "Get the list of all Caldera abilities available",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with all the Caldera technique names by calling /api/v2/abilities",
+            "agent": "caldera_agent",
+        },
+        {
+            "message": "Select at least 1 Caldera technique for each of the MITRE techniques we extracted",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with all the MITRE techniques and matching Caldera techniques",
+            "agent": "caldera_agent",
+        },
+    ],
     "DOWNLOAD_AND_RUN_NANODUMP": [
         {
             "message": "A complete list of all the available nanodump flags from https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
@@ -130,4 +150,5 @@ scenarios = {
     "DETECT_AGENT_PRIVILEGES": ["COLLECT_CALDERA_INFO", "DETECT_AGENT_PRIVILEGES"],
     "IDENTIFY_EDR_BYPASS_TECHNIQUES": ["IDENTIFY_EDR_BYPASS_TECHNIQUES"],
     "ELEVATE_PRIVILEGES": ["COLLECT_CALDERA_INFO", "ELEVATE_PRIVILEGES"],
+    "TTP_REPORT_TO_TECHNIQUES": ["TTP_REPORT_TO_TECHNIQUES"],
 }
