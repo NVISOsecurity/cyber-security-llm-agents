@@ -10,16 +10,44 @@ A collection of agents that use Large Language Models (LLMs) to perform tasks co
 
 ## Getting Started
 
-To get started with Cyber-Security-LLM-Agents, please follow the instructions provided in our documentation. You'll find a step-by-step guide to setting up the framework, as well as detailed descriptions of each agent and task.
+### Step 1 - Install  requirements
+
+```
+pip install -r requirements
+```
+
+### Step 2 - Configure OpenAI API Information
+
+```
+cp OAI_CONFIG_template.json OAI_CONFIG.json
+```
+Then add your API information to the ``OAI_CONFIG.json``.
+
+### Step 3 - Start HTTP and FTP server (Optional)
+
+Only required if you want to host a simple HTTP and FTP server to interact with using your agents.
+This is useful for demos, where you might want to showcase exfiltration or downloading of information.
+
+```
+python run_servers.py
+```
+
+### Step 4 - Run Jupyter notebook (Optional)
+
+You can launch jupyter notebooks on your network interface by choice.
+This allows you run the notebooks within a VM and expose them to different system - again, interesting for demos!
+
+```
+./run_notebooks.sh ens37
+```
 
 ## Contribution
 
-We welcome contributions from the community! If you have ideas for new agents, tasks, or improvements, please feel free to fork our repository, make your changes, and submit a pull request.
+We welcome contributions from the community! 
+If you have ideas for new agents, tasks, or improvements, please feel free to fork our repository, make your changes, and submit a pull request.
 
 ## Contact Us
 
 For any questions or support, please open an issue in our GitHub repository, and our team will be happy to assist.
-
-Thank you for considering Cyber-Security-LLM-Agents for your cyber security automation needs. We believe that our framework will be a valuable asset in protecting your digital environment.
 
 ---
