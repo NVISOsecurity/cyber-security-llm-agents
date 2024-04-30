@@ -40,6 +40,15 @@ This allows you run the notebooks within a VM and expose them to different syste
 ```
 ./run_notebooks.sh ens37
 ```
+## Development
+
+### Static analysis (code quality)
+
+We ignore E501 as this triggers on long agent and action strings.
+
+```
+flake8 --exclude=.venv --ignore=E501 .
+```
 
 ## Contribution
 

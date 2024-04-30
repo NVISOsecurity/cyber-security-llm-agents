@@ -1,4 +1,3 @@
-from autogen import config_list_from_json
 import utils.constants
 import shutil
 import os
@@ -6,10 +5,11 @@ import os
 # Get path to the script folder
 script_folder = os.path.dirname(os.path.abspath(__file__))
 working_folder = os.path.join(script_folder, "../" + utils.constants.LLM_WORKING_FOLDER)
-# Get path to file "OAI_CONFIG.json"
-config_file = os.path.join(script_folder, "../OAI_CONFIG.json")
-config_list = config_list_from_json(env_or_file=config_file)
-llm_config = {"config_list": config_list, "cache_seed": None}
+llm_config = {
+    "model": utils.constants.OPENAI_MODEL_NAME,
+    "api_key": utils.constants.OPENAI_API_KEY,
+    "cache_seed": None,
+}
 
 
 def clean_working_directory(agent_subfolder: str):

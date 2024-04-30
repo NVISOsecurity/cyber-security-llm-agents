@@ -30,7 +30,6 @@ actions = {
         {
             "message": "use Powershell to fetch the list of Exclusions for Elastic Agent on the active Caldera agent.",
             "summary_method": "last_msg",
-            "summary_method": "reflection_with_llm",
             "agent": "caldera_agent",
         },
     ],

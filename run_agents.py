@@ -1,4 +1,3 @@
-from readline import clear_history
 import autogen.runtime_logging
 from agents import text_agents, caldera_agents
 from utils.logs import print_usage_statistics
@@ -9,7 +8,6 @@ from agents.text_agents import (
     task_coordinator_agent,
 )
 from utils.shared_config import clean_working_directory
-import actions.caldera_actions
 import warnings
 
 
@@ -80,7 +78,7 @@ def run_scenario(scenario_name):
 
     if scenario_messages:
         logging_session_id = autogen.runtime_logging.start(config={"dbname": "logs.db"})
-        chat_results = task_coordinator_agent.initiate_chats(scenario_tasks)
+        task_coordinator_agent.initiate_chats(scenario_tasks)
         autogen.runtime_logging.stop()
         print_usage_statistics(logging_session_id)
     else:

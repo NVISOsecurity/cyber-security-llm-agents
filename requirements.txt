@@ -8,3 +8,4 @@ pandas
 pyftpdlib 
 pypdf
 notebook
+flake8

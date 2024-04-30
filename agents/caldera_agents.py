@@ -1,8 +1,9 @@
+from utils.shared_config import llm_config
+
 from autogen import ConversableAgent
 from agents.text_agents import (
     task_coordinator_agent,
 )
-from utils.shared_config import config_list
 
 from tools.caldera_tools import (
     caldera_api_request,
@@ -16,7 +17,7 @@ from tools.caldera_tools import (
 
 caldera_agent = ConversableAgent(
     name="caldera_agent",
-    llm_config={"config_list": config_list},
+    llm_config=llm_config,
     human_input_mode="NEVER",
     code_execution_config=False,
     max_consecutive_auto_reply=5,
@@ -29,7 +30,7 @@ caldera_agent = ConversableAgent(
 
 
 def register_tools():
-    ### Service List
+    # Service List
     caldera_agent.register_for_llm(
         name="caldera_service_list",
         description="Retrieve the list of all running services on the Caldera agent.",
@@ -39,7 +40,7 @@ def register_tools():
         caldera_service_list
     )
 
-    ### Swagger info
+    # Swagger info
 
     caldera_agent.register_for_llm(
         name="caldera_swagger_info",

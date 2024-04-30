@@ -1,9 +1,9 @@
 from autogen import ConversableAgent
-from utils.shared_config import config_list
+from utils.shared_config import llm_config
 
 task_coordinator_agent = ConversableAgent(
     name="task_coordinator_agent",
-    llm_config={"config_list": config_list},
+    llm_config=llm_config,
     human_input_mode="NEVER",
     code_execution_config=False,
     max_consecutive_auto_reply=5,

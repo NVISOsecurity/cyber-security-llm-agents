@@ -1,11 +1,11 @@
 from autogen import ConversableAgent
-from utils.shared_config import config_list
+from utils.shared_config import llm_config
 from tools.web_tools import download_web_page, detect_telemetry_gaps
 from agents.coordinator_agents import task_coordinator_agent
 
 text_analyst_agent = ConversableAgent(
     name="text_analyst_agent",
-    llm_config={"config_list": config_list},
+    llm_config=llm_config,
     human_input_mode="NEVER",
     code_execution_config=False,
     max_consecutive_auto_reply=5,
@@ -18,7 +18,7 @@ text_analyst_agent = ConversableAgent(
 
 internet_agent = ConversableAgent(
     name="internet_agent",
-    llm_config={"config_list": config_list},
+    llm_config=llm_config,
     human_input_mode="NEVER",
     code_execution_config=False,
     max_consecutive_auto_reply=5,
