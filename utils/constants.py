@@ -6,3 +6,5 @@ LLM_WORKING_FOLDER = "llm_working_folder"
 FTP_SERVER_ADDRESS = "192.168.162.11:2100"
 FTP_SERVER_USER = "user"
 FTP_SERVER_PASS = "12345"
+
+CALDERA_SERVER = "http://ubuntu-vm:8888"

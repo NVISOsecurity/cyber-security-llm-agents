@@ -6,7 +6,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/run_agents.py",
-            "args": ["DETECT_EDR"],
+            "args": ["TEST"],
             "console": "integratedTerminal"
         }
     ]

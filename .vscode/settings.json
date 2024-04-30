@@ -5,7 +5,6 @@
   "python.analysis.typeCheckingMode": "basic",
   "editor.rulers": [100],
   "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*test.py"],
-  "pylint.args": ["--disable=C0111"],
   "black-formatter.interpreter": [".venv/bin/python"], 
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
