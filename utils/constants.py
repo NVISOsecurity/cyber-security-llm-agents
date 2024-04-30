@@ -1,10 +1,22 @@
-WEB_SERVER_PORT = 8800
-MAX_TOKENS = 16000
-MAX_TOKENS_PER_MESSAGE = 5000
-LLM_WORKING_FOLDER = "llm_working_folder"
+import os
+from dotenv import load_dotenv
 
-FTP_SERVER_ADDRESS = "192.168.162.11:2100"
-FTP_SERVER_USER = "user"
-FTP_SERVER_PASS = "12345"
+# Load the environment variables from the .env file
+load_dotenv()
 
-CALDERA_SERVER = "http://ubuntu-vm:8888"
+# Initialize the variables
+WEB_SERVER_PORT = os.getenv("WEB_SERVER_PORT")
+MAX_TOKENS = os.getenv("MAX_TOKENS")
+MAX_TOKENS_PER_MESSAGE = os.getenv("MAX_TOKENS_PER_MESSAGE")
+LLM_WORKING_FOLDER = os.getenv("LLM_WORKING_FOLDER")
+
+FTP_SERVER_ADDRESS = os.getenv("FTP_SERVER_ADDRESS")
+FTP_SERVER_USER = os.getenv("FTP_SERVER_USER")
+FTP_SERVER_PASS = os.getenv("FTP_SERVER_PASS")
+
+CALDERA_SERVER = os.getenv("CALDERA_SERVER")
+
+# Optionally, convert string values to the appropriate type if needed (e.g., integers)
+WEB_SERVER_PORT = int(WEB_SERVER_PORT) if WEB_SERVER_PORT else None
+MAX_TOKENS = int(MAX_TOKENS) if MAX_TOKENS else None
+MAX_TOKENS_PER_MESSAGE = int(MAX_TOKENS_PER_MESSAGE) if MAX_TOKENS_PER_MESSAGE else None
