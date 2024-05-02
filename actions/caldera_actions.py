@@ -154,16 +154,16 @@ actions = {
             "agent": "internet_agent",
         },
         {
-            "message": "Get the list of all Caldera abilities available",
+            "message": "Get the list of all Caldera abilities available. Do not truncate the output.",
             "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the full list of Caldera's ability IDs, technique IDs and technique names. Do not truncate the output.",
+            "carryover": "Replace this placeholder with the full list of Caldera's ability IDs, technique IDs and technique names",
             "agent": "caldera_agent",
         },
         {
-            "message": "For each one of the MITRE techniques that was extracted from the report find a matching Caldera ability based on technique id.",
+            "message": "For each one of the MITRE techniques that was extracted from the report find a matching Caldera ability based on the technique id.",
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with corresponding Caldera ability IDs, tactic, technique IDs and technique names",
-            "agent": "caldera_agent",
+            "agent": "text_analyst_agent",
         },
         {
             "message": "Create a new adversary profile with an appropriate name according to the report content and add the matched Caldera abilities",

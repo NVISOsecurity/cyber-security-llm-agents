@@ -253,7 +253,7 @@ def caldera_get_abilities() -> Annotated[
 ]:
 
     command_to_run = (
-        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}'  -H 'accept: application/json' -X GET -sS {utils.constants.CALDERA_SERVER}/api/v2/abilities\?include=ability_id\&include=tactic\&include=technique_name\&include=technique_id"
+        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}'  -H 'accept: application/json' -X GET -sS {utils.constants.CALDERA_SERVER}/api/v2/abilities\?include=ability_id\&include=technique_name\&include=technique_id"
     )
     try:
         output = subprocess.check_output(

@@ -1,6 +1,7 @@
 from autogen import ConversableAgent
 from utils.shared_config import llm_config
 from tools.web_tools import download_web_page, detect_telemetry_gaps
+from tools.helper_tools import match_techniques_to_caldera_abilities
 from agents.coordinator_agents import task_coordinator_agent
 
 text_analyst_agent = ConversableAgent(
@@ -51,4 +52,15 @@ def register_tools():
 
     task_coordinator_agent.register_for_execution(name="detect_telemetry_gaps")(
         detect_telemetry_gaps
+    )
+
+    # Match techniques to Caldera abilities
+
+    text_analyst_agent.register_for_llm(
+        name="match_techniques_to_caldera_abilities",
+        description="Match techniques to Caldera abilities",
+    )(match_techniques_to_caldera_abilities)
+
+    task_coordinator_agent.register_for_execution(name="match_techniques_to_caldera_abilities")(
+        match_techniques_to_caldera_abilities
     )
