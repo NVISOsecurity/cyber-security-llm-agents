@@ -21,7 +21,7 @@ def caldera_api_method_details(
 ) -> Annotated[str, "The details of the API method"]:
 
     return subprocess.check_output(
-        f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}/api/docs/swagger.json | jq '.paths[\"{api_method}\"]'",
+        f"curl -H 'KEY:{utils.constants.CALDERA_API_KEY}' -sS {utils.constants.CALDERA_SERVER}/api/docs/swagger.json | jq '.paths[\"{api_method}\"]'",
         shell=True,
         stderr=subprocess.STDOUT,
         text=True,
@@ -34,7 +34,7 @@ def caldera_api_get_operation_info() -> (
 
     command_output = subprocess.check_output(
         str(
-            f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}/api/operations | jq '.[0].id'"
+            f"curl -H 'KEY:{utils.constants.CALDERA_API_KEY}' -sS {utils.constants.CALDERA_SERVER}/api/operations | jq '.[0].id'"
         ),
         shell=True,
         stderr=subprocess.STDOUT,
@@ -53,7 +53,9 @@ def caldera_api_request(
     str, "The output of the API request to the Caldera server for the given API method"
 ]:
 
-    command_to_run = f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}{api_method}"
+    command_to_run = (
+        f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}{api_method}"
+    )
     try:
         output = subprocess.check_output(
             command_to_run,
@@ -92,7 +94,7 @@ def caldera_swagger_info() -> Annotated[
 
     return subprocess.check_output(
         str(
-            f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}/api/docs/swagger.json | jq '.paths | to_entries[] | {{path: .key, description: .value | to_entries[] | .value.description}}'"
+            f"curl -H 'KEY:{utils.constants.CALDERA_API_KEY}' -sS {utils.constants.CALDERA_SERVER}/api/docs/swagger.json | jq '.paths | to_entries[] | {{path: .key, description: .value | to_entries[] | .value.description}}'"
         ),
         shell=True,
         stderr=subprocess.STDOUT,
@@ -176,7 +178,7 @@ def caldera_execute_command_on_agent(
 
     command_template = f"""
             curl -s '{utils.constants.CALDERA_SERVER}/api/v2/operations/{operation_id}/potential-links' \
-            -H 'KEY: ADMIN123' \
+            -H 'KEY: {utils.constants.CALDERA_API_KEY}' \
             -H 'Content-Type: application/json' \
             --data-binary @{CALDERA_WORKING_FOLDER}/parameters.json
             """
@@ -208,7 +210,7 @@ def caldera_execute_command_on_agent(
         while True:
             final_command = f"""
                     curl -s '{utils.constants.CALDERA_SERVER}/api/v2/operations/{operation_id}/links/{link_id}/result' \
-                    -H 'KEY: ADMIN123'
+                    -H 'KEY: {utils.constants.CALDERA_API_KEY}'
                     """
             # Sleep for 1 second before checking the status again
             # Parse output
