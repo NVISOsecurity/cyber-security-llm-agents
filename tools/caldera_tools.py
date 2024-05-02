@@ -9,7 +9,6 @@ from autogen.agentchat.contrib.capabilities.context_handling import (
     truncate_str_to_tokens,
 )
 
-
 CALDERA_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/caldera"
 
 
@@ -54,7 +53,7 @@ def caldera_api_request(
 ]:
 
     command_to_run = (
-        f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}{api_method}"
+        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}' -sS {utils.constants.CALDERA_SERVER}{api_method}"
     )
     try:
         output = subprocess.check_output(
@@ -246,3 +245,132 @@ def caldera_execute_command_on_agent(
         return_value = str(e)
 
     return str(return_value)
+
+
+def caldera_get_abilities() -> Annotated[
+    str,
+    "The output of the command executed on the Caldera agent",
+]:
+
+    command_to_run = (
+        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}'  -H 'accept: application/json' -X GET -sS {utils.constants.CALDERA_SERVER}/api/v2/abilities\?include=ability_id\&include=tactic\&include=technique_name\&include=technique_id"
+    )
+    try:
+        output = subprocess.check_output(
+            command_to_run,
+            shell=True,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+    except subprocess.CalledProcessError as e:
+        # This will be reached if the command returned a non-zero exit status
+        error_output = e.output  # The error output is stored in the output attribute
+        return_code = e.returncode  # You can also get the return code of the command
+        # Handle the error output and return code as needed
+        return_info = (
+            f"The command '{command_to_run}' failed with exit code {return_code}."
+        )
+        return_info += "Error output:"
+        return_info += error_output
+    else:
+        # This will be reached if the command was successful
+        # The output variable contains the command's output
+        return_info = "The command was successful with the following output:"
+        return_info += output
+
+    # Truncate the output to 1000 characters
+    # Also print a message to indicate that the output was truncated including the number of characters
+    # TODO: Investigate why MessageTokenLimiter is not working as expected for this!
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    return truncate_str_to_tokens(return_info, 4000)
+
+def caldera_create_adversary_profile(
+    name: Annotated[
+        str,
+        "The name of the Adversary profile in Caldera",
+    ],
+    description: Annotated[str, "The description of the Adversary profile in Caldera"],
+) -> Annotated[
+    str,
+    "The output of the Caldera API",
+]:
+
+    command_to_run = (
+        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}'  -H 'accept: application/json' -H 'Content-Type: application/json' -X POST -sS {utils.constants.CALDERA_SERVER}/api/v2/adversaries -d '{{\"name\": \"{name}\", \"description\": \"{description}\"}}'"
+    )
+    try:
+        output = subprocess.check_output(
+            command_to_run,
+            shell=True,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+    except subprocess.CalledProcessError as e:
+        # This will be reached if the command returned a non-zero exit status
+        error_output = e.output  # The error output is stored in the output attribute
+        return_code = e.returncode  # You can also get the return code of the command
+        # Handle the error output and return code as needed
+        return_info = (
+            f"The command '{command_to_run}' failed with exit code {return_code}."
+        )
+        return_info += "Error output:"
+        return_info += error_output
+    else:
+        # This will be reached if the command was successful
+        # The output variable contains the command's output
+        return_info = "The command was successful with the following output:"
+        return_info += output
+
+    # Truncate the output to 1000 characters
+    # Also print a message to indicate that the output was truncated including the number of characters
+    # TODO: Investigate why MessageTokenLimiter is not working as expected for this!
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    return truncate_str_to_tokens(return_info, 4000)
+
+def caldera_add_abilities_to_adversary_profile(
+    adversary_id: Annotated[
+        str,
+        "The ID of the Adversary profile in Caldera",
+    ],
+    atomic_ordering: Annotated[list, "The list of ability IDs for the Adversary profile in Caldera"],
+) -> Annotated[
+    str,
+    "The output of the Caldera API",
+]:  
+    atomic_ordering = json.dumps(atomic_ordering)
+    command_to_run = (
+        f"curl -H 'KEY: {utils.constants.CALDERA_API_KEY}'  -H 'accept: application/json' -H 'Content-Type: application/json' -X PATCH -sS {utils.constants.CALDERA_SERVER}/api/v2/adversaries/{adversary_id} -d '{{\"atomic_ordering\": {atomic_ordering} }}'"
+    )
+    
+    try:
+        output = subprocess.check_output(
+            command_to_run,
+            shell=True,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+    except subprocess.CalledProcessError as e:
+        # This will be reached if the command returned a non-zero exit status
+        error_output = e.output  # The error output is stored in the output attribute
+        return_code = e.returncode  # You can also get the return code of the command
+        # Handle the error output and return code as needed
+        return_info = (
+            f"The command '{command_to_run}' failed with exit code {return_code}."
+        )
+        return_info += "Error output:"
+        return_info += error_output
+    else:
+        # This will be reached if the command was successful
+        # The output variable contains the command's output
+        return_info = "The command was successful with the following output:"
+        return_info += output
+
+    # Truncate the output to 1000 characters
+    # Also print a message to indicate that the output was truncated including the number of characters
+    # TODO: Investigate why MessageTokenLimiter is not working as expected for this!
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    return truncate_str_to_tokens(return_info, 4000)
+

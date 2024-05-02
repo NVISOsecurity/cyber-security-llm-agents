@@ -146,6 +146,32 @@ actions = {
             "agent": "caldera_agent",
         },
     ],
+    "TTP_REPORT_TO_ADVERSARY_PROFILE": [
+        {
+            "message": "Download the HTML report at https://thedfirreport.com/2024/04/29/from-icedid-to-dagon-locker-ransomware-in-29-days/ and extract the MITRE techniques.",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with all the MITRE techniques extracted from the downloaded report.",
+            "agent": "internet_agent",
+        },
+        {
+            "message": "Get the list of all Caldera abilities available",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the full list of Caldera's ability IDs, technique IDs and technique names. Do not truncate the output.",
+            "agent": "caldera_agent",
+        },
+        {
+            "message": "For each one of the MITRE techniques that was extracted from the report find a matching Caldera ability based on technique id.",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with corresponding Caldera ability IDs, tactic, technique IDs and technique names",
+            "agent": "caldera_agent",
+        },
+        {
+            "message": "Create a new adversary profile with an appropriate name according to the report content and add the matched Caldera abilities",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the adversary profile information.",
+            "agent": "caldera_agent",
+        }
+    ],
 }
 
 scenarios = {
@@ -161,4 +187,5 @@ scenarios = {
     "IDENTIFY_EDR_BYPASS_TECHNIQUES": ["IDENTIFY_EDR_BYPASS_TECHNIQUES"],
     "ELEVATE_PRIVILEGES": ["COLLECT_CALDERA_INFO", "ELEVATE_PRIVILEGES"],
     "TTP_REPORT_TO_TECHNIQUES": ["TTP_REPORT_TO_TECHNIQUES"],
+    "TTP_REPORT_TO_ADVERSARY_PROFILE": ["TTP_REPORT_TO_ADVERSARY_PROFILE"]
 }

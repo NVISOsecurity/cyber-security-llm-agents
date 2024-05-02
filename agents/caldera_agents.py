@@ -13,6 +13,9 @@ from tools.caldera_tools import (
     caldera_execute_command_on_agent,
     caldera_upload_file_from_agent,
     caldera_service_list,
+    caldera_get_abilities,
+    caldera_create_adversary_profile,
+    caldera_add_abilities_to_adversary_profile,
 )
 
 caldera_agent = ConversableAgent(
@@ -71,6 +74,39 @@ def register_tools():
 
     task_coordinator_agent.register_for_execution(name="caldera_api_request")(
         caldera_api_request
+    )
+
+    # Get abilities from Caldera
+
+    caldera_agent.register_for_llm(
+        name="caldera_get_abilities",
+        description="Get abilities from Caldera",
+    )(caldera_get_abilities)
+
+    task_coordinator_agent.register_for_execution(name="caldera_get_abilities")(
+        caldera_get_abilities
+    )
+
+    # Create an Adversary profile in Caldera
+
+    caldera_agent.register_for_llm(
+        name="caldera_create_adversary_profile",
+        description="Create an Adversary profile in Caldera",
+    )(caldera_create_adversary_profile)
+
+    task_coordinator_agent.register_for_execution(name="caldera_create_adversary_profile")(
+        caldera_create_adversary_profile
+    )
+
+    # Add abilities to an Adversary profile in Caldera
+
+    caldera_agent.register_for_llm(
+        name="caldera_add_abilities_to_adversary_profile",
+        description="Add abilities to an Adversary profile in Caldera",
+    )(caldera_add_abilities_to_adversary_profile)
+
+    task_coordinator_agent.register_for_execution(name="caldera_add_abilities_to_adversary_profile")(
+        caldera_add_abilities_to_adversary_profile
     )
 
     # Get the ID of the active Caldera Operation
