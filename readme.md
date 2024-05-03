@@ -4,7 +4,7 @@ Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
 <figure align="center">
   <img src="documentation/videos/detect_edr.gif" alt="Detecting EDR"/>
-   <figcaption style="text-align: center;"><i>Dynamically detecting the EDR running on a Windows system. Extracts a list of Security Products mentioned in https://github.com/tsale/EDR-Telemetry and compares it with the names of running services on the endpoint.</i></figcaption>
+   <figcaption style="text-align: center;"><i>GIF: Dynamically detecting the EDR running on a Windows system. Extracts a list of Security Products mentioned in https://github.com/tsale/EDR-Telemetry and compares it with the names of running services on the endpoint.</i></figcaption>
 </figure>
 
 ## Key Features
