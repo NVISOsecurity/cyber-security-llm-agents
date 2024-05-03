@@ -1,5 +1,6 @@
 # cyber-security-llm-agents
 A collection of agents that use Large Language Models (LLMs) to perform tasks common on our day to day jobs in cyber security.
+Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
 ## Key Features
 
@@ -19,9 +20,9 @@ pip install -r requirements
 ### Step 2 - Configure OpenAI API Information
 
 ```
-cp OAI_CONFIG_template.json OAI_CONFIG.json
+cp .env_template .env
 ```
-Then add your API information to the ``OAI_CONFIG.json``.
+Then add your API information to the ``.env``.
 
 ### Step 3 - Start HTTP and FTP server (Optional)
 
@@ -44,10 +45,11 @@ This allows you run the notebooks within a VM and expose them to different syste
 
 ### Static analysis (code quality)
 
-We ignore E501 as this triggers on long agent and action strings.
+We ignore E501 (line too long) as this triggers on long agent and action strings.
+We ignore W503 (line break before binary operator) as we are opinionated about this being OK.
 
 ```
-flake8 --exclude=.venv --ignore=E501 .
+flake8 --exclude=.venv --ignore=E501,W503 .
 ```
 
 ## Contribution
