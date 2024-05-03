@@ -53,7 +53,7 @@ def caldera_api_request(
 ]:
 
     command_to_run = (
-        f"curl -H 'KEY:ADMIN123' -sS {utils.constants.CALDERA_SERVER}{api_method}"
+        f"curl -H 'KEY:{utils.constants.CALDERA_API_KEY}' -sS {utils.constants.CALDERA_SERVER}{api_method}"
     )
     try:
         output = subprocess.check_output(
