@@ -2,9 +2,10 @@
 A collection of agents that use Large Language Models (LLMs) to perform tasks common on our day to day jobs in cyber security.
 Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
-<p align="center">
+<figure align="center">
   <img src="documentation/videos/detect_edr.gif" alt="Detecting EDR"/>
-</p>
+  <figcaption>Dynamically detecting the EDR running on a Windows system. Extracts a list of Security Products mentioned in https://github.com/tsale/EDR-Telemetry and compares it with the names of running services on the endpoint.</figcaption>
+</figure>
 
 ## Key Features
 
@@ -26,7 +27,7 @@ pip install -r requirements
 ```
 cp .env_template .env
 ```
-Then add your API information to the ``.env``.
+Then add your LLM API information and other parameters to the ``.env``.
 
 ### Step 3 - Start HTTP and FTP server (Optional)
 
