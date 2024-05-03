@@ -65,5 +65,3 @@ If you have ideas for new agents, tasks, or improvements, please feel free to fo
 ## Contact Us
 
 For any questions or support, please open an issue in our GitHub repository, and our team will be happy to assist.
-
----
