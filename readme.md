@@ -2,6 +2,10 @@
 A collection of agents that use Large Language Models (LLMs) to perform tasks common on our day to day jobs in cyber security.
 Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
+<p align="center">
+  <img src="documentation/videos/detect_edr.gif" alt="Detecting EDR"/>
+</p>
+
 ## Key Features
 
 - **Modular Design**: Our framework is composed of individual agents and tasks that can be combined and customized to fit your specific security needs. This modular approach ensures flexibility and scalability, allowing you to adapt to the ever-evolving landscape of cyber threats.
