@@ -16,6 +16,7 @@ from tools.caldera_tools import (
     caldera_get_abilities,
     caldera_create_adversary_profile,
     caldera_add_abilities_to_adversary_profile,
+    match_techniques_to_caldera_abilities,
 )
 
 caldera_agent = ConversableAgent(
@@ -141,3 +142,15 @@ def register_tools():
     task_coordinator_agent.register_for_execution(
         name="caldera_execute_command_on_agent"
     )(caldera_execute_command_on_agent)
+
+
+    # Match techniques to Caldera abilities
+
+    caldera_agent.register_for_llm(
+        name="match_techniques_to_caldera_abilities",
+        description="Match techniques to Caldera abilities",
+    )(match_techniques_to_caldera_abilities)
+
+    task_coordinator_agent.register_for_execution(name="match_techniques_to_caldera_abilities")(
+        match_techniques_to_caldera_abilities
+    )

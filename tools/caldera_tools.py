@@ -8,6 +8,7 @@ import base64
 from autogen.agentchat.contrib.capabilities.context_handling import (
     truncate_str_to_tokens,
 )
+import requests
 
 CALDERA_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/caldera"
 
@@ -329,6 +330,7 @@ def caldera_create_adversary_profile(
     encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
     return truncate_str_to_tokens(return_info, 4000)
 
+
 def caldera_add_abilities_to_adversary_profile(
     adversary_id: Annotated[
         str,
@@ -374,3 +376,39 @@ def caldera_add_abilities_to_adversary_profile(
     encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
     return truncate_str_to_tokens(return_info, 4000)
 
+
+def match_techniques_to_caldera_abilities(
+    report_techniques: Annotated[
+        list,
+        "The mitre technique ids extracted from a report",
+    ]
+) -> Annotated[str, "The macthed techniques"]:
+
+    caldera_abilities = {}
+    res = requests.get(utils.constants.CALDERA_SERVER+"/api/v2/abilities?include=ability_id&include=technique_name&include=technique_id", headers={"KEY": utils.constants.CALDERA_API_KEY})
+    if res.status_code == 200:
+        caldera_abilities = res.json()
+    
+    matched_abilities = []
+
+    for caldera_ability in caldera_abilities:
+        for report_technique in report_techniques:
+            try:
+                if report_technique == caldera_ability["technique_id"]:
+                    matched_abilities.append(caldera_ability)
+            except:
+                pass
+            
+            try:
+                if report_technique["technique_id"] == caldera_ability["technique_id"]:
+                    matched_abilities.append(caldera_ability)
+            except:
+                pass
+
+            try:
+                if report_technique["id"] == caldera_ability["technique_id"]:
+                    matched_abilities.append(caldera_ability)
+            except:
+                pass
+
+    return matched_abilities

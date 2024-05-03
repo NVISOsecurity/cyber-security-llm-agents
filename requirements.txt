@@ -9,3 +9,4 @@ pyftpdlib
 pypdf
 notebook
 flake8
+requests
