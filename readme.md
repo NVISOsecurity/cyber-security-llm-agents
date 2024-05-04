@@ -2,6 +2,9 @@
 A collection of agents that use Large Language Models (LLMs) to perform tasks common on our day to day jobs in cyber security.
 Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
+The trigger to open source this was our talk at RSAC2024 "[From Chatbot to Destroyer of Endpoints: Can ChatGPT Automate EDR Bypasses?](https://www.rsaconference.com/USA/agenda/session/From%20Chatbot%20to%20Destroyer%20of%20Endpoints%20Can%20ChatGPT%20Automate%20EDR%20Bypasses)
+".
+
 ## Key Features
 
 - **Modular Design**: Our framework is composed of individual agents and tasks that can be combined and customized to fit your specific security needs. This modular approach ensures flexibility and scalability, allowing you to adapt to the ever-evolving landscape of cyber threats.
@@ -32,7 +35,7 @@ Then add your LLM API information and other parameters to the ``.env``.
 ### Step 3 - Start HTTP and FTP server (Optional)
 
 Only required if you want to host a simple HTTP and FTP server to interact with using your agents.
-This is useful for demos, where you might want to showcase exfiltration or downloading of information.
+This is useful for demos, where you might want to showcase exfiltration or downloading of payloads onto an implant.
 
 ```
 python run_servers.py
@@ -61,6 +64,15 @@ flake8 --exclude=.venv --ignore=E501,W503 .
 
 We welcome contributions from the community! 
 If you have ideas for new agents, tasks, or improvements, please feel free to fork our repository, make your changes, and submit a pull request.
+
+## Disclaimer
+
+Please note that the software contained in this repository is in its early stages of development. As such, it is considered to be an early release and may contain components that are not fully stable, potentially leading to breaking changes. Users should exercise caution when using this software. 
+
+We are committed to improving and extending the software's capabilities over the coming months, and we welcome any feedback that can help us enhance its performance and functionality.
+
+## License
+
 
 ## Contact Us
 
