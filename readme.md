@@ -32,7 +32,10 @@ cp .env_template .env
 ```
 Then add your LLM API information and other parameters to the ``.env``.
 
-### Step 3 - Start HTTP and FTP server (Optional)
+### Step 3 - Hello, Agents
+
+
+### Step 4 - Start HTTP and FTP server (Optional)
 
 Only required if you want to host a simple HTTP and FTP server to interact with using your agents.
 This is useful for demos, where you might want to showcase exfiltration or downloading of payloads onto an implant.
@@ -41,29 +44,35 @@ This is useful for demos, where you might want to showcase exfiltration or downl
 python run_servers.py
 ```
 
-### Step 4 - Run Jupyter notebook (Optional)
 
-You can launch jupyter notebooks on your network interface by choice.
-This allows you run the notebooks within a VM and expose them to different system - again, interesting for demos!
+## Development
+
+### Jupyter notebooks
+
+You can launch jupyter notebooks on your network interface by choice. This allows you run the notebooks within a VM and expose them to different system - interesting for demos!
 
 ```
 ./run_notebooks.sh ens37
 ```
-## Development
 
-### Static analysis (code quality)
+### Static analysis and code quality
 
 We ignore E501 (line too long) as this triggers on long agent and action strings.
-We ignore W503 (line break before binary operator) as we are opinionated about this being OK.
+We ignore W503 (line break before binary operator) and we are opinionated about this being OK.
 
 ```
 flake8 --exclude=.venv --ignore=E501,W503 .
 ```
 
-## Contribution
+## Conributions
 
 We welcome contributions from the community! 
+
 If you have ideas for new agents, tasks, or improvements, please feel free to fork our repository, make your changes, and submit a pull request.
+
+## License
+
+Released under the GNU GENERAL PUBLIC LICENSE v3 (GPL-3).
 
 ## Disclaimer
 
@@ -71,9 +80,7 @@ Please note that the software contained in this repository is in its early stage
 
 We are committed to improving and extending the software's capabilities over the coming months, and we welcome any feedback that can help us enhance its performance and functionality.
 
-## License
-
-
-## Contact Us
-
-For any questions or support, please open an issue in our GitHub repository, and our team will be happy to assist.
+## Acknowledgements
+We are grateful for the support received by 
+[INNOVIRIS](https://innoviris.brussels/) and the Brussels region in 
+funding our Research & Development activities. 
