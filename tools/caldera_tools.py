@@ -110,6 +110,8 @@ def caldera_service_list(
     str,
     "The list of all running services on the Caldera agent",
 ]:
+
+    # TODO - Remove Program Files filter
     return caldera_execute_command_on_agent(
         agent_paw,
         operation_id,

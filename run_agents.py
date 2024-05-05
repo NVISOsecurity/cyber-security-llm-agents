@@ -1,5 +1,5 @@
 import autogen.runtime_logging
-from agents import text_agents, caldera_agents
+from agents import text_agents, caldera_agents, code_agents
 from utils.logs import print_usage_statistics
 import autogen
 import sys
@@ -32,6 +32,8 @@ def retrieve_agent(agent_name):
         return text_agents.internet_agent
     elif agent_name == "text_analyst_agent":
         return text_agents.text_analyst_agent
+    elif agent_name == "cmd_execution_agent":
+        return code_agents.cmd_execution_agent
     else:
         return None
 

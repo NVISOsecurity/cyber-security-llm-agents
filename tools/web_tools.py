@@ -62,6 +62,7 @@ def detect_telemetry_gaps(
 ) -> Annotated[
     str, "The overview of all EDR telemetry categories not detected by the EDR"
 ]:
+    # TODO - Make more generic
     raw_output = subprocess.check_output(
         f'curl -sS {url} | jq \'.[] | select(.{edr_name} == "No") | .["Sub-Category"]\'',
         shell=True,
