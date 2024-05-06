@@ -2,10 +2,6 @@
 A collection of agents that use Large Language Models (LLMs) to perform tasks common on our day to day jobs in cyber security.
 Built on top of [AutoGen](https://microsoft.github.io/autogen/).
 
-> [!CAUTION]
-> Running LLM-generated source code and commands poses a security risk to your host environment! Be careful and only run this in a virtual or test environment.
-
-
 Released as part of our talk at RSAC2024:
 [From Chatbot to Destroyer of Endpoints: Can ChatGPT Automate EDR Bypasses?](https://www.rsaconference.com/USA/agenda/session/From%20Chatbot%20to%20Destroyer%20of%20Endpoints%20Can%20ChatGPT%20Automate%20EDR%20Bypasses)
 
@@ -22,6 +18,9 @@ Released as part of our talk at RSAC2024:
 </figure>
 
 ## Getting Started
+
+> [!CAUTION]
+> Running LLM-generated source code and commands poses a security risk to your host environment! Be careful and only run this in a virtual or test environment.
 
 ### Step 1 - Install  requirements
 
