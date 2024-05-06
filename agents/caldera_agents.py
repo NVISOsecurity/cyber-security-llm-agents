@@ -77,17 +77,6 @@ def register_tools():
         caldera_api_request
     )
 
-    # Get abilities from Caldera
-
-    caldera_agent.register_for_llm(
-        name="caldera_get_abilities",
-        description="Get abilities from Caldera",
-    )(caldera_get_abilities)
-
-    task_coordinator_agent.register_for_execution(name="caldera_get_abilities")(
-        caldera_get_abilities
-    )
-
     # Create an Adversary profile in Caldera
 
     caldera_agent.register_for_llm(
