@@ -1,11 +1,8 @@
-import utils.constants
 from autogen import ConversableAgent
 from utils.shared_config import llm_config
 from agents.text_agents import task_coordinator_agent
 
 from tools.code_tools import exec_shell_command
-
-CODE_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/code"
 
 
 cmd_exec_agent = ConversableAgent(

@@ -1,14 +1,16 @@
 actions = {
     "SUMMARIZE_RECENT_CISA_VULNS": [
         {
-            "message": "Create a command line that can download and print the last 50 lines of https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+            "message": """Run a single Shell command to download (using curl -sS) https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json,
+            which is a JSON file containing an array of dictionaries. Filter out and print the last 10 JSON entries dictionaries using jq in the array under key 'vulnerabilities'.""",
             "summary_method": "last_msg",
-            "agent": "code_writer_agent",
+            "carryover": "Replace this placeholder with the last 10 JSON entries dictionaries.",
+            "agent": "cmd_exec_agent",
         },
         {
-            "message": "Now run the code",
-            "summary_method": "last_msg",
-            "agent": "cmd_execution_agent",
+            "message": "Summarize the list of vulnerabilities by extracting the product name and a short description of each vulnerability, as well as link to more notes if available. Output as a table.",
+            "summary_method": "reflection_with_llm",
+            "agent": "text_analyst_agent",
         },
     ],
     "DETECT_AGENT_PRIVILEGES": [
