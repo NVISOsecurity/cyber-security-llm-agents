@@ -1,9 +1,9 @@
 import autogen.runtime_logging
-from agents import text_agents, caldera_agents
+from agents import text_agents, caldera_agents, code_agents
 from utils.logs import print_usage_statistics
 import autogen
 import sys
-import actions.caldera_actions
+import actions.agent_actions
 from agents.text_agents import (
     task_coordinator_agent,
 )
@@ -19,10 +19,12 @@ def init_agents():
     # Clean working directories
     clean_working_directory("/caldera")
     clean_working_directory("/pdf")
+    clean_working_directory("/code")
 
     # Register tools
     text_agents.register_tools()
     caldera_agents.register_tools()
+    code_agents.register_tools()
 
 
 def retrieve_agent(agent_name):
@@ -32,6 +34,8 @@ def retrieve_agent(agent_name):
         return text_agents.internet_agent
     elif agent_name == "text_analyst_agent":
         return text_agents.text_analyst_agent
+    elif agent_name == "cmd_exec_agent":
+        return code_agents.cmd_exec_agent
     else:
         return None
 
@@ -44,11 +48,11 @@ def run_scenario(scenario_name):
 
     scenario_tasks = []
 
-    if scenario_name in actions.caldera_actions.scenarios.keys():
-        scenario_action_names = actions.caldera_actions.scenarios[scenario_name]
+    if scenario_name in actions.agent_actions.scenarios.keys():
+        scenario_action_names = actions.agent_actions.scenarios[scenario_name]
 
         for scenario_action_name in scenario_action_names:
-            for scenario_action in actions.caldera_actions.actions[
+            for scenario_action in actions.agent_actions.actions[
                 scenario_action_name
             ]:
                 scenario_agents.append(scenario_action["agent"])
