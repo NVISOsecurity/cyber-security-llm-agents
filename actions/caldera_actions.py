@@ -1,5 +1,5 @@
 actions = {
-    "ALERT_KNOWN_EXPLOITED_CISA_VULNS": [
+    "SUMMARIZE_RECENT_CISA_VULNS": [
         {
             "message": "Create a command line that can download and print the last 50 lines of https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
             "summary_method": "last_msg",
@@ -85,7 +85,7 @@ actions = {
 }
 
 scenarios = {
-    "ALERT_KNOWN_EXPLOITED_CISA_VULNS": ["ALERT_KNOWN_EXPLOITED_CISA_VULNS"],
+    "SUMMARIZE_RECENT_CISA_VULNS": ["SUMMARIZE_RECENT_CISA_VULNS"],
     "HELLO_CALDERA": ["COLLECT_CALDERA_INFO", "HELLO_CALDERA"],
     "COLLECT_CALDERA_INFO": ["COLLECT_CALDERA_INFO"],
     "DETECT_EDR": ["COLLECT_CALDERA_INFO", "DETECT_EDR"],

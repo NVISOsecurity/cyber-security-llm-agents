@@ -19,10 +19,12 @@ def init_agents():
     # Clean working directories
     clean_working_directory("/caldera")
     clean_working_directory("/pdf")
+    clean_working_directory("/code")
 
     # Register tools
     text_agents.register_tools()
     caldera_agents.register_tools()
+    code_agents.register_tools()
 
 
 def retrieve_agent(agent_name):
@@ -32,10 +34,8 @@ def retrieve_agent(agent_name):
         return text_agents.internet_agent
     elif agent_name == "text_analyst_agent":
         return text_agents.text_analyst_agent
-    elif agent_name == "cmd_execution_agent":
-        return code_agents.cmd_execution_agent
-    elif agent_name == "code_writer_agent":
-        return code_agents.code_writer_agent
+    elif agent_name == "cmd_exec_agent":
+        return code_agents.cmd_exec_agent
     else:
         return None
 
