@@ -1,12 +1,12 @@
 actions = {
     "ALERT_KNOWN_EXPLOITED_CISA_VULNS": [
         {
-            "message": "Prepare a cmd line command to download and print the last 50 lines of https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+            "message": "Create a command line that can download and print the last 50 lines of https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
             "summary_method": "last_msg",
-            "agent": "text_analyst_agent",
+            "agent": "code_writer_agent",
         },
         {
-            "message": "Run the command",
+            "message": "Now run the code",
             "summary_method": "last_msg",
             "agent": "cmd_execution_agent",
         },

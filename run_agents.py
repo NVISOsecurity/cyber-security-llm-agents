@@ -34,6 +34,8 @@ def retrieve_agent(agent_name):
         return text_agents.text_analyst_agent
     elif agent_name == "cmd_execution_agent":
         return code_agents.cmd_execution_agent
+    elif agent_name == "code_writer_agent":
+        return code_agents.code_writer_agent
     else:
         return None
 
