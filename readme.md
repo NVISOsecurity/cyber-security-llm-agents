@@ -34,6 +34,17 @@ cp .env_template .env
 ```
 Then add your LLM API information and other parameters to the ``.env``.
 
+
+### Step 3 - Start HTTP and FTP server (Optional)
+
+Only required if you want to host a simple HTTP and FTP server to interact with using your agents.
+This is useful for demos, where you might want to showcase exfiltration or downloading of payloads onto an implant.
+
+```
+python run_servers.py
+```
+
+
 ### Step 3 - Hello, Agents
 
 Run a very basic scenario to confirm everything is configured correctly.
@@ -62,15 +73,6 @@ text_analyst_agent (to task_coordinator_agent):
 Why was the computer cold? It left its Windows open. 
 
 TERMINATE
-```
-
-### Step 4 - Start HTTP and FTP server (Optional)
-
-Only required if you want to host a simple HTTP and FTP server to interact with using your agents.
-This is useful for demos, where you might want to showcase exfiltration or downloading of payloads onto an implant.
-
-```
-python run_servers.py
 ```
 
 ## Building Scenarios
