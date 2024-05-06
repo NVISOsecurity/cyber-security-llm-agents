@@ -14,7 +14,7 @@ The trigger to open source this was our talk at RSAC2024 "[From Chatbot to Destr
 
 <figure align="center">
   <img src="documentation/videos/detect_edr.gif" alt="Detecting EDR"/>
-   <figcaption style="text-align: center;"><i>GIF: Dynamically detecting the EDR running on a Windows system. Extracts a list of Security Products mentioned in https://github.com/tsale/EDR-Telemetry and compares it with the names of running services on the endpoint.</i></figcaption>
+   <figcaption style="text-align: center;"><i>Detecting the EDR running on a Windows system based on live data extracted from https://github.com/tsale/EDR-Telemetry.</i></figcaption>
 </figure>
 
 ## Getting Started

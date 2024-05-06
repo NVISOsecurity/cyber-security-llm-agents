@@ -22,6 +22,10 @@ code_writer_agent = ConversableAgent(
     "code_writer_agent",
     system_message=code_writer_system_message,
     llm_config=llm_config,
+    is_termination_msg=lambda msg: (
+        "terminate" in (msg.get("content") or "").lower() if msg else False
+    ),
+    description="""A helpful assistant that can write code and system commands to solve problems.""",
     code_execution_config=False,  # Turn off code execution for this agent.
 )
 
