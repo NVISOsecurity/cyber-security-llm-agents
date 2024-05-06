@@ -1,4 +1,7 @@
 actions = {
+    "HELLO_AGENTS": [
+        {"message": "Tell me a cyber security joke", "agent": "text_analyst_agent"}
+    ],
     "SUMMARIZE_RECENT_CISA_VULNS": [
         {
             "message": """Run a single Shell command to download (using curl -sS) https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json,
@@ -87,6 +90,7 @@ actions = {
 }
 
 scenarios = {
+    "HELLO_AGENTS": ["HELLO_AGENTS"],
     "SUMMARIZE_RECENT_CISA_VULNS": ["SUMMARIZE_RECENT_CISA_VULNS"],
     "HELLO_CALDERA": ["COLLECT_CALDERA_INFO", "HELLO_CALDERA"],
     "COLLECT_CALDERA_INFO": ["COLLECT_CALDERA_INFO"],

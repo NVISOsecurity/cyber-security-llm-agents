@@ -37,6 +37,33 @@ Then add your LLM API information and other parameters to the ``.env``.
 
 ### Step 3 - Hello, Agents
 
+Run a very basic scenario to confirm everything is configured correctly.
+
+```
+python run_agents.py HELLO_AGENTS
+```
+
+The output should show the agent doing its best at being funny.
+If you see the below (or an even better) joke, you are all set!
+
+```
+python run_agents.py HELLO_AGENTS
+
+********************************************************************************
+Starting a new chat....
+
+********************************************************************************
+task_coordinator_agent (to text_analyst_agent):
+
+Tell me a cyber security joke
+
+--------------------------------------------------------------------------------
+text_analyst_agent (to task_coordinator_agent):
+
+Why was the computer cold? It left its Windows open. 
+
+TERMINATE
+```
 
 ### Step 4 - Start HTTP and FTP server (Optional)
 
@@ -47,8 +74,17 @@ This is useful for demos, where you might want to showcase exfiltration or downl
 python run_servers.py
 ```
 
+## Building Scenarios
+
+All scenarios are defined in ``actions/agent_actions.py``. You can use that file to modify and create new scenarios. Once a new scenario has been added to the dictionary, you can run it:
+
+```
+python run_agents.py <scenario-name>
+```
+
 
 ## Development
+
 
 ### Jupyter notebooks
 
