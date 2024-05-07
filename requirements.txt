@@ -1,0 +1,12 @@
+openai
+langchain-openai
+langchain-experimental
+tiktoken
+PyPDF2
+pyautogen
+pandas
+pyftpdlib 
+pypdf
+notebook
+flake8
+requests

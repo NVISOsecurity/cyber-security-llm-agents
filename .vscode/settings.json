@@ -1,0 +1,28 @@
+{
+  "editor.formatOnSave": true,
+  "workbench.tree.indent": 20,
+  "files.autoSave": "onFocusChange",
+  "python.analysis.typeCheckingMode": "basic",
+  "editor.rulers": [100],
+  "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*test.py"],
+  "black-formatter.interpreter": [".venv/bin/python"], 
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  
+  },
+  "[json]": {
+    "editor.wordWrap": "on"
+  },
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportUnusedImport": "warning"
+  },
+  "python.analysis.autoImportCompletions": true,
+  "explorer.compactFolders": false,
+  "search.useIgnoreFiles": false
+}

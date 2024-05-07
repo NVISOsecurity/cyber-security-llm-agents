@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: My Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_agents.py",
+            "args": ["TEST"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
