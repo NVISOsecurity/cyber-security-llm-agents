@@ -21,6 +21,6 @@ OPENAI_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Optionally, convert string values to the appropriate type if needed (e.g., integers)
-WEB_SERVER_PORT = int(WEB_SERVER_PORT) if WEB_SERVER_PORT else None
+WEB_SERVER_PORT = int(WEB_SERVER_PORT) if WEB_SERVER_PORT else 8800
 MAX_TOKENS = int(MAX_TOKENS) if MAX_TOKENS else None
 MAX_TOKENS_PER_MESSAGE = int(MAX_TOKENS_PER_MESSAGE) if MAX_TOKENS_PER_MESSAGE else None
