@@ -1,14 +1,22 @@
 import subprocess
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from typing_extensions import Annotated
 import tiktoken
 import json
 import utils.constants
 from time import sleep
 import base64
-from autogen.agentchat.contrib.capabilities.context_handling import (
-    truncate_str_to_tokens,
-)
-import requests
+
+
+def truncate_str_to_tokens(text: str, max_tokens: int) -> str:
+    """Truncate a string to a maximum number of tokens using tiktoken."""
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+    tokens = encoding.encode(text)
+    truncated = tokens[:max_tokens]
+    return encoding.decode(truncated)
 
 
 CALDERA_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/caldera"

@@ -10,3 +10,4 @@ pypdf
 notebook
 flake8
 requests
+autogen>=0.1.12
